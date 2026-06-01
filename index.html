@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bombay Networking Circle | Where Ambitious People Meet</title>
+    <meta name="description"
+        content="India's leading community for founders, builders, creators, and investors. Meaningful conversations that lead to action.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS (via CDN for vanilla environment) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#050505',
+                        brand: {
+                            brown: '#855325',
+                            light: '#F4E8DB',
+                            dark: '#4A2B12',
+                            accent: '#C79A71'
+                        },
+                        surface: '#FDFBF7'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="bg-surface text-gray-900 font-sans antialiased selection:bg-brand-brown selection:text-gray-900">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <img src="Green Modern Pharmacy Health Logo.png" alt="BNC Logo"
+                    class="w-12 h-12 object-contain mix-blend-multiply group-hover:scale-105 transition-transform"
+                    onerror="this.onerror=null; this.outerHTML='<div class=\'w-12 h-12 rounded-full border-2 border-brand-brown flex items-center justify-center text-brand-brown\'><i class=\'ph ph-coffee text-2xl\'></i></div>'">
+                <span
+                    class="font-display font-bold text-xl text-gray-900 tracking-wide uppercase hidden sm:block">Bombay<br><span
+                        class="text-brand-brown text-sm">Networking Circle</span></span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#home" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Home</a>
+                <a href="#events"
+                    class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Events</a>
+                <a href="#community"
+                    class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Community</a>
+                <a href="#cities"
+                    class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Cities</a>
+                <a href="#gallery"
+                    class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Gallery</a>
+            </div>
+
+            <div class="hidden md:block">
+                <a href="#join"
+                    class="px-5 py-2.5 rounded-full bg-brand-brown text-white text-sm font-semibold hover:scale-105 transition-transform shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                    Join Community
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-btn" class="md:hidden text-gray-700">
+                <i class="ph ph-list text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu"
+            class="hidden absolute top-full left-0 w-full glass border-t border-brand-brown/10 p-6 flex flex-col gap-4">
+            <a href="#events" class="text-lg font-medium text-gray-700">Events</a>
+            <a href="#community" class="text-lg font-medium text-gray-700">Community</a>
+            <a href="#cities" class="text-lg font-medium text-gray-700">Cities</a>
+            <a href="#join" class="px-5 py-3 text-center rounded-xl bg-brand-brown text-white font-semibold mt-4">Join
+                Community</a>
+        </div>
+    </nav>
+
+    <!-- Section 1: Hero -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <canvas id="hero-canvas" class="w-full h-full opacity-50"></canvas>
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-brown/10 rounded-full blur-[120px] animate-blob">
+            </div>
+            <div
+                class="absolute top-1/3 right-1/4 w-96 h-96 bg-brand-accent/10 rounded-full blur-[120px] animate-blob animation-delay-2000">
+            </div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10 text-center mt-12">
+            <div
+                class="inline-block mb-6 px-4 py-1.5 rounded-full border border-brand-brown/10 glass text-sm font-medium tracking-wide text-gray-700 fade-up">
+                India's Premium Founder Ecosystem
+            </div>
+            <h1
+                class="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 fade-up text-gray-900 leading-[1.1]">
+                Where <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-brand-brown via-brand-accent to-brand-dark">Ambitious</span><br />People
+                Meet
+            </h1>
+            <p class="text-lg md:text-2xl text-gray-600 max-w-3xl mx-auto mb-10 fade-up font-light leading-relaxed">
+                Bombay Networking Circle brings together ambitious people through curated networking experiences,
+                startup conversations, collaborations, and community-led growth.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 fade-up">
+                <a href="#join"
+                    class="px-8 py-4 rounded-full bg-brand-brown text-white font-semibold text-lg hover:scale-105 transition-transform duration-300 shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                    Join Community
+                </a>
+                <a href="#events"
+                    class="px-8 py-4 rounded-full glass border border-brand-brown/10 text-gray-900 font-medium text-lg hover:bg-white/5 transition-colors duration-300 flex items-center gap-2 group">
+                    View Upcoming Events <i
+                        class="ph ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+
+            <!-- Hero Stats -->
+            <div
+                class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-24 fade-up border-t border-brand-brown/5 pt-12 max-w-5xl mx-auto">
+                <div class="text-center">
+                    <div class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-2">8+</div>
+                    <div class="text-gray-600 text-sm tracking-wide uppercase">Cities</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-2">1000+</div>
+                    <div class="text-gray-600 text-sm tracking-wide uppercase">Members</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-2">50+</div>
+                    <div class="text-gray-600 text-sm tracking-wide uppercase">Events</div>
+                </div>
+                <div class="text-center">
+                    <div
+                        class="font-display text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-brand-brown to-brand-accent mb-2">
+                        ∞</div>
+                    <div class="text-gray-600 text-sm tracking-wide uppercase">Collaborations</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Social Proof -->
+    <section class="py-16 border-y border-brand-brown/5 bg-white/50">
+        <div class="container mx-auto px-6 text-center mb-8 fade-up">
+            <p class="text-sm font-medium text-gray-500 uppercase tracking-widest">Trusted by founders, creators,
+                students & operators across India</p>
+        </div>
+        <div class="relative w-full overflow-hidden mask-fade-edges">
+            <div class="animate-scrolling-logos gap-16 items-center px-8">
+                <!-- Original set -->
+                <img src="assets/brands/brand1.jpg" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand2.png" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand3.png" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand4.png" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand5.png" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand6.jpg" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand7.png" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand8.jpg" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand9.jpg" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand10.jpg" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+                <!-- Duplicate set for seamless loop -->
+                <img src="assets/brands/brand1.jpg" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand2.png" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand3.png" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand4.png" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand5.png" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand6.jpg" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand7.png" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand8.jpg" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand9.jpg" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand10.jpg" alt="Brand" class="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-70 hover:opacity-100 transition-opacity">
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: What is BNC -->
+    <section id="about" class="py-32 relative">
+        <div class="container mx-auto px-6 max-w-5xl">
+            <h2 class="font-display text-4xl md:text-6xl font-bold mb-10 text-gray-900 fade-up">More Than Networking.
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                <div class="fade-up">
+                    <p class="text-xl md:text-2xl text-gray-600 leading-relaxed font-light">
+                        Most networking events end with exchanged contacts. <br><br>
+                        BNC exists to create meaningful conversations that lead to collaborations, businesses,
+                        opportunities, friendships, and long-term relationships.
+                    </p>
+                </div>
+                <div
+                    class="relative rounded-3xl overflow-hidden glass border border-brand-brown/10 aspect-square fade-up">
+                    <img src="assets/gallery/event1.jpg"
+                        alt="Networking Event"
+                        class="w-full h-full object-cover opacity-80 mix-blend-luminosity hover:mix-blend-normal transition-all duration-700">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Community Impact (Bento Grid) -->
+    <section id="community" class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="font-display text-3xl md:text-5xl font-bold mb-12 text-center text-gray-900 fade-up">Real
+                Outcomes</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 stagger-grid">
+                <!-- Large Card -->
+                <div
+                    class="md:col-span-2 glass p-8 rounded-3xl border border-brand-brown/5 glow-card relative overflow-hidden group">
+                    <div
+                        class="absolute top-0 right-0 p-6 text-brand-brown opacity-50 group-hover:opacity-100 transition-opacity">
+                        <i class="ph ph-handshake text-4xl"></i></div>
+                    <h3 class="text-2xl font-display font-semibold text-gray-900 mb-3">Founders Met Co-founders</h3>
+                    <p class="text-gray-600">Dozens of startup journeys began in our rooms. We curate the environment,
+                        you find your missing puzzle piece.</p>
+                </div>
+
+                <!-- Normal Cards -->
+                <div class="glass p-8 rounded-3xl border border-brand-brown/5 glow-card relative group">
+                    <div
+                        class="absolute top-0 right-0 p-6 text-brand-accent opacity-50 group-hover:opacity-100 transition-opacity">
+                        <i class="ph ph-rocket-launch text-4xl"></i></div>
+                    <h3 class="text-xl font-display font-semibold text-gray-900 mb-3">Startups Found Talent</h3>
+                    <p class="text-gray-600 text-sm">Beyond resumes. Meet passionate builders face-to-face.</p>
+                </div>
+
+                <div class="md:col-span-3 glass p-8 rounded-3xl border border-brand-brown/5 glow-card relative group">
+                    <div
+                        class="absolute top-0 right-0 p-6 text-brand-dark opacity-50 group-hover:opacity-100 transition-opacity">
+                        <i class="ph ph-briefcase text-4xl"></i></div>
+                    <h3 class="text-xl font-display font-semibold text-gray-900 mb-3">Businesses Found Clients</h3>
+                    <p class="text-gray-600 text-sm">Trust is built in person. Close deals over coffee, not cold emails.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Featured Cities -->
+    <section id="cities" class="py-24">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 fade-up">
+                <div>
+                    <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-4">Our Cities</h2>
+                    <p class="text-gray-600 text-lg">8 cities done, many more coming.</p>
+                </div>
+                <a href="#all-cities"
+                    class="text-brand-brown hover:text-gray-900 transition-colors flex items-center gap-2 mt-4 md:mt-0">
+                    View all chapters <i class="ph ph-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 stagger-grid">
+                <!-- City 1 -->
+                <div class="city-card h-80 lg:col-span-2">
+                    <img src="https://images.unsplash.com/photo-1522749372134-2e92cff0a324?auto=format&fit=crop&q=80"
+                        alt="Mumbai" class="w-full h-full object-cover">
+                    <div class="city-card-content">
+                        <h3 class="text-3xl font-display font-bold text-white mb-1">Mumbai</h3>
+                        <p class="text-gray-200 text-sm">Flagship Chapter • 20+ Events</p>
+                    </div>
+                </div>
+                <!-- City 2 -->
+                <div class="city-card h-80">
+                    <img src="assets/bangalore.png"
+                        alt="Bangalore" class="w-full h-full object-cover">
+                    <div class="city-card-content">
+                        <h3 class="text-2xl font-display font-bold text-white mb-1">Bangalore</h3>
+                        <p class="text-gray-700 text-sm text-brand-brown">Fastest Growing</p>
+                    </div>
+                </div>
+                <!-- City 3 -->
+                <div class="city-card h-80">
+                    <img src="https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&q=80"
+                        alt="Delhi" class="w-full h-full object-cover">
+                    <div class="city-card-content">
+                        <h3 class="text-2xl font-display font-bold text-white mb-1">Delhi NCR</h3>
+                        <p class="text-gray-200 text-sm">Active Community</p>
+                    </div>
+                </div>
+                <!-- City 4 -->
+                <div class="city-card h-64">
+                    <img src="assets/pune.jpg"
+                        alt="Pune" class="w-full h-full object-cover">
+                    <div class="city-card-content">
+                        <h3 class="text-xl font-display font-bold text-white">Pune</h3>
+                    </div>
+                </div>
+                <!-- City 5 -->
+                <div class="city-card h-64">
+                    <img src="https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?auto=format&fit=crop&q=80"
+                        alt="Hyderabad" class="w-full h-full object-cover">
+                    <div class="city-card-content">
+                        <h3 class="text-xl font-display font-bold text-white">Hyderabad</h3>
+                    </div>
+                </div>
+                <!-- City 6 -->
+                <div class="city-card h-64 lg:col-span-2">
+                    <img src="https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?auto=format&fit=crop&q=80"
+                        alt="Ahmedabad" class="w-full h-full object-cover">
+                    <div class="city-card-content">
+                        <h3 class="text-2xl font-display font-bold text-white">Ahmedabad</h3>
+                        <p class="text-gray-200 text-sm">New Chapter</p>
+                    </div>
+                </div>
+                <!-- City 7 -->
+                <div class="city-card h-64 lg:col-span-2">
+                    <img src="https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&q=80"
+                        alt="Nashik" class="w-full h-full object-cover">
+                    <div class="city-card-content">
+                        <h3 class="text-2xl font-display font-bold text-white">Nashik</h3>
+                    </div>
+                </div>
+                <!-- City 8 -->
+                <div class="city-card h-64 lg:col-span-2">
+                    <img src="https://images.unsplash.com/photo-1606132717757-ea6d203975ba?auto=format&fit=crop&q=80"
+                        alt="Surat" class="w-full h-full object-cover">
+                    <div class="city-card-content">
+                        <h3 class="text-2xl font-display font-bold text-white">Surat</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: What Happens at Events -->
+    <section class="py-24 bg-white relative">
+        <div
+            class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-blue/5 via-black to-black z-0">
+        </div>
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 mb-16 fade-up">What Happens
+                in the Room</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger-grid">
+                <!-- Exp Card -->
+                <div
+                    class="p-8 rounded-3xl border border-brand-brown/10 bg-white/5 hover:bg-white/10 transition-colors">
+                    <div
+                        class="w-12 h-12 rounded-full bg-brand-brown/10 text-brand-brown flex items-center justify-center mb-6">
+                        <i class="ph ph-users-three text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Founder Networking</h3>
+                    <p class="text-gray-600 text-sm">Curated groups to ensure you meet people at your stage or slightly
+                        ahead.</p>
+                </div>
+                <!-- Exp Card -->
+                <div
+                    class="p-8 rounded-3xl border border-brand-brown/10 bg-white/5 hover:bg-white/10 transition-colors">
+                    <div
+                        class="w-12 h-12 rounded-full bg-brand-accent/10 text-brand-accent flex items-center justify-center mb-6">
+                        <i class="ph ph-lightbulb text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Startup Conversations</h3>
+                    <p class="text-gray-600 text-sm">Deep dives into growth, hiring, fundraising, and product building.
+                    </p>
+                </div>
+                <!-- Exp Card -->
+                <div
+                    class="p-8 rounded-3xl border border-brand-brown/10 bg-white/5 hover:bg-white/10 transition-colors">
+                    <div
+                        class="w-12 h-12 rounded-full bg-brand-indigo/20 text-brand-dark flex items-center justify-center mb-6">
+                        <i class="ph ph-presentation-chart text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Pitch Sessions</h3>
+                    <p class="text-gray-600 text-sm">Practise your pitch in a safe, constructive environment with actual
+                        investors.</p>
+                </div>
+                <!-- Exp Card -->
+                <div
+                    class="p-8 rounded-3xl border border-brand-brown/10 bg-white/5 hover:bg-white/10 transition-colors">
+                    <div
+                        class="w-12 h-12 rounded-full bg-orange-500/20 text-orange-400 flex items-center justify-center mb-6">
+                        <i class="ph ph-arrows-merge text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Collaborations</h3>
+                    <p class="text-gray-600 text-sm">Find technical partners, marketing agencies, or your next big
+                        client.</p>
+                </div>
+                <!-- Exp Card -->
+                <div
+                    class="p-8 rounded-3xl border border-brand-brown/10 bg-white/5 hover:bg-white/10 transition-colors">
+                    <div
+                        class="w-12 h-12 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center mb-6">
+                        <i class="ph ph-book-open-text text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Learning Experiences</h3>
+                    <p class="text-gray-600 text-sm">Workshops and masterclasses led by operators who have been there.
+                    </p>
+                </div>
+                <!-- Exp Card -->
+                <div
+                    class="p-8 rounded-3xl border border-brand-brown/10 bg-white/5 hover:bg-white/10 transition-colors">
+                    <div
+                        class="w-12 h-12 rounded-full bg-pink-500/20 text-pink-400 flex items-center justify-center mb-6">
+                        <i class="ph ph-trend-up text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Growth Opportunities</h3>
+                    <p class="text-gray-600 text-sm">Unlock access to exclusive tools, credits, and partner networks.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 7: Event Gallery (Masonry) -->
+    <section id="gallery" class="py-24">
+        <div class="container mx-auto px-6">
+            <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-12 fade-up">Inside BNC</h2>
+
+            <div class="masonry-grid stagger-grid">
+                <div class="masonry-item">
+                    <img src="assets/gallery/event1.jpg"
+                        alt="Gallery">
+                </div>
+                <div class="masonry-item">
+                    <img src="assets/gallery/event3.jpg"
+                        alt="Gallery">
+                </div>
+                <div class="masonry-item">
+                    <img src="assets/gallery/event4.jpg"
+                        alt="Gallery">
+                </div>
+                <div class="masonry-item">
+                    <img src="assets/gallery/event2.jpg"
+                        alt="Gallery">
+                </div>
+                <div class="masonry-item">
+                    <img src="assets/gallery/event5.jpg"
+                        alt="Gallery">
+                </div>
+                <div class="masonry-item">
+                    <img src="assets/gallery/event6.jpg"
+                        alt="Gallery">
+                </div>
+                <div class="masonry-item">
+                    <img src="assets/gallery/event7.jpg"
+                        alt="Gallery">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 8: Founders in Making 101 -->
+    <section id="founders-101" class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 z-0 bg-gradient-to-b from-brand-blue/10 to-brand-purple/10"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div
+                class="max-w-4xl mx-auto glass p-10 md:p-20 rounded-[3rem] border border-brand-brown/20 text-center glow-card relative overflow-hidden fade-up shadow-[0_0_50px_rgba(56,189,248,0.1)]">
+                <!-- decorative blobs inside card -->
+                <div class="absolute -top-24 -right-24 w-64 h-64 bg-brand-brown/30 rounded-full blur-[80px]"></div>
+                <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-brand-purple/30 rounded-full blur-[80px]"></div>
+
+                <div class="relative z-10">
+                    <div
+                        class="inline-block mb-6 px-4 py-1.5 rounded-full border border-brand-blue/30 bg-brand-brown/10 text-sm font-medium text-brand-brown">
+                        Flagship Property
+                    </div>
+                    <h2 class="font-display text-4xl md:text-6xl font-bold mb-6 text-gray-900 tracking-tight">Founders
+                        in Making 101</h2>
+                    <h3 class="text-xl md:text-3xl text-gray-700 mb-6 font-light">A room full of people serious about
+                        building.</h3>
+                    <p class="text-lg text-gray-600 mb-10 max-w-2xl mx-auto">
+                        For aspiring founders, creators, startup enthusiasts, students, and future builders who want to
+                        learn, connect, and start their journey.
+                    </p>
+                    <a href="#register"
+                        class="inline-block px-10 py-4 rounded-full bg-brand-brown text-white font-semibold text-lg hover:scale-105 transition-transform duration-300">
+                        Reserve Your Spot
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 10: Community Visualization -->
+    <section id="visualization" class="py-32 relative bg-white border-y border-brand-brown/5 overflow-hidden">
+        <div class="container mx-auto px-6 text-center mb-16 relative z-10 fade-up">
+            <h2 class="font-display text-4xl md:text-5xl font-bold mb-4 text-gray-900">The Ecosystem Map</h2>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">Watch how connections form when ambitious people enter
+                the room.</p>
+        </div>
+
+        <div
+            class="relative w-full h-[500px] md:h-[700px] max-w-6xl mx-auto rounded-3xl overflow-hidden border border-brand-brown/10 glass fade-up bg-surface">
+            <canvas id="network-canvas" class="w-full h-full absolute inset-0"></canvas>
+
+            <!-- Floating nodes simulation -->
+            <div
+                class="absolute top-1/4 left-1/4 px-6 py-2 glass border-brand-brown/20 rounded-full text-sm font-medium text-gray-900 shadow-lg animate-pulse">
+                Founders</div>
+            <div
+                class="absolute top-1/2 right-1/4 px-6 py-2 glass border-brand-brown/20 rounded-full text-sm font-medium text-brand-brown shadow-lg">
+                Investors</div>
+            <div
+                class="absolute bottom-1/3 left-1/3 px-6 py-2 glass border-brand-brown/20 rounded-full text-sm font-medium text-brand-accent shadow-lg">
+                Creators</div>
+            <div
+                class="absolute top-1/3 right-1/3 px-6 py-2 glass border-brand-brown/20 rounded-full text-sm font-medium text-gray-700 shadow-lg">
+                Designers</div>
+            <div
+                class="absolute bottom-1/4 right-1/4 px-6 py-2 glass border-brand-brown/20 rounded-full text-sm font-medium text-green-400 shadow-lg">
+                Developers</div>
+        </div>
+    </section>
+
+    <!-- Section 12: Upcoming Events -->
+    <section id="events" class="py-24">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-end mb-12 fade-up">
+                <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900">Next Rooms to Enter</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger-grid">
+                <!-- Event Card -->
+                <div
+                    class="glass rounded-3xl border border-brand-brown/10 overflow-hidden flex flex-col glow-card group">
+                    <div class="h-48 relative overflow-hidden">
+                        <img src="assets/gallery/event4.jpg"
+                            alt="Event"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div
+                            class="absolute top-4 left-4 px-3 py-1 bg-white/60 backdrop-blur-md rounded-full text-xs font-semibold border border-brand-brown/10 text-gray-900">
+                            Mumbai
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <div class="text-brand-brown text-sm font-semibold mb-2">Sat, Oct 14 • 4:00 PM</div>
+                        <h3 class="text-xl font-display font-bold text-gray-900 mb-2">Founders Mixer - Early Stage</h3>
+                        <p class="text-gray-600 text-sm mb-6 flex-1">An exclusive invite-only mixer for seed and
+                            pre-seed founders to connect with angels.</p>
+
+                        <div class="flex items-center justify-between mt-auto">
+                            <div class="text-xs text-gray-500 font-mono countdown-timer"
+                                data-date="2026-10-14T16:00:00">Loading...</div>
+                            <button
+                                class="px-5 py-2 bg-brand-brown text-white text-sm font-semibold rounded-full hover:bg-brand-dark transition-colors">Register</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Card -->
+                <div
+                    class="glass rounded-3xl border border-brand-brown/10 overflow-hidden flex flex-col glow-card group">
+                    <div class="h-48 relative overflow-hidden">
+                        <img src="assets/gallery/event5.jpg"
+                            alt="Event"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div
+                            class="absolute top-4 left-4 px-3 py-1 bg-white/60 backdrop-blur-md rounded-full text-xs font-semibold border border-brand-brown/10 text-gray-900">
+                            Bangalore
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <div class="text-brand-brown text-sm font-semibold mb-2">Sun, Oct 22 • 10:00 AM</div>
+                        <h3 class="text-xl font-display font-bold text-gray-900 mb-2">Build in Public Masterclass</h3>
+                        <p class="text-gray-600 text-sm mb-6 flex-1">Learn how to leverage Twitter and LinkedIn to find
+                            your first 1000 customers.</p>
+
+                        <div class="flex items-center justify-between mt-auto">
+                            <div class="text-xs text-gray-500 font-mono countdown-timer"
+                                data-date="2026-10-22T10:00:00">Loading...</div>
+                            <button
+                                class="px-5 py-2 bg-brand-brown text-white text-sm font-semibold rounded-full hover:bg-brand-dark transition-colors">Register</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 13: FAQ (Accordion) -->
+    <section class="py-24 bg-white border-y border-brand-brown/5">
+        <div class="container mx-auto px-6 max-w-3xl">
+            <h2 class="font-display text-4xl font-bold text-center text-gray-900 mb-12 fade-up">Frequently Asked
+                Questions</h2>
+
+            <div class="space-y-4 fade-up">
+                <!-- FAQ Item -->
+                <div class="glass border border-brand-brown/10 rounded-2xl overflow-hidden">
+                    <button
+                        class="accordion-button w-full px-6 py-5 text-left flex justify-between items-center bg-transparent focus:outline-none">
+                        <span class="font-semibold text-gray-900 text-lg">What is BNC?</span>
+                        <i class="ph ph-caret-down text-gray-600 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content px-6 bg-white/5 opacity-0">
+                        <p class="pb-5 text-gray-600">Bombay Networking Circle is a curated community designed to
+                            connect ambitious founders, creators, investors, and startup enthusiasts through
+                            high-quality, outcome-focused events.</p>
+                    </div>
+                </div>
+                <!-- FAQ Item -->
+                <div class="glass border border-brand-brown/10 rounded-2xl overflow-hidden">
+                    <button
+                        class="accordion-button w-full px-6 py-5 text-left flex justify-between items-center bg-transparent focus:outline-none">
+                        <span class="font-semibold text-gray-900 text-lg">Do I need a startup to join?</span>
+                        <i class="ph ph-caret-down text-gray-600 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content px-6 bg-white/5 opacity-0">
+                        <p class="pb-5 text-gray-600">Not necessarily. We have rooms for established founders and rooms
+                            like 'Founders in Making 101' specifically for students and aspiring entrepreneurs looking
+                            to start.</p>
+                    </div>
+                </div>
+                <!-- FAQ Item -->
+                <div class="glass border border-brand-brown/10 rounded-2xl overflow-hidden">
+                    <button
+                        class="accordion-button w-full px-6 py-5 text-left flex justify-between items-center bg-transparent focus:outline-none">
+                        <span class="font-semibold text-gray-900 text-lg">Which cities do you operate in?</span>
+                        <i class="ph ph-caret-down text-gray-600 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content px-6 bg-white/5 opacity-0">
+                        <p class="pb-5 text-gray-600">We currently host events in Mumbai, Pune, Bangalore, Delhi NCR,
+                            Hyderabad, Ahmedabad, Surat, Jaipur, and Goa, with plans to expand further.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 14: Final CTA -->
+    <section class="py-32 relative overflow-hidden bg-dark">
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-blue/20 to-transparent opacity-30"></div>
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <h2 class="font-display text-5xl md:text-7xl font-bold text-gray-900 mb-6 tracking-tight fade-up">One
+                Conversation <br>Can <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-brand-brown to-brand-accent">Change
+                    Everything.</span></h2>
+            <p class="text-xl text-gray-600 mb-12 max-w-2xl mx-auto fade-up">Join India's growing community of founders,
+                builders, creators, and ambitious people.</p>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4 fade-up">
+                <a href="#join"
+                    class="px-8 py-4 rounded-full bg-brand-brown text-white font-semibold text-lg hover:scale-105 transition-transform shadow-[0_0_20px_rgba(255,255,255,0.3)]">Join
+                    Community</a>
+                <a href="#events"
+                    class="px-8 py-4 rounded-full glass border border-brand-brown/20 text-gray-900 font-medium text-lg hover:bg-white/10 transition-colors">Attend
+                    Next Event</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-brand-brown/10 bg-brand-dark">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="md:col-span-1">
+                    <a href="#"
+                        class="font-display font-bold text-2xl text-gray-900 tracking-wide flex items-center gap-2 mb-4">
+                        <div
+                            class="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-brown to-brand-accent flex items-center justify-center text-black text-sm">
+                            B</div>
+                        BNC
+                    </a>
+                    <p class="text-gray-500 text-sm">Where ambitious people meet. India's premium ecosystem for builders
+                        and founders.</p>
+                </div>
+
+                <div>
+                    <h4 class="text-gray-900 font-semibold mb-4">Platform</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><a href="#about" class="hover:text-gray-900 transition-colors">About</a></li>
+                        <li><a href="#events" class="hover:text-gray-900 transition-colors">Events</a></li>
+                        <li><a href="#community" class="hover:text-gray-900 transition-colors">Community</a></li>
+                        <li><a href="#cities" class="hover:text-gray-900 transition-colors">Cities</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-gray-900 font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><a href="#" class="hover:text-gray-900 transition-colors">Partners</a></li>
+                        <li><a href="#" class="hover:text-gray-900 transition-colors">Contact</a></li>
+                        <li><a href="#" class="hover:text-gray-900 transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-gray-900 font-semibold mb-4">Newsletter</h4>
+                    <p class="text-sm text-gray-600 mb-4">Curated opportunities in your inbox.</p>
+                    <div class="flex gap-2">
+                        <input type="email" placeholder="Email address"
+                            class="bg-white/5 border border-brand-brown/10 rounded-lg px-4 py-2 text-sm text-gray-900 w-full focus:outline-none focus:border-brand-blue">
+                        <button
+                            class="bg-brand-brown text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-brand-dark">Join</button>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-brand-brown/5 text-xs text-gray-500">
+                <p>&copy; 2026 Bombay Networking Circle. All rights reserved.</p>
+                <div class="flex gap-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-gray-900 transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-gray-900 transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- GSAP Libraries for standard browser environment -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+
+</html>

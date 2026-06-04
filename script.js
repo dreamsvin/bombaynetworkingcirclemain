@@ -122,6 +122,43 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. Initialize Network Particles Visualization
     initParticles('hero-canvas', '#38bdf8', 40);
     initParticles('network-canvas', '#c084fc', 80, true);
+
+    // 6. Analytics Event Tracking
+    // Track WhatsApp Community join clicks
+    document.querySelectorAll('a[href*="chat.whatsapp.com"]').forEach(link => {
+        link.addEventListener('click', () => {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'join_whatsapp', { 'event_category': 'community', 'event_label': 'WhatsApp Group Join' });
+            }
+            if (typeof fbq !== 'undefined') {
+                fbq('trackCustom', 'JoinWhatsApp');
+            }
+            if (typeof lintrk !== 'undefined') {
+                window.lintrk('track', { conversion_id: 1234567 }); // Placeholder Conversion ID
+            }
+            console.log('Tracked: WhatsApp Join click');
+        });
+    });
+
+    // Track Partner inquiries/clicks
+    document.querySelectorAll('a[href*="sponsor.html"]').forEach(link => {
+        link.addEventListener('click', () => {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'click_partner', { 'event_category': 'partnership', 'event_label': 'Become a Partner Page Click' });
+            }
+            console.log('Tracked: Partner Page click');
+        });
+    });
+
+    // Track Event calendar views/interest
+    document.querySelectorAll('a[href="#events"]').forEach(link => {
+        link.addEventListener('click', () => {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'view_events', { 'event_category': 'events', 'event_label': 'Explore Events Scroll' });
+            }
+            console.log('Tracked: Explore Events click');
+        });
+    });
 });
 
 // Particle Network Function

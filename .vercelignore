@@ -1,0 +1,17 @@
+# Repo-only files: keep them in git but out of the public site.
+# Vercel reads this on every deploy; patterns work like .gitignore.
+
+# AI assistant notes
+/AGENTS.md
+/CLAUDE.md
+
+# One-off migration script (already applied)
+/update_theme.py
+
+# Git and Vercel config
+/.gitattributes
+/.gitignore
+/.vercelignore
+
+# Local tooling
+/.claude

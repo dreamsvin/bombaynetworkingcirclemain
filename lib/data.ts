@@ -16,7 +16,8 @@ export type EventWithChapter = Event & { chapter: Pick<Chapter, "slug" | "city">
 /** Seconds. Supabase-backed pages regenerate at most this often (ISR); `revalidateTag("content")` forces it. */
 export const REVALIDATE = 600;
 
-export const isPlaceholder = (row: object) => Object.values(row).some((v) => typeof v === "string" && v.includes(PLACEHOLDER));
+export { isPlaceholder } from "@/lib/is-placeholder";
+import { isPlaceholder } from "@/lib/is-placeholder";
 
 /** Seed mode visibility: published rows, plus placeholder rows when previewing. */
 const visible = <T extends { is_published: boolean }>(rows: T[]) =>

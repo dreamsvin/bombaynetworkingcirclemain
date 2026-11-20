@@ -27,3 +27,5 @@ preview-shots
 public/photos/
 # local db scratch
 .pgdata
+
+public/partners/

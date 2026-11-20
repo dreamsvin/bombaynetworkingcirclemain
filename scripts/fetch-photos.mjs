@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 /**
- * Real BNC photography, pulled from Isha Ostwal's site repo (AkshatRathod7/ishawebsite) at a pinned commit,
- * cropped and graded once with one consistent treatment, and written to public/photos/*.webp.
+ * Real BNC photography from two sources, cropped and graded once with one consistent treatment, and written
+ * to public/photos/*.webp (and partner logos to public/partners/*.webp):
+ *   1. assets/  — the previous site's own photos and brand logos, kept in this repo as source files.
+ *                 (The old AI-generated avatar images and the pharmacy-template logo were removed.)
+ *   2. AkshatRathod7/ishawebsite at a pinned commit — founder photos and the BNC event collage.
  *
  * Runs automatically before `next build` (npm "prebuild"). Skips files that already exist unless --force.
  * Why a script instead of committing the JPEGs: the outputs are reproducible from the source, and the
@@ -10,7 +13,7 @@
  *
  * The manifest the site reads (sizes, alt text) is content/photos.ts. Keep the two in sync.
  */
-import { mkdir, writeFile, access } from "node:fs/promises";
+import { mkdir, writeFile, access, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
@@ -42,8 +45,30 @@ const JOBS = [
   { out: "tile-group-mono-2.webp", src: "bnc.jpeg", crop: { left: 766, top: 908, width: 314, height: 442 } },
 ];
 
+const LEGACY = [
+  ["event-garden-talk.webp", "gallery/event1.jpg", 800, "The host speaking to a seated room in a garden venue."],
+  ["event-office-group.webp", "gallery/event2.jpg", 1200, "Members standing together around a long table in an office space."],
+  ["event-office-audience.webp", "gallery/event3.jpg", 1200, "A seated audience with laptops listening to a session in an office."],
+  ["event-panel.webp", "gallery/event4.jpg", 1200, "A three-person panel on stage with speaker slides behind them."],
+  ["event-screen-group.webp", "gallery/event5.jpg", 1200, "A group photo in a meeting room in front of a presentation screen."],
+  ["event-garden-table.webp", "gallery/event6.jpg", 800, "Members in conversation around a table under a glass canopy."],
+  ["event-bougainvillea.webp", "gallery/event7.jpg", 1200, "A group of members outdoors in front of bougainvillea."],
+  ["event-stage-night.webp", "gallery/main-photo.jpg", 800, "Members on a stage at an evening event."],
+  ["room-a.webp", "mumbai.jpg", 1200, "A large group of members photographed together at a BNC evening."],
+  ["room-b.webp", "bangalore.jpg", 1200, "Members standing together in an office event space."],
+  ["room-c.webp", "delhi.jpg", 1200, "A large crowd at an evening event under string lights."],
+  ["room-d.webp", "pune.jpg", 1200, "Members gathered around a long meeting table."],
+  ["room-e.webp", "hyderabad.jpg", 1200, "Members standing together in a café with a slatted wooden ceiling."],
+  ["room-f.webp", "ahmedabad.jpg", 1200, "A group outdoors beside bougainvillea and café tables."],
+  ["room-g.webp", "nashik.jpg", 1200, "A full café room of members standing behind round tables."],
+  ["room-h.webp", "surat.jpg", 1200, "An outdoor group photo of members, some seated in front."],
+].map(([out, file, width]) => ({ out, src: `local:${file}`, crop: null, width, quality: 74 }));
+
+const BRANDS = ["brand1.jpg", "brand2.png", "brand3.png", "brand4.png", "brand5.png", "brand6.jpg", "brand7.png", "brand8.jpg", "brand9.jpg", "brand10.jpg"];
+
 const cache = new Map();
 async function source(file) {
+  if (file.startsWith("local:")) return readFile(path.join(ROOT, "assets", file.slice(6)));
   if (!cache.has(file)) {
     const res = await fetch(RAW(file));
     if (!res.ok) throw new Error(`fetch-photos: ${file} → HTTP ${res.status}`);
@@ -56,7 +81,7 @@ const exists = (p) => access(p).then(() => true, () => false);
 
 await mkdir(OUT, { recursive: true });
 let made = 0;
-for (const job of JOBS) {
+for (const job of [...JOBS, ...LEGACY]) {
   const dest = path.join(OUT, job.out);
   if (!force && (await exists(dest))) continue;
   let img = sharp(await source(job.src)).rotate();
@@ -66,6 +91,15 @@ for (const job of JOBS) {
   await writeFile(dest, buf);
   const meta = await sharp(buf).metadata();
   console.log(`  ${job.out}  ${meta.width}×${meta.height}  ${(buf.length / 1024).toFixed(0)} KB`);
+  made++;
+}
+// Partner/brand logos from the previous site: normalised to 320px wide, no grade (logos keep their colours).
+const LOGOS = path.join(ROOT, "public", "partners");
+await mkdir(LOGOS, { recursive: true });
+for (const file of BRANDS) {
+  const dest = path.join(LOGOS, file.replace(/\.(jpg|png)$/, ".webp"));
+  if (!force && (await exists(dest))) continue;
+  await sharp(path.join(ROOT, "assets", "brands", file)).resize({ width: 320, height: 320, fit: "inside" }).webp({ quality: 85 }).toFile(dest);
   made++;
 }
 console.log(made ? `fetch-photos: wrote ${made} file(s) to public/photos` : "fetch-photos: up to date");

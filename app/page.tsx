@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { AUDIENCE, FORMATS, ROOM_STEPS, SITE, STATS } from "@/content/site";
-import { PHOTOS, GALLERY } from "@/content/photos";
+import { PHOTOS, HOME_GRID } from "@/content/photos";
 import { FAQ } from "@/content/faq";
 import { getChapters, getSponsors, getTestimonials, getUpcomingEvents } from "@/lib/data";
 import { pageMeta, orgJsonLd } from "@/lib/seo";
@@ -222,9 +222,9 @@ export default async function HomePage() {
         <Container>
           <SectionHeader id="photos-title" eyebrow="In the room" title="This is what it looks like." />
           <ul className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-4" data-reveal>
-            {GALLERY.map((p) => (
+            {HOME_GRID.map((p) => (
               <li key={p.src}>
-                <Photo photo={p} sizes="(min-width: 768px) 25vw, 50vw" ratio="portrait" className="rounded-md" />
+                <Photo photo={p} sizes="(min-width: 768px) 25vw, 50vw" ratio="square" className="rounded-md" />
               </li>
             ))}
           </ul>

@@ -289,5 +289,32 @@ export const TESTIMONIALS: Testimonial[] = [1, 2, 3].map((n) => ({
   ...meta,
 }));
 
-/** No sponsors or partners confirmed yet (the old site's Razorpay mention is unverified and was removed). */
-export const SPONSORS: Sponsor[] = [];
+/**
+ * The previous site showed these ten logos under "Trusted by leading brands & ecosystems" with no stated
+ * relationship. Several also appear as DreamSVin clients, so BNC's relationship to each is unconfirmed.
+ * They stay unpublished until BNC confirms each one as a sponsor or partner and has permission to show the logo.
+ * (The old site's Razorpay mention was unverified and has been dropped entirely.)
+ */
+const legacyBrand = (n: number, name: string, file: string): Sponsor => ({
+  id: `00000000-0000-4000-d000-0000000000${String(n).padStart(2, "0")}`,
+  name: `${name} ${PLACEHOLDER}`,
+  logo: `/partners/${file}`,
+  tier: "community",
+  url: null,
+  is_partner: true,
+  is_published: false,
+  ...meta,
+});
+
+export const SPONSORS: Sponsor[] = [
+  legacyBrand(1, "Eureka Forbes", "brand1.webp"),
+  legacyBrand(2, "Willstar Media", "brand2.webp"),
+  legacyBrand(3, "Unidentified brand (green mark)", "brand3.webp"),
+  legacyBrand(4, "Yog Sadhak", "brand4.webp"),
+  legacyBrand(5, "K's Charcoal", "brand5.webp"),
+  legacyBrand(6, "Prustlr", "brand6.webp"),
+  legacyBrand(7, "BHIVE", "brand7.webp"),
+  legacyBrand(8, "Culture", "brand8.webp"),
+  legacyBrand(9, "Analogy", "brand9.webp"),
+  legacyBrand(10, "Pickle Pakoza Open", "brand10.webp"),
+];

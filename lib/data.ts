@@ -3,7 +3,7 @@ import { unstable_cache } from "next/cache";
 import type { Tables } from "@/lib/supabase/database.types";
 import { readClient } from "@/lib/supabase/server";
 import { SHOW_PLACEHOLDERS } from "@/lib/env";
-import { CHAPTERS, EVENTS, MEMBERS, PLACEHOLDER, SPONSORS, STORIES, TESTIMONIALS } from "@/content/seed";
+import { CHAPTERS, EVENTS, MEMBERS, SPONSORS, STORIES, TESTIMONIALS } from "@/content/seed";
 
 export type Chapter = Tables<"chapters">;
 export type Event = Tables<"events">;
@@ -57,6 +57,9 @@ async function withChapters(events: Event[]): Promise<EventWithChapter[]> {
 }
 
 const isUpcoming = (e: Event, now = Date.now()) => new Date(e.ends_at ?? e.starts_at).getTime() >= now;
+
+/** True once an event has finished. */
+export const hasEnded = (e: Event) => !isUpcoming(e);
 
 export async function getUpcomingEvents(opts: { chapterId?: string; limit?: number } = {}) {
   const list = (await allEvents())

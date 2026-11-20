@@ -45,9 +45,9 @@ export const LINKS = {
   lumaEmbed: "https://luma.com/embed/calendar/cal-vDOs5j3wARFnY6V/events",
   /** Public calendar page for click-outs. Replace with the lu.ma/<handle> URL once confirmed (CONTENT-TODO). */
   lumaCalendar: "https://luma.com/embed/calendar/cal-vDOs5j3wARFnY6V/events",
-  /** Not supplied yet. Rendered only when set. */
+  /** Rendered only when set. LinkedIn is from the previous site's footer — confirm it (CONTENT-TODO). */
   instagram: null as string | null,
-  linkedin: null as string | null,
+  linkedin: "https://www.linkedin.com/company/bombay-networking-circle" as string | null,
 } as const;
 
 export const CONTACT = {

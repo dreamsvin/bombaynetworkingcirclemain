@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getAllEventSlugs, getEvent, getChapter } from "@/lib/data";
+import { getAllEventSlugs, getEvent, getChapter, hasEnded } from "@/lib/data";
 import { pageMeta } from "@/lib/seo";
 import { fmtDate, fmtTime } from "@/lib/format";
 import { clean, isPlaceholder } from "@/lib/is-placeholder";
@@ -41,7 +41,7 @@ export default async function EventPage({ params }: PageProps<"/events/[slug]">)
   const event = await getEvent(slug);
   if (!event) notFound();
   const chapter = await getChapter(event.chapter.slug);
-  const past = new Date(event.ends_at ?? event.starts_at).getTime() < Date.now();
+  const past = hasEnded(event);
   const title = clean(event.title);
   const agenda = isAgenda(event.agenda) ? event.agenda : null;
 

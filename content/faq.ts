@@ -18,7 +18,7 @@ export const FAQ: Faq[] = [
   {
     group: "joining",
     q: "Do I need a startup to join?",
-    a: "No. There are rooms for established founders and for people who haven't started yet, plus operators, freelancers and students. Rooms are grouped by stage so the conversation stays useful.",
+    a: "No. There are rooms for established founders and rooms like Founders in Making 101 for students and people who haven't started yet, plus operators and freelancers. Rooms are grouped by stage so the conversation stays useful.",
   },
   {
     group: "joining",

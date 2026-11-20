@@ -15,7 +15,12 @@ export function MobileNav() {
   const panel = useRef<HTMLDivElement>(null);
   const path = usePathname();
 
-  useEffect(() => setOpen(false), [path]);
+  // Close on navigation (state derived during render, not in an effect).
+  const [lastPath, setLastPath] = useState(path);
+  if (path !== lastPath) {
+    setLastPath(path);
+    setOpen(false);
+  }
 
   useEffect(() => {
     if (!open) return;

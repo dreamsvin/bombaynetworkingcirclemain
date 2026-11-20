@@ -4,6 +4,7 @@ import { STATS } from "@/content/site";
 export const alt = "Bombay Networking Circle — meet the people building in your city";
 export const size = OG_SIZE;
 export const contentType = "image/png";
+export const dynamic = "force-static";
 
 export default function Image() {
   return ogImage({

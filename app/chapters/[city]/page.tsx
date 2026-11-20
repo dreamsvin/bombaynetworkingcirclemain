@@ -97,15 +97,16 @@ export default async function ChapterPage({ params }: PageProps<"/chapters/[city
             <div className="lg:col-span-6">
               {next ? (
                 <EventFeature
+                  headingLevel="h2"
                   event={next.event}
                   note={next.nearest ? `No ${chapter.city} date is open yet. The nearest one is in ${next.event.chapter.city}.` : undefined}
                 />
               ) : (
-                <NextEvents events={[]} city={chapter.city} source={`city:${chapter.slug}`} />
+                <NextEvents events={[]} city={chapter.city} source={`city:${chapter.slug}`} headingAs="h2" />
               )}
               {next?.nearest && (
                 <div className="mt-6">
-                  <NextEvents events={[]} city={chapter.city} source={`city:${chapter.slug}`} />
+                  <NextEvents events={[]} city={chapter.city} source={`city:${chapter.slug}`} headingAs="h2" />
                 </div>
               )}
             </div>
@@ -173,7 +174,7 @@ export default async function ChapterPage({ params }: PageProps<"/chapters/[city
           ) : (
             <div className="mt-10 grid gap-6 rounded-lg border border-line bg-bg-card p-8 md:grid-cols-12 md:items-center">
               {/* Typographic treatment instead of borrowed photos */}
-              <p className="font-display text-display-lg text-support md:col-span-5" aria-hidden="true">
+              <p className="font-display text-display-lg text-fg-subtle md:col-span-5" aria-hidden="true">
                 {chapter.city}
               </p>
               <p className="text-body text-fg-muted md:col-span-7">

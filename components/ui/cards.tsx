@@ -25,7 +25,7 @@ export function ChapterCard({ chapter, nextEvent }: { chapter: Chapter; nextEven
       </div>
       {chapter.intro && <p className="mt-4 line-clamp-3 text-body-sm text-fg-muted">{chapter.intro}</p>}
       <div className="mt-auto pt-6">
-        <p className="text-caption text-fg-subtle">{nextEvent ? `Next: ${nextEvent}` : "Next event: see the city page"}</p>
+        <p className="text-caption text-fg-subtle">{nextEvent ? `Next: ${nextEvent}` : "Next date: being set — get notified"}</p>
         <span className="mt-2 inline-flex items-center gap-1 text-body-sm font-semibold text-accent-text">
           {chapter.city} chapter <ArrowRight width={16} height={16} className="transition-transform duration-base ease-out group-hover:translate-x-0.5" />
         </span>

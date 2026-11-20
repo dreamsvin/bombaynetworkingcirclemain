@@ -2,7 +2,7 @@ import "server-only";
 import { unstable_cache } from "next/cache";
 import type { Tables } from "@/lib/supabase/database.types";
 import { readClient } from "@/lib/supabase/server";
-import { SHOW_PLACEHOLDERS } from "@/lib/env";
+import { HAS_SUPABASE, SHOW_PLACEHOLDERS } from "@/lib/env";
 import { CHAPTERS, EVENTS, MEMBERS, SPONSORS, STORIES, TESTIMONIALS } from "@/content/seed";
 
 export type Chapter = Tables<"chapters">;
@@ -23,8 +23,10 @@ import { isPlaceholder } from "@/lib/is-placeholder";
 const visible = <T extends { is_published: boolean }>(rows: T[]) =>
   rows.filter((r) => r.is_published || (SHOW_PLACEHOLDERS && isPlaceholder(r)));
 
+/** Cache key includes the data source and placeholder mode, so switching either never serves stale rows. */
+const MODE = `${HAS_SUPABASE ? "db" : "seed"}:${SHOW_PLACEHOLDERS ? "preview" : "live"}`;
 const cached = <A extends unknown[], R>(key: string, fn: (...args: A) => Promise<R>) =>
-  unstable_cache(fn, ["bnc", key], { revalidate: REVALIDATE, tags: ["content", key] });
+  unstable_cache(fn, ["bnc", MODE, key], { revalidate: REVALIDATE, tags: ["content", key] });
 
 // ───────── chapters ─────────
 export const getChapters = cached("chapters", async (): Promise<Chapter[]> => {

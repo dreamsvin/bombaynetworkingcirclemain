@@ -80,7 +80,7 @@ export default async function HomePage() {
         </Container>
         <div className="mx-auto mt-10 max-w-[1440px] sm:px-gutter">
           <figure>
-            <Photo photo={PHOTOS.hero} priority sizes="(min-width: 1440px) 1360px, 100vw" ratio="wide" className="sm:rounded-lg" />
+            <Photo photo={PHOTOS.hero} priority quality={60} sizes="(min-width: 1440px) 1360px, 100vw" ratio="wide" className="sm:rounded-lg" />
             <figcaption className="px-gutter pt-3 text-caption text-fg-subtle sm:px-0">A BNC evening in Mumbai. Real members, real room.</figcaption>
           </figure>
         </div>

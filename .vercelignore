@@ -1,0 +1,6 @@
+# Repo-only files: kept in git, not uploaded to Vercel builds.
+# NOTE: assets/ must NOT be listed here — scripts/fetch-photos.mjs reads it at build time.
+/CLAUDE.md
+/.claude
+/supabase/tests
+/docs

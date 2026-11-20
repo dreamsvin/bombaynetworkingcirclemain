@@ -2,7 +2,7 @@ import type { ElementType, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 export function Container({ className, children, narrow = false }: { className?: string; children: ReactNode; narrow?: boolean }) {
-  return <div className={cn("mx-auto w-full px-gutter", narrow ? "max-w-prose box-content" : "max-w-container", className)}>{children}</div>;
+  return <div className={cn("mx-auto px-gutter", narrow ? "max-w-prose box-content" : "w-full max-w-container", className)}>{children}</div>;
 }
 
 type Tone = "paper" | "raised" | "ink";

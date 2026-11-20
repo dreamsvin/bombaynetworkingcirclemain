@@ -21,7 +21,7 @@ export function ChapterDirectory({ chapters, nextEvents }: { chapters: Chapter[]
 
   return (
     <div>
-      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <div className="flex flex-col gap-5">
         <div className="w-full md:max-w-sm">
           <label htmlFor="chapter-search" className="mb-1.5 block text-body-sm font-semibold text-fg">
             Search cities

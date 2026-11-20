@@ -13,7 +13,13 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
+    qualities: [60, 75],
     deviceSizes: [360, 480, 640, 768, 1024, 1280, 1600, 1920],
+  },
+  // OG images read the Newsreader .woff files at render time; make sure they ship with the functions.
+  outputFileTracingIncludes: {
+    "/opengraph-image": ["./node_modules/@fontsource/newsreader/files/newsreader-latin-*-normal.woff"],
+    "/chapters/[city]/opengraph-image": ["./node_modules/@fontsource/newsreader/files/newsreader-latin-*-normal.woff"],
   },
   // The old static site's URLs. Anything shared in the past keeps working.
   async redirects() {

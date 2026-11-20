@@ -114,7 +114,7 @@ export default async function SponsorPage() {
               ))}
             </ul>
           ) : (
-            <EmptyState className="mt-10" title="The sponsor wall is open" body="Sponsors are listed here once confirmed. The first national partner gets the top spot." />
+            <EmptyState className="mt-10" title="The sponsor wall is open" body="Sponsors are listed here once confirmed, with their permission." />
           )}
         </Container>
       </Section>

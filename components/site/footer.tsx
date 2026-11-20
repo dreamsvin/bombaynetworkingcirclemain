@@ -17,7 +17,7 @@ export async function Footer() {
   ].filter((s): s is { label: string; href: string } => Boolean(s.href));
 
   return (
-    <footer data-tone="ink" className="pb-10 pt-section-sm">
+    <footer data-tone="ink" className="border-t border-line pb-10 pt-section-sm">
       <div className="mx-auto max-w-container px-gutter">
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">

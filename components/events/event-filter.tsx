@@ -16,6 +16,19 @@ export function EventFilter({ events, cities }: { events: EventWithChapter[]; ci
   const shown = events.filter((e) => (city === "all" || e.chapter.slug === city) && (format === "all" || e.format === format));
   const cityName = cities.find((c) => c.slug === city)?.city;
 
+  if (!events.length) {
+    return (
+      <EmptyState
+        title="No dates listed on this page yet"
+        body="New BNC dates go up on the live Luma calendar first — it's embedded below. Pick your city to get notified when its next room opens."
+      >
+        <Link href="/chapters" className="text-body-sm font-semibold text-accent-text underline underline-offset-4">
+          Choose your city
+        </Link>
+      </EmptyState>
+    );
+  }
+
   return (
     <div>
       <div className="grid gap-4 sm:max-w-xl sm:grid-cols-2">

@@ -9,6 +9,7 @@ export function Photo({
   photo,
   sizes,
   priority = false,
+  quality,
   className,
   imgClassName,
   ratio,
@@ -19,6 +20,7 @@ export function Photo({
   className?: string;
   imgClassName?: string;
   ratio?: "photo" | "portrait" | "wide" | "square";
+  quality?: 60 | 75;
 }) {
   const r = ratio ? RATIOS[ratio] : undefined;
   return (
@@ -29,7 +31,8 @@ export function Photo({
         height={photo.height}
         alt={photo.alt}
         sizes={sizes}
-        priority={priority}
+        preload={priority}
+        quality={quality}
         className={cn("h-full w-full object-cover", imgClassName)}
       />
     </div>

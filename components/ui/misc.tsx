@@ -44,10 +44,22 @@ export function Breadcrumbs({ items }: { items: { label: string; href: string }[
 }
 
 /* ───────── Empty state: never a dead end — always a next action ───────── */
-export function EmptyState({ title, body, children, className }: { title: string; body: ReactNode; children?: ReactNode; className?: string }) {
+export function EmptyState({
+  title,
+  body,
+  children,
+  className,
+  headingAs: H = "h3",
+}: {
+  title: string;
+  body: ReactNode;
+  children?: ReactNode;
+  className?: string;
+  headingAs?: "h2" | "h3";
+}) {
   return (
     <div className={cn("rounded-lg border border-dashed border-line-strong bg-bg-card p-6 sm:p-8", className)}>
-      <h3 className="text-heading-sm text-fg">{title}</h3>
+      <H className="text-heading-sm text-fg">{title}</H>
       <div className="mt-2 max-w-measure text-body text-fg-muted">{body}</div>
       {children && <div className="mt-5 flex flex-wrap items-center gap-4">{children}</div>}
     </div>

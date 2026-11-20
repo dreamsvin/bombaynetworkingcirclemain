@@ -9,12 +9,13 @@ import { RevealObserver } from "@/components/site/reveal";
 
 // Self-hosted (fontsource files, served from our origin), font-display: swap.
 const newsreader = localFont({
-  src: "../node_modules/@fontsource-variable/newsreader/files/newsreader-latin-opsz-normal.woff2",
+  src: "../node_modules/@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2",
   variable: "--font-newsreader",
   weight: "200 800",
   display: "swap",
   preload: true,
   fallback: ["Georgia", "Times New Roman", "serif"],
+  adjustFontFallback: "Times New Roman",
 });
 
 const publicSans = localFont({
@@ -73,7 +74,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
         <Footer />
         <RevealObserver />
-        <Analytics />
+        {/* Vercel Analytics only exists on Vercel; elsewhere its script would 404. */}
+        {process.env.VERCEL ? <Analytics /> : null}
       </body>
     </html>
   );

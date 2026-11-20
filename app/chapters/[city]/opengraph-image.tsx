@@ -4,6 +4,7 @@ import { getChapter, getChapters } from "@/lib/data";
 export const alt = "Bombay Networking Circle city chapter";
 export const size = OG_SIZE;
 export const contentType = "image/png";
+export const dynamic = "force-static";
 
 export async function generateStaticParams() {
   return (await getChapters()).map((c) => ({ city: c.slug }));

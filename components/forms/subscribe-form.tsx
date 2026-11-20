@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { startTransition, useActionState, useEffect, useRef } from "react";
 import { subscribe } from "@/app/actions";
 import { initialFormState } from "@/lib/schemas";
 import { buttonClass } from "@/components/ui/button";
@@ -33,11 +33,22 @@ export function SubscribeForm({
   id?: string;
 }) {
   const [state, action, pending] = useActionState(subscribe, initialFormState);
-  const startedRef = useRef<HTMLInputElement>(null);
-  // Time-trap for bots: stamped on mount, read by the server action.
+  const mountedAt = useRef(0);
+  // Time-trap for bots: stamped on mount, sent with the submission.
   useEffect(() => {
-    if (startedRef.current) startedRef.current.value = String(Date.now());
+    mountedAt.current = Date.now();
   }, []);
+
+  /**
+   * Submit through the action dispatcher instead of <form action>, so React does not reset the form:
+   * people keep what they typed when a field needs fixing.
+   */
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    fd.set("startedAt", String(mountedAt.current || Date.now()));
+    startTransition(() => action(fd));
+  };
 
   useEffect(() => {
     if (state.status !== "ok") return;
@@ -60,10 +71,9 @@ export function SubscribeForm({
   }
 
   return (
-    <form action={action} noValidate className={className}>
+    <form onSubmit={onSubmit} noValidate className={className}>
       <input type="hidden" name="source" value={source} />
-      <input type="hidden" name="startedAt" defaultValue="0" ref={startedRef} />
-      {city && <input type="hidden" name="city" value={city} />}
+            {city && <input type="hidden" name="city" value={city} />}
       {rsvpUrl && <input type="hidden" name="rsvpUrl" value={rsvpUrl} />}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label htmlFor={`${id}-website`}>Website</label>

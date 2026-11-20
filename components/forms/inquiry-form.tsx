@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState } from "react";
+import { startTransition, useActionState, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { submitInquiry } from "@/app/actions";
 import { initialFormState } from "@/lib/schemas";
@@ -13,7 +13,7 @@ type Kind = "contact" | "sponsor" | "start_chapter" | "partner";
 
 const COPY: Record<Kind, { message: string; messageHint: string; submit: string }> = {
   contact: { message: "How can we help?", messageHint: "Questions, press, speaking or hosting — say which.", submit: "Send message" },
-  sponsor: { message: "What would you like to sponsor?", messageHint: "A single event, a city series, or the national calendar. Rough budget helps.", submit: "Send sponsorship enquiry" },
+  sponsor: { message: "What would you like to sponsor?", messageHint: "Event sponsorship, community sponsorship or a brand activation — and a rough budget, if you have one.", submit: "Send sponsorship enquiry" },
   start_chapter: { message: "Why you, why this city?", messageHint: "Your work, your network in the city, and how much time you can give each month.", submit: "Apply to start a chapter" },
   partner: { message: "What would the partnership look like?", messageHint: "Tools, credits, venues, or content for members.", submit: "Send partnership enquiry" },
 };
@@ -21,16 +21,27 @@ const COPY: Record<Kind, { message: string; messageHint: string; submit: string 
 /** One form component for every `inquiries` type. Server action does the real validation. */
 export function InquiryForm({ kind, cities = [] }: { kind: Kind; cities?: string[] }) {
   const [state, action, pending] = useActionState(submitInquiry, initialFormState);
-  const startedRef = useRef<HTMLInputElement>(null);
+  const mountedAt = useRef(0);
   const path = usePathname();
   const [topic, setTopic] = useState<"contact" | "speak">("contact");
   const c = COPY[kind];
   const e = state.errors ?? {};
 
-  // Time-trap for bots: stamped on mount, read by the server action.
+  // Time-trap for bots: stamped on mount, sent with the submission.
   useEffect(() => {
-    if (startedRef.current) startedRef.current.value = String(Date.now());
+    mountedAt.current = Date.now();
   }, []);
+
+  /**
+   * Submit through the action dispatcher instead of <form action>, so React does not reset the form:
+   * people keep what they typed when a field needs fixing.
+   */
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    fd.set("startedAt", String(mountedAt.current || Date.now()));
+    startTransition(() => action(fd));
+  };
   useEffect(() => {
     if (state.status === "ok") track("form_submit", { form: kind });
   }, [state, kind]);
@@ -52,10 +63,9 @@ export function InquiryForm({ kind, cities = [] }: { kind: Kind; cities?: string
   const type = kind === "contact" ? topic : kind;
 
   return (
-    <form action={action} noValidate className="grid gap-5 rounded-lg border border-line bg-bg-card p-6 sm:grid-cols-2 sm:p-8">
+    <form onSubmit={onSubmit} noValidate className="grid gap-5 rounded-lg border border-line bg-bg-card p-6 sm:grid-cols-2 sm:p-8">
       <input type="hidden" name="type" value={type} />
-      <input type="hidden" name="startedAt" defaultValue="0" ref={startedRef} />
-      <input type="hidden" name="sourcePath" value={path} />
+            <input type="hidden" name="sourcePath" value={path} />
       {/* honeypot */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label htmlFor={`website-${kind}`}>Website</label>

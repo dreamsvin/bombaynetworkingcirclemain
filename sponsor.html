@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponsor BNC | Bombay Networking Circle</title>
+    <meta name="description"
+        content="Partner with Bombay Networking Circle. Connect your brand with India's fastest-growing ecosystem of founders, builders, creators, and students.">
+    <meta name="keywords" content="Founder Community India, Networking Events India, Startup Community India, Sponsor BNC, Brand Activations Startup, Entrepreneur Sponsorship">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bombaynetworkingcircle.com/sponsor.html">
+    <meta property="og:title" content="Sponsor BNC | Bombay Networking Circle">
+    <meta property="og:description" content="Connect your brand with India's fastest-growing ecosystem of founders, builders, creators, and students.">
+    <meta property="og:image" content="assets/gallery/main-photo.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://bombaynetworkingcircle.com/sponsor.html">
+    <meta property="twitter:title" content="Sponsor BNC | Bombay Networking Circle">
+    <meta property="twitter:description" content="Connect your brand with India's fastest-growing ecosystem of founders, builders, creators, and students.">
+    <meta property="twitter:image" content="assets/gallery/main-photo.jpg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS (via CDN for vanilla environment) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#050505',
+                        brand: {
+                            brown: '#855325',
+                            light: '#F4E8DB',
+                            dark: '#4A2B12',
+                            accent: '#C79A71'
+                        },
+                        surface: '#FDFBF7'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+</head>
+
+<body class="bg-surface text-gray-900 font-sans antialiased selection:bg-brand-brown selection:text-gray-900">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <img src="Green Modern Pharmacy Health Logo.png" alt="BNC Logo"
+                    class="w-12 h-12 object-contain mix-blend-multiply group-hover:scale-105 transition-transform"
+                    onerror="this.onerror=null; this.outerHTML='<div class=\'w-12 h-12 rounded-full border-2 border-brand-brown flex items-center justify-center text-brand-brown\'><i class=\'ph ph-coffee text-2xl\'></i></div>'">
+                <span
+                    class="font-display font-bold text-xl text-gray-900 tracking-wide uppercase hidden sm:block">Bombay<br><span
+                        class="text-brand-brown text-sm">Networking Circle</span></span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="index.html#home" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Home</a>
+                <a href="index.html#events" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Events</a>
+                <a href="index.html#community" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Community</a>
+                <a href="index.html#cities" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Cities</a>
+                <a href="index.html#gallery" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Gallery</a>
+                <a href="sponsor.html" class="text-sm font-semibold text-brand-brown hover:text-brand-dark transition-colors">Sponsor</a>
+            </div>
+
+            <div class="hidden md:block">
+                <a href="https://chat.whatsapp.com/CNi2Xu2pTWe5SAyMkgVuTU?s=cl&p=a&ilr=0" target="_blank" rel="noopener noreferrer"
+                    class="px-5 py-2.5 rounded-full bg-brand-brown text-white text-sm font-semibold hover:scale-105 transition-transform shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                    Join Community
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-btn" class="md:hidden text-gray-700">
+                <i class="ph ph-list text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu"
+            class="hidden absolute top-full left-0 w-full glass border-t border-brand-brown/10 p-6 flex flex-col gap-4">
+            <a href="index.html#events" class="text-lg font-medium text-gray-700">Events</a>
+            <a href="index.html#community" class="text-lg font-medium text-gray-700">Community</a>
+            <a href="index.html#cities" class="text-lg font-medium text-gray-700">Cities</a>
+            <a href="sponsor.html" class="text-lg font-medium text-gray-700">Sponsor</a>
+            <a href="https://chat.whatsapp.com/CNi2Xu2pTWe5SAyMkgVuTU?s=cl&p=a&ilr=0" target="_blank" rel="noopener noreferrer" class="px-5 py-3 text-center rounded-xl bg-brand-brown text-white font-semibold mt-4">Join Community</a>
+        </div>
+    </nav>
+
+    <!-- Sponsor Hero Section -->
+    <section class="relative min-h-[70vh] flex items-center justify-center pt-32 pb-16 overflow-hidden bg-white border-b border-brand-brown/5">
+        <div class="absolute inset-0 z-0">
+            <canvas id="hero-canvas" class="w-full h-full opacity-35"></canvas>
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-brown/5 rounded-full blur-[120px] animate-blob"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-accent/5 rounded-full blur-[120px] animate-blob animation-delay-2000"></div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <div class="inline-block mb-6 px-4 py-1.5 rounded-full border border-brand-brown/10 glass text-sm font-semibold tracking-wide text-brand-brown uppercase fade-up">
+                Partnerships &amp; Sponsorships
+            </div>
+            <h1 class="font-display text-4xl md:text-6xl font-bold tracking-tight mb-6 fade-up text-gray-900 leading-[1.15]">
+                Sponsor <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-brown via-brand-accent to-brand-dark">Bombay Networking Circle</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-10 fade-up font-light leading-relaxed">
+                Connect your brand with India's fastest-growing ecosystem of ambitious startup founders, technical builders, digital creators, and future innovators.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 fade-up">
+                <a href="#sponsor-form"
+                    class="px-8 py-4 rounded-full bg-brand-brown text-white font-semibold text-lg hover:scale-105 transition-transform duration-300 shadow-[0_0_20px_rgba(133,83,37,0.2)]">
+                    Inquire Now
+                </a>
+                <a href="#" id="download-deck-btn"
+                    class="px-8 py-4 rounded-full glass border border-brand-brown/10 text-gray-900 font-medium text-lg hover:bg-white/5 transition-colors duration-300 flex items-center gap-2">
+                    Download Partnership Deck <i class="ph ph-download-simple"></i>
+                </a>
+            </div>
+
+            <!-- Trust Metrics Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 fade-up border-t border-brand-brown/5 pt-12 max-w-4xl mx-auto">
+                <div class="text-center">
+                    <div class="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-1">1000+</div>
+                    <div class="text-gray-500 text-xs tracking-wider uppercase">Active Members</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-1">50+</div>
+                    <div class="text-gray-500 text-xs tracking-wider uppercase">Events Hosted</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-1">8+</div>
+                    <div class="text-gray-500 text-xs tracking-wider uppercase">Cities Reached</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-display text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-brand-brown to-brand-accent mb-1">150+</div>
+                    <div class="text-gray-500 text-xs tracking-wider uppercase">Collaborations</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Audience Overview -->
+    <section class="py-24 bg-surface relative">
+        <div class="container mx-auto px-6 max-w-5xl">
+            <div class="text-center max-w-2xl mx-auto mb-16 fade-up">
+                <h2 class="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Audience Overview</h2>
+                <p class="text-gray-600">BNC attracts active, high-intent builders who are building startups, products, and communities.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 stagger-grid">
+                <!-- Card 1 -->
+                <div class="glass p-8 rounded-3xl border border-brand-brown/5 glow-card relative flex gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-brown/10 text-brand-brown flex items-center justify-center shrink-0"><i class="ph ph-handshake text-2xl"></i></div>
+                    <div>
+                        <h3 class="text-lg font-display font-bold text-gray-900 mb-2">Startup Founders (45%)</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Seed, pre-seed, and bootstrapped startup founders looking for technical talent, growth hacks, advisors, and co-founders.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glass p-8 rounded-3xl border border-brand-brown/5 glow-card relative flex gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-600 flex items-center justify-center shrink-0"><i class="ph ph-rocket-launch text-2xl"></i></div>
+                    <div>
+                        <h3 class="text-lg font-display font-bold text-gray-900 mb-2">Tech Operators &amp; Professionals (25%)</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Product Managers, Lead Engineers, Marketers, and growth operators working in tier-1 tech firms (e.g., Razorpay, Groww).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass p-8 rounded-3xl border border-brand-brown/5 glow-card relative flex gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-green-500/10 text-green-600 flex items-center justify-center shrink-0"><i class="ph ph-graduation-cap text-2xl"></i></div>
+                    <div>
+                        <h3 class="text-lg font-display font-bold text-gray-900 mb-2">Student Builders (20%)</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Ambitious student engineers, coders, and designers from premium institutes (e.g., NMIMS, IITs) eager to build and intern.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="glass p-8 rounded-3xl border border-brand-brown/5 glow-card relative flex gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-600 flex items-center justify-center shrink-0"><i class="ph ph-palette text-2xl"></i></div>
+                    <div>
+                        <h3 class="text-lg font-display font-bold text-gray-900 mb-2">Creators &amp; Agency Owners (10%)</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Independent YouTube/Substack creators, creative agency owners, and freelance operators looking to partner with brands.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Partnership Opportunities -->
+    <section class="py-24 bg-white border-y border-brand-brown/5">
+        <div class="container mx-auto px-6 max-w-5xl">
+            <div class="text-center max-w-2xl mx-auto mb-16 fade-up">
+                <h2 class="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-4">Partnership Opportunities</h2>
+                <p class="text-gray-600">Choose how your brand integrates with our growing local chapters across India.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 stagger-grid">
+                <!-- Opportunity 1 -->
+                <div class="glass p-8 rounded-3xl border border-brand-brown/5 glow-card flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-brand-brown/10 text-brand-brown flex items-center justify-center mb-6"><i class="ph ph-users-three text-2xl"></i></div>
+                        <h3 class="text-xl font-display font-bold text-gray-900 mb-3">Event Sponsorship</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-6">
+                            Sponsor a specific chapter mixer (e.g. Mumbai, Bangalore, Pune). Receive physical banner placements, keynote presentation slot, and direct distribution of swag/offers to high-intent attendees.
+                        </p>
+                    </div>
+                    <a href="#sponsor-form" class="text-sm font-semibold text-brand-brown hover:text-brand-dark flex items-center gap-1 group">
+                        Inquire Opportunity <i class="ph ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <!-- Opportunity 2 -->
+                <div class="glass p-8 rounded-3xl border border-brand-brown/5 glow-card flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-600 flex items-center justify-center mb-6"><i class="ph ph-megaphone text-2xl"></i></div>
+                        <h3 class="text-xl font-display font-bold text-gray-900 mb-3">Community Sponsorship</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-6">
+                            Establish a digital presence across BNC. Sponsor our weekly newsletter, pinned announcements in the premium 1000+ WhatsApp groups, and secure warm direct business introductions from BNC hosts.
+                        </p>
+                    </div>
+                    <a href="#sponsor-form" class="text-sm font-semibold text-brand-brown hover:text-brand-dark flex items-center gap-1 group">
+                        Inquire Opportunity <i class="ph ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <!-- Opportunity 3 -->
+                <div class="glass p-8 rounded-3xl border border-brand-brown/5 glow-card flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-600 flex items-center justify-center mb-6"><i class="ph ph-circles-three text-2xl"></i></div>
+                        <h3 class="text-xl font-display font-bold text-gray-900 mb-3">Brand Activations</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-6">
+                            Run customized hackathons, pitch-sessions, or focused operator workshops. We source student builders or startup founders to validate, adopt, or build on top of your product/SDK.
+                        </p>
+                    </div>
+                    <a href="#sponsor-form" class="text-sm font-semibold text-brand-brown hover:text-brand-dark flex items-center gap-1 group">
+                        Inquire Opportunity <i class="ph ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Past Partners Logo Grid -->
+    <section class="py-16 bg-surface">
+        <div class="container mx-auto px-6 max-w-4xl text-center">
+            <p class="text-sm font-medium text-gray-500 uppercase tracking-widest mb-10">Trusted by leading brands &amp; ecosystems</p>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-8 items-center opacity-70">
+                <img src="assets/brands/brand1.jpg" alt="Partner Logo" class="h-12 w-full object-contain mix-blend-multiply hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand2.png" alt="Partner Logo" class="h-12 w-full object-contain mix-blend-multiply hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand3.png" alt="Partner Logo" class="h-12 w-full object-contain mix-blend-multiply hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand4.png" alt="Partner Logo" class="h-12 w-full object-contain mix-blend-multiply hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand5.png" alt="Partner Logo" class="h-12 w-full object-contain mix-blend-multiply hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand6.jpg" alt="Partner Logo" class="h-12 w-full object-contain mix-blend-multiply hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand7.png" alt="Partner Logo" class="h-12 w-full object-contain mix-blend-multiply hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand8.jpg" alt="Partner Logo" class="h-12 w-full object-contain mix-blend-multiply hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand9.jpg" alt="Partner Logo" class="h-12 w-full object-contain mix-blend-multiply hover:opacity-100 transition-opacity">
+                <img src="assets/brands/brand10.jpg" alt="Partner Logo" class="h-12 w-full object-contain mix-blend-multiply hover:opacity-100 transition-opacity">
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Sponsor Inquiry Form -->
+    <section id="sponsor-form" class="py-24 bg-white relative">
+        <div class="container mx-auto px-6 max-w-3xl">
+            <div class="glass p-8 md:p-12 rounded-[2.5rem] border border-brand-brown/10 relative overflow-hidden fade-up">
+                <div class="absolute -top-24 -right-24 w-64 h-64 bg-brand-brown/5 rounded-full blur-[80px]"></div>
+                
+                <div class="relative z-10">
+                    <h2 class="font-display text-3xl font-bold text-center text-gray-900 mb-2">Inquire for Partnerships</h2>
+                    <p class="text-center text-gray-600 text-sm mb-8">Fill out the form below, and our community partnerships team will get back to you within 24 hours.</p>
+                    
+                    <form id="partnership-inquiry-form" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">Full Name</label>
+                                <input type="text" id="name" required placeholder="e.g. Rahul Sharma"
+                                    class="w-full bg-white/50 border border-brand-brown/10 rounded-xl px-4 py-3 text-sm text-gray-900 focus:outline-none focus:border-brand-brown transition-colors">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">Work Email</label>
+                                <input type="email" id="email" required placeholder="e.g. rahul@company.com"
+                                    class="w-full bg-white/50 border border-brand-brown/10 rounded-xl px-4 py-3 text-sm text-gray-900 focus:outline-none focus:border-brand-brown transition-colors">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label for="company" class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">Company / Organization</label>
+                                <input type="text" id="company" required placeholder="e.g. Razorpay"
+                                    class="w-full bg-white/50 border border-brand-brown/10 rounded-xl px-4 py-3 text-sm text-gray-900 focus:outline-none focus:border-brand-brown transition-colors">
+                            </div>
+                            <div>
+                                <label for="role" class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">Your Role</label>
+                                <input type="text" id="role" required placeholder="e.g. Head of Marketing"
+                                    class="w-full bg-white/50 border border-brand-brown/10 rounded-xl px-4 py-3 text-sm text-gray-900 focus:outline-none focus:border-brand-brown transition-colors">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="partnership-type" class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">Partnership Type</label>
+                            <select id="partnership-type" required
+                                class="w-full bg-white/50 border border-brand-brown/10 rounded-xl px-4 py-3 text-sm text-gray-900 focus:outline-none focus:border-brand-brown transition-colors">
+                                <option value="" disabled selected>Select partnership model...</option>
+                                <option value="event">Event Sponsorship (Chapter Mixer)</option>
+                                <option value="community">Community Sponsorship (Newsletter/WhatsApp)</option>
+                                <option value="activation">Brand Activation (Hackathon/Workshop)</option>
+                                <option value="other">Other Collaboration</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="message" class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">Collaboration Ideas / Message</label>
+                            <textarea id="message" required rows="4" placeholder="Briefly describe what you'd like to achieve with BNC..."
+                                class="w-full bg-white/50 border border-brand-brown/10 rounded-xl px-4 py-3 text-sm text-gray-900 focus:outline-none focus:border-brand-brown transition-colors"></textarea>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full py-4 rounded-full bg-brand-brown text-white font-semibold text-base hover:scale-[1.02] transition-transform duration-300 shadow-[0_0_20px_rgba(133,83,37,0.2)]">
+                            Submit Inquiry
+                        </button>
+                    </form>
+                    
+                    <!-- Inline Success Message (Hidden by default) -->
+                    <div id="form-success-message" class="hidden text-center py-6">
+                        <div class="w-16 h-16 rounded-full bg-green-500/10 text-green-600 flex items-center justify-center mx-auto mb-4 border border-green-500/10">
+                            <i class="ph ph-check-circle text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-display font-bold text-gray-900 mb-2">Inquiry Submitted Successfully!</h3>
+                        <p class="text-gray-600 text-sm max-w-md mx-auto">Thank you for reaching out. A representative from the BNC partnerships team will email you within 24 hours.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-brand-brown/10 bg-brand-dark">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="md:col-span-1">
+                    <a href="index.html"
+                        class="font-display font-bold text-2xl text-white tracking-wide flex items-center gap-2 mb-4">
+                        <div
+                            class="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-brown to-brand-accent flex items-center justify-center text-black text-sm">
+                            B</div>
+                        BNC
+                    </a>
+                    <p class="text-gray-400 text-sm">Where ambitious people meet. India's premium ecosystem for builders and founders.</p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Platform</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="index.html#about" class="hover:text-white transition-colors">About</a></li>
+                        <li><a href="index.html#events" class="hover:text-white transition-colors">Events</a></li>
+                        <li><a href="index.html#community" class="hover:text-white transition-colors">Community</a></li>
+                        <li><a href="index.html#cities" class="hover:text-white transition-colors">Cities</a></li>
+                        <li><a href="sponsor.html" class="text-brand-accent font-semibold hover:text-brand-light transition-colors">Sponsor BNC</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Partners</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Newsletter</h4>
+                    <p class="text-sm text-gray-400 mb-4">Curated opportunities in your inbox.</p>
+                    <div class="flex gap-2">
+                        <input type="email" placeholder="Email address"
+                            class="bg-white/10 border border-brand-brown/10 rounded-lg px-4 py-2 text-sm text-white w-full focus:outline-none focus:border-brand-accent placeholder-gray-400">
+                        <button
+                            class="bg-brand-brown text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-brand-accent transition-colors">Join</button>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-brand-brown/5 text-xs text-gray-400">
+                <p>&copy; 2026 Bombay Networking Circle. All rights reserved.</p>
+                <div class="flex gap-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- GSAP Libraries for standard browser environment -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Supabase JS Client SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+    <script>
+        // Sponsor Page Specific Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Supabase Client
+            // Replace these placeholder strings with your actual project credentials
+            const SUPABASE_URL = 'https://kzcnblxmuvlixedhhdat.supabase.co';
+            const SUPABASE_ANON_KEY = 'sb_publishable_6GXNBprEfjuRKY0NHlDGXQ_oZ85x9vy';
+            
+            let supabase = null;
+            if (SUPABASE_URL && SUPABASE_ANON_KEY && SUPABASE_URL !== 'YOUR_SUPABASE_PROJECT_URL' && SUPABASE_ANON_KEY !== 'YOUR_SUPABASE_ANON_KEY') {
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            }
+
+            // Form submission tracking & behavior
+            const form = document.getElementById('partnership-inquiry-form');
+            const successMsg = document.getElementById('form-success-message');
+            
+            if (form && successMsg) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const submitButton = form.querySelector('button[type="submit"]');
+                    const originalBtnText = submitButton ? submitButton.innerHTML : 'Submit Inquiry';
+                    
+                    if (submitButton) {
+                        submitButton.disabled = true;
+                        submitButton.innerHTML = '<i class="ph ph-circle-notch animate-spin text-xl mr-2 inline-block align-middle"></i> Submitting...';
+                    }
+
+                    // Gather values
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const company = document.getElementById('company').value;
+                    const role = document.getElementById('role').value;
+                    const partnershipType = document.getElementById('partnership-type').value;
+                    const message = document.getElementById('message').value;
+
+                    // Send to Supabase if configured
+                    if (supabase) {
+                        try {
+                            const { error } = await supabase
+                                .from('sponsorship_inquiries')
+                                .insert([{
+                                    name,
+                                    email,
+                                    company,
+                                    role,
+                                    partnership_type: partnershipType,
+                                    message
+                                }]);
+                            
+                            if (error) throw error;
+                            console.log('Successfully saved to Supabase!');
+                        } catch (err) {
+                            console.error('Error saving to Supabase:', err);
+                            alert('Failed to submit inquiry: ' + err.message);
+                            if (submitButton) {
+                                submitButton.disabled = false;
+                                submitButton.innerHTML = originalBtnText;
+                            }
+                            return;
+                        }
+                    } else {
+                        console.warn('Supabase not configured. Simulating successful submission.');
+                    }
+                    
+                    // Track submit event
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'submit_partner_inquiry', {
+                            'event_category': 'partnership',
+                            'event_label': 'Partnership Inquiry Form Submission',
+                            'company': company,
+                            'partnership_type': partnershipType
+                        });
+                    }
+                    console.log('Tracked: Partnership Inquiry form submission');
+                    
+                    // Hide form and show success message
+                    form.classList.add('hidden');
+                    successMsg.classList.remove('hidden');
+                });
+            }
+
+            // Download deck button click tracking
+            const deckBtn = document.getElementById('download-deck-btn');
+            if (deckBtn) {
+                deckBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'download_partnership_deck', {
+                            'event_category': 'partnership',
+                            'event_label': 'Download Partnership Deck Click'
+                        });
+                    }
+                    console.log('Tracked: Partnership Deck download click');
+                    alert('Your download will start shortly! (Mock deck file)');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

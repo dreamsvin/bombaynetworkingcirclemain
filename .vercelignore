@@ -1,6 +1,19 @@
 # Repo-only files: kept in git, not uploaded to Vercel builds.
 # NOTE: assets/ must NOT be listed here — scripts/fetch-photos.mjs reads it at build time.
+
+# AI assistant notes
+/AGENTS.md
 /CLAUDE.md
 /.claude
-/supabase/tests
+
+# Docs and DB tests
 /docs
+/supabase/tests
+
+# One-off migration script from the old static site (already applied)
+/update_theme.py
+
+# Git and Vercel config
+/.gitattributes
+/.gitignore
+/.vercelignore

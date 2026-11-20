@@ -29,3 +29,9 @@ public/photos/
 .pgdata
 
 public/partners/
+
+# carried over from main
+*.pem
+/coverage
+/build
+.pnp.*

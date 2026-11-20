@@ -1,0 +1,47 @@
+{
+  "name": "bnc-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bombay Networking Circle: founder and builder rooms across eight Indian cities.",
+  "engines": { "node": ">=20.9" },
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "prebuild": "node scripts/fetch-photos.mjs",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "photos": "node scripts/fetch-photos.mjs --force",
+    "db:seed-sql": "tsx scripts/build-seed-sql.ts",
+    "db:types": "bash scripts/gen-types.sh",
+    "crawl": "tsx scripts/crawl.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.119.2",
+    "@vercel/analytics": "^1.5.0",
+    "@fontsource-variable/newsreader": "^5.3.0",
+    "@fontsource-variable/public-sans": "^5.3.0",
+    "clsx": "^2.1.1",
+    "next": "16.4.6",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "server-only": "^0.0.1",
+    "sharp": "^0.35.5",
+    "tailwind-merge": "^3.3.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "eslint": "^9.39.0",
+    "eslint-config-next": "16.4.6",
+    "tailwindcss": "4.3.3",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.3"
+  },
+  "browserslist": ["chrome >= 111", "edge >= 111", "firefox >= 111", "safari >= 16.4", "ios_saf >= 16.4"]
+}

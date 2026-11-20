@@ -1,0 +1,136 @@
+"""Bombay Networking Circle — design tokens. Single source of truth for colour values.
+
+Run:  python3 tokens/build_tokens.py
+Writes: tokens/design-tokens.json and tokens/contrast-matrix.md, and FAILS (exit 1) if any
+text pair the site uses drops below WCAG AA (4.5:1 body text, 3:1 large text / UI boundaries).
+
+Change a value here, re-run, then mirror it in app/globals.css (the only other place hex values live).
+Components never use hex — only the semantic Tailwind names wired in tailwind.config.ts.
+
+Accent: #815936 is sampled from the official BNC coffee-cup logo (20 Nov 2026). It is the CTA colour
+and nothing else.
+"""
+import json
+import os
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+
+PRIMITIVES = {
+    # Foundation — warm near-black ink
+    "ink": "#1C1915",
+    "ink-2": "#26221D",
+    "ink-3": "#312C26",
+    # Surfaces — warm off-white paper
+    "paper": "#FAF7F2",
+    "paper-2": "#F3EDE4",
+    "paper-3": "#E9E1D5",
+    "white": "#FFFFFF",
+    # Text steps on paper
+    "ink-muted": "#4F473F",
+    "ink-subtle": "#665D53",
+    # Text steps on ink
+    "paper-muted": "#DCD3C7",
+    "paper-subtle": "#B3A898",
+    # Accent — BNC logo brown. CTAs only.
+    "brown": "#815936",
+    "brown-hover": "#6C4A2C",
+    "brown-press": "#5A3D24",
+    # Accent on dark — caramel, so the CTA stays findable on ink
+    "caramel": "#D9A877",
+    "caramel-hover": "#E6BD93",
+    # Muted support tone — clay, for rules, dots and quiet tags (never text on paper)
+    "clay": "#B9A48C",
+    "clay-tint": "#EFE6DA",
+    # Lines
+    "line": "#E3DACD",
+    "line-strong": "#CFC3B3",
+    "line-control": "#857A6D",
+    "line-dark": "#3A342D",
+    "line-dark-strong": "#4D463E",
+    "line-dark-control": "#8F8577",
+    # Status
+    "danger": "#A3362A",
+    "success": "#2F6B45",
+    "danger-light": "#F2A196",
+    "success-light": "#9CC8A8",
+}
+
+# (foreground, background, minimum ratio, what it is)
+PAIRS = [
+    ("ink", "paper", 4.5, "body text on paper"),
+    ("ink", "paper-2", 4.5, "body text on raised paper"),
+    ("ink", "white", 4.5, "body text on cards"),
+    ("ink-muted", "paper", 4.5, "muted text on paper"),
+    ("ink-muted", "paper-2", 4.5, "muted text on raised"),
+    ("ink-muted", "paper-3", 4.5, "muted text on overlay"),
+    ("ink-subtle", "paper", 4.5, "subtle text on paper (captions)"),
+    ("ink-subtle", "paper-2", 4.5, "subtle text on raised"),
+    ("ink-subtle", "white", 4.5, "subtle text on cards"),
+    ("white", "brown", 4.5, "primary button label"),
+    ("white", "brown-hover", 4.5, "primary button hover"),
+    ("brown", "paper", 4.5, "accent text link on paper"),
+    ("brown", "white", 4.5, "accent text link on card"),
+    ("brown", "paper-2", 4.5, "accent text on raised"),
+    ("ink", "clay-tint", 4.5, "tag text on clay tint"),
+    ("paper", "ink", 4.5, "text on ink"),
+    ("paper-muted", "ink", 4.5, "muted text on ink"),
+    ("paper-subtle", "ink", 4.5, "subtle text on ink"),
+    ("paper-subtle", "ink-2", 4.5, "subtle text on raised ink"),
+    ("ink", "caramel", 4.5, "primary button label on dark"),
+    ("ink", "caramel-hover", 4.5, "primary button hover on dark"),
+    ("caramel", "ink", 4.5, "accent text on ink"),
+    ("line-control", "paper", 3.0, "form control border on paper"),
+    ("line-control", "white", 3.0, "form control border on card"),
+    ("line-dark-control", "ink", 3.0, "form control border on ink"),
+    ("brown", "paper", 3.0, "primary button boundary vs page"),
+    ("caramel", "ink", 3.0, "primary button boundary vs dark page"),
+    ("danger", "paper", 4.5, "error text"),
+    ("danger", "white", 4.5, "error text on card"),
+    ("success", "paper", 4.5, "success text"),
+    ("danger-light", "ink", 4.5, "error text on ink"),
+    ("success-light", "ink", 4.5, "success text on ink"),
+    ("ink", "paper", 3.0, "focus ring on paper"),
+    ("caramel", "ink", 3.0, "focus ring on ink"),
+]
+
+
+def lum(h):
+    h = h.lstrip("#")
+    c = [int(h[i : i + 2], 16) / 255 for i in (0, 2, 4)]
+    f = lambda v: v / 12.92 if v <= 0.03928 else ((v + 0.055) / 1.055) ** 2.4
+    r, g, b = map(f, c)
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+
+def ratio(a, b):
+    A, B = sorted((lum(a), lum(b)), reverse=True)
+    return (A + 0.05) / (B + 0.05)
+
+
+def main():
+    rows, failures = [], []
+    for fg, bg, need, what in PAIRS:
+        r = ratio(PRIMITIVES[fg], PRIMITIVES[bg])
+        ok = r >= need
+        rows.append(f"| {fg} `{PRIMITIVES[fg]}` | {bg} `{PRIMITIVES[bg]}` | {r:.2f}:1 | {need}:1 | {'PASS' if ok else 'FAIL'} | {what} |")
+        if not ok:
+            failures.append(f"{fg} on {bg}: {r:.2f} < {need} ({what})")
+
+    with open(os.path.join(HERE, "design-tokens.json"), "w") as f:
+        json.dump({"$description": "BNC colour primitives. Edit build_tokens.py, not this file.", "color": PRIMITIVES}, f, indent=2)
+        f.write("\n")
+    with open(os.path.join(HERE, "contrast-matrix.md"), "w") as f:
+        f.write("# Contrast matrix (generated by tokens/build_tokens.py)\n\n")
+        f.write("Every text/background pair the site uses, checked against WCAG 2.1 AA.\n\n")
+        f.write("| Foreground | Background | Ratio | Needs | Result | Used for |\n|---|---|---|---|---|---|\n")
+        f.write("\n".join(rows) + "\n")
+
+    if failures:
+        print("Contrast failures:\n  " + "\n  ".join(failures))
+        sys.exit(1)
+    print(f"All {len(PAIRS)} pairs pass WCAG AA.")
+
+
+if __name__ == "__main__":
+    main()

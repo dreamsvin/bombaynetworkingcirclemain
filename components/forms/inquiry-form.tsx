@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { submitInquiry } from "@/app/actions";
 import { initialFormState } from "@/lib/schemas";
@@ -21,13 +21,16 @@ const COPY: Record<Kind, { message: string; messageHint: string; submit: string 
 /** One form component for every `inquiries` type. Server action does the real validation. */
 export function InquiryForm({ kind, cities = [] }: { kind: Kind; cities?: string[] }) {
   const [state, action, pending] = useActionState(submitInquiry, initialFormState);
-  const [startedAt, setStartedAt] = useState(0);
+  const startedRef = useRef<HTMLInputElement>(null);
   const path = usePathname();
   const [topic, setTopic] = useState<"contact" | "speak">("contact");
   const c = COPY[kind];
   const e = state.errors ?? {};
 
-  useEffect(() => setStartedAt(Date.now()), []);
+  // Time-trap for bots: stamped on mount, read by the server action.
+  useEffect(() => {
+    if (startedRef.current) startedRef.current.value = String(Date.now());
+  }, []);
   useEffect(() => {
     if (state.status === "ok") track("form_submit", { form: kind });
   }, [state, kind]);
@@ -51,7 +54,7 @@ export function InquiryForm({ kind, cities = [] }: { kind: Kind; cities?: string
   return (
     <form action={action} noValidate className="grid gap-5 rounded-lg border border-line bg-bg-card p-6 sm:grid-cols-2 sm:p-8">
       <input type="hidden" name="type" value={type} />
-      <input type="hidden" name="startedAt" value={startedAt} />
+      <input type="hidden" name="startedAt" defaultValue="0" ref={startedRef} />
       <input type="hidden" name="sourcePath" value={path} />
       {/* honeypot */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">

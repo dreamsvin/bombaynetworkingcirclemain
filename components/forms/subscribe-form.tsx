@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { subscribe } from "@/app/actions";
 import { initialFormState } from "@/lib/schemas";
 import { buttonClass } from "@/components/ui/button";
@@ -33,8 +33,11 @@ export function SubscribeForm({
   id?: string;
 }) {
   const [state, action, pending] = useActionState(subscribe, initialFormState);
-  const [startedAt, setStartedAt] = useState(0);
-  useEffect(() => setStartedAt(Date.now()), []);
+  const startedRef = useRef<HTMLInputElement>(null);
+  // Time-trap for bots: stamped on mount, read by the server action.
+  useEffect(() => {
+    if (startedRef.current) startedRef.current.value = String(Date.now());
+  }, []);
 
   useEffect(() => {
     if (state.status !== "ok") return;
@@ -59,7 +62,7 @@ export function SubscribeForm({
   return (
     <form action={action} noValidate className={className}>
       <input type="hidden" name="source" value={source} />
-      <input type="hidden" name="startedAt" value={startedAt} />
+      <input type="hidden" name="startedAt" defaultValue="0" ref={startedRef} />
       {city && <input type="hidden" name="city" value={city} />}
       {rsvpUrl && <input type="hidden" name="rsvpUrl" value={rsvpUrl} />}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">

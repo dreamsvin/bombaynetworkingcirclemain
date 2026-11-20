@@ -1,0 +1,20 @@
+/** Static routes, used by the sitemap, the search index and the link crawl. */
+export const STATIC_ROUTES: { path: string; title: string; summary: string; priority: number }[] = [
+  { path: "/", title: "Home", summary: "Founder networking events in eight Indian cities.", priority: 1 },
+  { path: "/chapters", title: "Chapters", summary: "Find your city's chapter.", priority: 0.9 },
+  { path: "/events", title: "Events", summary: "Upcoming and past BNC events, every city.", priority: 0.9 },
+  { path: "/community", title: "Join the community", summary: "What members get. Free to join.", priority: 0.8 },
+  { path: "/about", title: "About BNC", summary: "What BNC is, the mission, the four formats.", priority: 0.7 },
+  { path: "/about/story", title: "Our story", summary: "Why founder networking was broken and what BNC does instead.", priority: 0.6 },
+  { path: "/about/team", title: "Team", summary: "The founder, city leads and volunteers.", priority: 0.5 },
+  { path: "/chapters/start", title: "Start a chapter", summary: "Bring BNC to your city.", priority: 0.6 },
+  { path: "/stories", title: "Member stories", summary: "What happened after the introduction.", priority: 0.6 },
+  { path: "/sponsor", title: "Sponsor BNC", summary: "Event, community and brand-activation sponsorships.", priority: 0.6 },
+  { path: "/partners", title: "Partners", summary: "Tools, venues and programmes for members.", priority: 0.5 },
+  { path: "/faq", title: "FAQ", summary: "Joining, events, chapters and cost.", priority: 0.6 },
+  { path: "/contact", title: "Contact", summary: "Email and contact form.", priority: 0.5 },
+  { path: "/blog", title: "Blog", summary: "Networking advice and event recaps.", priority: 0.5 },
+  { path: "/privacy", title: "Privacy policy", summary: "How BNC handles personal data.", priority: 0.2 },
+  { path: "/terms", title: "Terms of use", summary: "Terms for the site, events and community.", priority: 0.2 },
+  { path: "/code-of-conduct", title: "Code of conduct", summary: "How everyone is expected to behave, and how to report.", priority: 0.3 },
+];

@@ -1,6 +1,6 @@
 # CONTENT-TODO — everything to supply, confirm or replace before launch
 
-Status as of **20 November 2026**. Nothing on this list is invented on the live site: unconfirmed rows are stored
+Status as of **25 November 2026** (revamp from Luma, Drive and Gmail — see "25 Nov 2026" in docs/decisions-log.md). Nothing on this list is invented on the live site: unconfirmed rows are stored
 unpublished and only appear on preview builds (`NEXT_PUBLIC_SHOW_PLACEHOLDERS=true`) with a red **Placeholder** badge.
 Find them in code with: `grep -rn "PLACEHOLDER" content/`.
 
@@ -12,18 +12,18 @@ Legend: 🔴 blocks launch · 🟠 should fix before launch · 🟢 can follow a
 
 | # | Item | Where it shows | Current value | Status |
 |---|---|---|---|---|
-| 1.1 | Member count + date | Hero, stat bar, OG image, sponsor page | **1,000+ as of November 2026** | Confirmed by BNC 20 Nov 2026 (note: an earlier conversation mentioned 1,500 / 10 cities — pick one and update `content/site.ts → STATS`) 🟠 |
-| 1.2 | Events held | Stat bar, hero ("50+ events since 2025") | 50+ | Carried from old site; confirm count + dates of the last six events 🟠 |
-| 1.3 | Collaborations | Stat bar | 150+ (labelled "self-reported") | Carried from old site; confirm how it's counted 🟠 |
+| 1.1 | Member count + date | Hero, stat bar, OG image, sponsor page | **1,500+ across 10 cities, Nov 2026** | Updated from Isha (Nov 2026); Luma profile still says 1,400+ — update the Luma bio to match 🟢 |
+| 1.2 | Rooms held | Stat bar, hero | **20+ rooms since Sept 2025**, 440+ seats filled | Counted: 17 Luma events + Pune breakfast meetup (25 Oct 2025) + 3 Power Hours (Mar–Apr 2026, master sheet). Old "50+ events" dropped (no source). If there were earlier Mumbai rooms off Luma, send dates ✅ |
+| 1.3 | Collaborations | — | Removed from the stat bar | "150+" had no source. Re-add once counted 🟢 |
 | 1.4 | Cities | Everywhere (from `chapters` table) | 8: Mumbai, Bangalore, Delhi NCR, Pune, Hyderabad, Ahmedabad, Nashik, Surat | Confirmed 20 Nov 2026. Jaipur & Goa removed from FAQ. ✅ |
 | 1.5 | Founding year | Hero, about, JSON-LD | 2025 (from Isha's site timeline) | Confirm 🟠 |
 | 1.6 | Event frequency | Hero 20-second test | Not stated (only "50+ events since 2025") | Supply a true cadence, e.g. "every month in Mumbai" 🟠 |
 | 1.7 | Chapter status per city | Chapter cards / directory | All "active" | Confirm which are active vs launching (old site called Ahmedabad "New chapter", Bangalore "Fastest growing", Mumbai "20+ events") 🟠 |
 | 1.8 | Chapter launch dates | `chapters.launched_on` | empty | Supply 🟢 |
 | 1.9 | Members per chapter + as-of date | City pages ("Members here") | empty → shows "Part of 1,000+ across India" | Supply (DB enforces a date with every count) 🟢 |
-| 1.10 | Is every event free? | FAQ "Does it cost anything?", event pages ("Cost: Free"), Event JSON-LD price 0 | "Free; Luma shows final details" | Confirm. If some events are ticketed, add a price column 🔴 |
+| 1.10 | Ticket prices | Event pages, FAQ, JSON-LD | Per event, from Luma (₹399–₹999; Power Hour and Real Estate Room no ticket) | ✅ Done. Missing on Luma: Hyderabad, Pune breakfast (Oct 2025), Career Connect, Palmonas — supply if known 🟢 |
 | 1.11 | Old sponsor page audience mix | `/sponsor` | Segments shown **without** the old 45/25/20/10 % split | Re-confirm the percentages before showing them 🟢 |
-| 1.12 | Room format timings | Home "What happens in a room", event agenda fallback | Steps only, no times | Confirm the real run-of-show and times 🟠 |
+| 1.12 | Room format timings | Home "What happens in a room" | Ahmedabad run-of-show from Luma | ✅ |
 
 ## 2. People, testimonials, stories — consent required
 
@@ -66,8 +66,8 @@ The database **rejects** publishing any testimonial, story or member profile wit
 | # | Asset | Current state | Needed |
 |---|---|---|---|
 | 5.1 | Logo | Traced to SVG from the round coffee-cup seal you sent (`public/brand/bnc-seal.svg`, `bnc-mark.svg`, light version). Pharmacy-template logo deleted. | Original vector files from the designer (SVG/AI), to replace the trace 🟠 |
-| 5.2 | Brand colours | Accent `#815936` sampled from the logo; rest of palette derived (see `tokens/`) | Confirm or supply official values 🟢 |
-| 5.3 | Event photos | 11 frames from Isha's site + 16 from the old site's `assets/` | 15–20 high-res landscape shots, people mid-conversation 🟠 |
+| 5.2 | Brand colours | Now the official BNC Brand Identity Guidelines 2026 (Anchor Black, Deep Brown, BNC Gold, Warm Glow, Cream; Playfair Display + DM Sans) | ✅ |
+| 5.3 | Event photos | 22 photos + 2 videos from Drive (Career Connect – Delhi HEIC/MOV; Pune and Nashik cropped from recap carousels) in public/media/ | Pune/Nashik crops are low-res (~500px): send originals. No photos yet for Hyderabad, Surat, Delhi café, Ahmedabad, Bengaluru, Real Estate Room (raw clips folder from Nagarsheth Group is camera footage, too large for the connector), wellness rooms 🟠 |
 | 5.4 | Which city each photo is from | Old site labelled 8 photos by city (mumbai.jpg … surat.jpg) but at least `hyderabad.jpg` and `nashik.jpg` appear to be the same venues as the Mumbai collage, so they are used as **general** photos. Only Mumbai shows a city gallery. | Tell us the true city of each photo; then set `chapters.cover_image` and city galleries 🟠 |
 | 5.5 | Sponsor / partner logos | 10 logos from the old site (Eureka Forbes, Willstar Media, an unidentified green mark, Yog Sadhak, K's Charcoal, Prustlr, BHIVE, Culture, Analogy, Pickle Pakoza Open) stored **unpublished**. Several are also DreamSVin clients. | For each: is it a BNC sponsor, partner, or neither? Permission to show the logo? Name of the green-mark brand? 🔴 before showing any |
 | 5.6 | OG image | Generated (`app/opengraph-image.tsx`) from the logo + positioning line | Optional: a designed 1200×630 with a real photo 🟢 |
@@ -80,18 +80,29 @@ The database **rejects** publishing any testimonial, story or member profile wit
 | 6.1 | Contact email | grow@dreamsvin.com (DreamSVin inbox) | Swap for a BNC address (e.g. hello@bombaynetworkingcircle.com) when it exists 🟠 |
 | 6.2 | Phone | none shown | Optional 🟢 |
 | 6.3 | WhatsApp invite | https://chat.whatsapp.com/CNi2Xu2pTWe5SAyMkgVuTU (tracking params removed) | Confirm still valid ✅ |
-| 6.4 | Luma calendar | `cal-vDOs5j3wARFnY6V` (embed works). Click-outs use the embed URL. | Supply the public calendar URL (`lu.ma/<handle>`) for nicer click-outs → `content/site.ts LINKS.lumaCalendar` 🟠 |
-| 6.5 | Per-event Luma URLs | none (no real event rows yet) | Add real events to the `events` table with `luma_url` 🔴 |
+| 6.4 | Luma calendar | https://luma.com/bnc | ✅ Found on the Luma calendar profile |
+| 6.5 | Per-event Luma URLs | 17 real events with luma_url | ✅ Loaded in content/seed.ts and supabase/seed.sql |
 | 6.6 | LinkedIn | https://www.linkedin.com/company/bombay-networking-circle (from old site footer) | Confirm the page exists 🟠 |
-| 6.7 | Instagram | none | Supply handle → `LINKS.instagram` 🟠 |
+| 6.7 | Instagram | @bombaynetworkingcircle | ✅ From Luma profile and posters |
 | 6.8 | Twitter/X | old site linked `twitter.com/bnc_hq` — **not used** (unverified) | Supply if real 🟢 |
 | 6.9 | LinkedIn Insight tag | Old site had one; not carried over (needs cookie-consent decision) | Decide 🟢 |
 | 6.10 | Email delivery (double opt-in) | Code ready (Resend). Without `RESEND_API_KEY`, sign-ups stay unconfirmed. | Create Resend account + verify sending domain 🟠 |
 | 6.11 | Domain + DNS | bombaynetworkingcircle.com | Point to Vercel (see `docs/DEPLOY.md`) 🔴 |
 
+## 6b. New in the 25 Nov revamp — please check
+
+| # | Item | Notes |
+|---|---|---|
+| 6b.1 | Partners now published by name | K's Charcoal (logo sent by them, Gmail 9 Feb 2026), BHIVE, Masters' Union, Re-Defined, Metvy, Ekoham, Palmonas, Pickle Haus, Sync Studio, CC&Co, Dextrus, Thirdspace — all named as collaborators/venues on BNC's public Luma pages or posters. Remove any you'd rather not list; send logo files for the rest 🟠 |
+| 6b.2 | Speakers listed by name and role | Copied from public Luma pages. "Shawrya, Metvy" spelled as on Luma — confirm 🟢 |
+| 6b.3 | Home founder quote | Now Isha's own line from her Luma host bio: "Growth is engineered. Networks compound. Execution decides outcomes." 🟢 |
+| 6b.4 | Photo labels | Pune crops are from "BNC Coffee Connect Pune" carousel (assumed the 20 Sep 2025 Mauji room); Nashik crops from "BNC Coffee Connect Nashik" carousel. Confirm 🟠 |
+| 6b.5 | Terms page | Mentions ticketed events now; add a refund/cancellation line for paid rooms 🟠 |
+| 6b.6 | Upcoming rooms | Luma has none listed, so "What's on" shows the subscribe state. Add the next room on Luma and to the events table 🔴 |
+
 ## 7. Data to load into Supabase
 
-- Real **events** (next 3 per city + last 6 past events with 2 photos each) 🔴
+- Apply `supabase/migrations/20261125000000_event_history.sql`, then `supabase/seed.sql` (18 real events) 🔴
 - Real **testimonials** / **stories** with `consented_on` set 🔴
 - City **lead** names and photos 🟠
 - Confirmed **sponsors / partners** (`is_published = true` only after permission) 🟠

@@ -16,7 +16,7 @@ export default function PrivacyPage() {
       title="Privacy policy"
       path="/privacy"
       updated="20 November 2026"
-      intro={`${SITE.name} ("BNC", "we") runs a free community and events for founders and builders in India. This policy explains what personal data we collect, why, who we share it with, how long we keep it, and the rights you have. We process personal data in line with India's Digital Personal Data Protection Act, 2023 (DPDP Act) and the rules made under it.`}
+      intro={`${SITE.name} ("BNC", "we") runs a community and events for founders and builders in India. This policy explains what personal data we collect, why, who we share it with, how long we keep it, and the rights you have. We process personal data in line with India's Digital Personal Data Protection Act, 2023 (DPDP Act) and the rules made under it.`}
     >
       <h2>1. Who is responsible</h2>
       <p>

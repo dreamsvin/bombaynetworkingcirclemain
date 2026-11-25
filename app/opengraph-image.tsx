@@ -8,7 +8,7 @@ export const dynamic = "force-static";
 
 export default function Image() {
   return ogImage({
-    eyebrow: "Founder networking · Free",
+    eyebrow: "Curated founder rooms · 8 cities",
     title: "Meet the people building in your city.",
     footer: `${STATS.items[0].value} members · ${STATS.items[1].value} cities · as of ${STATS.asOf}`,
   });

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { getChapters, getPastEvents, getUpcomingEvents } from "@/lib/data";
+import { getChapters, getEventTotals, getPastEvents, getUpcomingEvents } from "@/lib/data";
 import { pageMeta } from "@/lib/seo";
 import { LINKS } from "@/content/site";
 import { Container, Section, PageHeader, SectionHeader } from "@/components/ui/layout";
 import { Breadcrumbs, EmptyState } from "@/components/ui/misc";
-import { EventListItem } from "@/components/ui/event-list-item";
+import { EventCard } from "@/components/events/event-card";
 import { EventFilter } from "@/components/events/event-filter";
 import { SubscribeForm } from "@/components/forms/subscribe-form";
 import { TrackedLink } from "@/components/site/tracked-link";
@@ -12,14 +12,14 @@ import { TrackedLink } from "@/components/site/tracked-link";
 export const revalidate = 600;
 
 export const metadata: Metadata = pageMeta({
-  title: "Upcoming founder and startup networking events",
-  ogTitle: "What's on at Bombay Networking Circle",
-  description: "Upcoming BNC events across Mumbai, Bangalore, Delhi NCR, Pune and more: founder networking, startup conversations, pitch sessions and workshops. Filter by city and RSVP.",
+  title: "Founder and startup networking events — upcoming and past",
+  ogTitle: "Every Bombay Networking Circle room",
+  description: "Every BNC room since September 2025 — city meetups, the Real Estate Room, Power Hour, ice-bath resets, Let's Talk AI and Career Connect across Pune, Mumbai, Delhi NCR, Bengaluru and more. See what's next and register on Luma.",
   path: "/events",
 });
 
 export default async function EventsPage() {
-  const [chapters, upcoming, past] = await Promise.all([getChapters(), getUpcomingEvents(), getPastEvents({ limit: 12 })]);
+  const [chapters, upcoming, past, totals] = await Promise.all([getChapters(), getUpcomingEvents(), getPastEvents(), getEventTotals()]);
 
   return (
     <>
@@ -27,7 +27,7 @@ export default async function EventsPage() {
         breadcrumbs={<Breadcrumbs items={[{ label: "Events", href: "/events" }]} />}
         eyebrow="Events"
         title="What's on."
-        lede="Every BNC event, every city. RSVPs run through Luma; each event also has its own page here with the full details."
+        lede={`Every BNC room, every city: ${totals.rooms} so far in ${totals.cities} cities and online, ${totals.seats} seats filled on Luma. Registration runs through Luma; each room also has its own page here.`}
       />
 
       <Section labelledBy="upcoming-title">
@@ -46,7 +46,7 @@ export default async function EventsPage() {
               <SectionHeader
                 id="calendar-title"
                 title="The live calendar"
-                lede="Luma is where dates go up first and where you RSVP. This is the same calendar, embedded."
+                lede="Luma is where dates go up first and where you register. Subscribe to the calendar to hear about the next room before anyone else."
               />
               <TrackedLink href={LINKS.lumaCalendar} event="rsvp_click" props={{ source: "events-calendar" }} newTab className="mt-6 inline-flex min-h-11 items-center text-body-sm font-semibold text-accent-text underline underline-offset-4">
                 Open the calendar on Luma<span className="sr-only"> (opens in a new tab)</span>
@@ -69,11 +69,13 @@ export default async function EventsPage() {
 
       <Section labelledBy="past-title" id="past">
         <Container>
-          <SectionHeader id="past-title" title="Past events" lede="The archive. Each past event keeps its page." />
+          <SectionHeader id="past-title" title="Past rooms" lede="The archive, newest first. Each room keeps its page: format, speakers, partners, price and photos." />
           {past.length ? (
-            <ul className="mt-8 border-t border-line">
+            <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {past.map((e) => (
-                <EventListItem key={e.id} event={e} past />
+                <li key={e.id}>
+                  <EventCard event={e} />
+                </li>
               ))}
             </ul>
           ) : (

@@ -8,20 +8,21 @@ import { Footer } from "@/components/site/footer";
 import { RevealObserver } from "@/components/site/reveal";
 
 // Self-hosted (fontsource files, served from our origin), font-display: swap.
-const newsreader = localFont({
-  src: "../node_modules/@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2",
-  variable: "--font-newsreader",
-  weight: "200 800",
+// Playfair Display (display) + DM Sans (body), per the BNC brand guidelines.
+const playfair = localFont({
+  src: "../node_modules/@fontsource-variable/playfair-display/files/playfair-display-latin-wght-normal.woff2",
+  variable: "--font-playfair",
+  weight: "400 900",
   display: "swap",
   preload: true,
   fallback: ["Georgia", "Times New Roman", "serif"],
   adjustFontFallback: "Times New Roman",
 });
 
-const publicSans = localFont({
-  src: "../node_modules/@fontsource-variable/public-sans/files/public-sans-latin-wght-normal.woff2",
-  variable: "--font-public-sans",
-  weight: "100 900",
+const dmSans = localFont({
+  src: "../node_modules/@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2",
+  variable: "--font-dm-sans",
+  weight: "100 1000",
   display: "swap",
   preload: true,
   fallback: ["system-ui", "-apple-system", "Segoe UI", "sans-serif"],
@@ -30,7 +31,7 @@ const publicSans = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "Bombay Networking Circle — founder networking events in 8 Indian cities",
+    default: "Bombay Networking Circle — curated founder rooms in 8 Indian cities",
     template: "%s · Bombay Networking Circle",
   },
   description: SITE.description,
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
     siteName: SITE.name,
     locale: SITE.locale,
     title: "Meet the people building in your city",
-    description: "Free, hosted rooms for founders, operators and freelancers. 1,000+ members across 8 cities (Nov 2026). Find your circle.",
+    description: "Curated, hosted rooms for founders, operators and creators. 1,500+ members, 20+ rooms across 8 cities (Nov 2026). Find your circle.",
   },
   twitter: { card: "summary_large_image" },
   alternates: { canonical: "/" },
@@ -48,15 +49,15 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  // eslint-disable-next-line no-restricted-syntax -- browser chrome colour must be a literal; mirrors --c-paper
-  themeColor: "#FAF7F2",
+  // eslint-disable-next-line no-restricted-syntax -- browser chrome colour must be a literal; mirrors --c-paper (Cream)
+  themeColor: "#F9F5EF",
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className={`${newsreader.variable} ${publicSans.variable}`} suppressHydrationWarning>
+    <html lang="en-IN" className={`${playfair.variable} ${dmSans.variable}`} suppressHydrationWarning>
       <head>
         {/* Enables scroll reveals only when JS runs. Without JS everything is visible. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />

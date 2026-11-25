@@ -88,10 +88,17 @@ export type Database = {
           created_at: string
           ends_at: string | null
           format: Database["public"]["Enums"]["event_format"]
+          gallery: Json | null
           id: string
+          is_online: boolean
           is_published: boolean
           luma_url: string | null
+          partners: Json | null
+          poster: string | null
+          price_inr: number | null
+          registrations: number | null
           slug: string
+          speakers: Json | null
           starts_at: string
           summary: string | null
           title: string
@@ -109,10 +116,17 @@ export type Database = {
           created_at?: string
           ends_at?: string | null
           format: Database["public"]["Enums"]["event_format"]
+          gallery?: Json | null
           id?: string
+          is_online?: boolean
           is_published?: boolean
           luma_url?: string | null
+          partners?: Json | null
+          poster?: string | null
+          price_inr?: number | null
+          registrations?: number | null
           slug: string
+          speakers?: Json | null
           starts_at: string
           summary?: string | null
           title: string
@@ -129,10 +143,17 @@ export type Database = {
           created_at?: string
           ends_at?: string | null
           format?: Database["public"]["Enums"]["event_format"]
+          gallery?: Json | null
           id?: string
+          is_online?: boolean
           is_published?: boolean
           luma_url?: string | null
+          partners?: Json | null
+          poster?: string | null
+          price_inr?: number | null
+          registrations?: number | null
           slug?: string
+          speakers?: Json | null
           starts_at?: string
           summary?: string | null
           title?: string
@@ -436,6 +457,10 @@ export type Database = {
         | "startup_conversations"
         | "pitch_session"
         | "workshop"
+        | "industry_room"
+        | "power_hour"
+        | "wellness"
+        | "career"
       inquiry_type:
         | "contact"
         | "sponsor"
@@ -576,6 +601,10 @@ export const Constants = {
         "startup_conversations",
         "pitch_session",
         "workshop",
+        "industry_room",
+        "power_hour",
+        "wellness",
+        "career",
       ],
       inquiry_type: ["contact", "sponsor", "start_chapter", "partner", "speak"],
       sponsor_tier: ["national", "city_series", "chapter", "community"],

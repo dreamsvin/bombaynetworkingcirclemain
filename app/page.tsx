@@ -1,9 +1,10 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { AUDIENCE, FORMATS, ROOM_STEPS, SITE, STATS } from "@/content/site";
-import { PHOTOS, HOME_GRID } from "@/content/photos";
+import { AUDIENCE, FORMATS, NOT_FOR, PILLARS, ROOM_STEPS, SITE, STATS, type FormatKey } from "@/content/site";
+import { PHOTOS } from "@/content/photos";
+import { MEDIA, VIDEOS } from "@/content/media";
 import { FAQ } from "@/content/faq";
-import { getChapters, getSponsors, getTestimonials, getUpcomingEvents } from "@/lib/data";
+import { getChapters, getPastEvents, getSpeakers, getSponsors, getTestimonials, getUpcomingEvents, getAllEvents } from "@/lib/data";
 import { pageMeta, orgJsonLd } from "@/lib/seo";
 import { Container, Section, SectionHeader, Eyebrow } from "@/components/ui/layout";
 import { ButtonLink } from "@/components/ui/button";
@@ -12,38 +13,47 @@ import { StatBar } from "@/components/ui/stat-bar";
 import { Testimonial } from "@/components/ui/testimonial";
 import { CityMap } from "@/components/ui/city-map";
 import { Accordion } from "@/components/ui/misc";
+import { LogoTile } from "@/components/ui/logo-tile";
 import { PrimaryCta } from "@/components/site/primary-cta";
 import { CityTracker } from "@/components/site/city-tracker";
 import { JsonLd } from "@/components/site/json-ld";
 import { NextEvents } from "@/components/home/next-events";
+import { EventCard } from "@/components/events/event-card";
+import { VideoLoop } from "@/components/media/video-loop";
 import { ArrowRight } from "@/components/ui/icons";
 
 export const revalidate = 600; // ISR; must be a literal (matches REVALIDATE in lib/data.ts)
 
 export const metadata: Metadata = {
   ...pageMeta({
-    title: "Founder networking events in Mumbai and 7 more Indian cities",
+    title: "Curated founder rooms in Mumbai, Pune, Delhi NCR and 5 more Indian cities",
     ogTitle: "Meet the people building in your city",
-    description: `Free, hosted rooms for founders, operators and freelancers. ${STATS.items[0].value} members across ${STATS.items[1].value} cities as of ${STATS.asOf}. Find your city and come to the next event.`,
+    description: `Small, hosted rooms for founders, operators and creators: ${STATS.items[0].value} members and ${STATS.items[2].value} rooms across ${STATS.items[1].value} cities since ${SITE.firstRoom}. Find your city and come to the next room.`,
     path: "/",
   }),
-  title: { absolute: "Bombay Networking Circle — founder networking events in Mumbai and 7 more Indian cities" },
+  title: { absolute: `Bombay Networking Circle — ${SITE.tagline.toLowerCase()}` },
 };
 
 const PATH = [
-  { n: "01", title: "Find your city", body: "Pick your chapter. Eight cities today; if yours isn't one, start it." },
-  { n: "02", title: "Come to a room", body: "RSVP to the next event on Luma. Small, hosted, free." },
-  { n: "03", title: "Stay in the circle", body: "After your first RSVP, join the WhatsApp community where every event is announced first." },
+  { n: "01", title: "Find your city", body: "Pick your chapter. Eight cities so far; if yours isn't one, start it." },
+  { n: "02", title: "Get into a room", body: "Register for the next room on Luma. Rooms are small and hosted; most carry a ₹399–₹999 ticket for the venue and coffee." },
+  { n: "03", title: "Stay in the circle", body: "Join the WhatsApp community and the weekly Power Hour, where the next rooms are announced first." },
 ];
 
 export default async function HomePage() {
-  const [chapters, events, testimonials, sponsors] = await Promise.all([
+  const [chapters, upcoming, recent, testimonials, sponsors, speakers, all] = await Promise.all([
     getChapters(),
     getUpcomingEvents({ limit: 3 }),
+    getPastEvents({ limit: 6 }),
     getTestimonials(),
     getSponsors(),
+    getSpeakers(),
+    getAllEvents(),
   ]);
-  const flagship = chapters.find((c) => c.is_flagship);
+  const partners = sponsors.filter((s) => s.is_partner);
+  const formatCounts = all.reduce<Record<string, number>>((acc, e) => ((acc[e.format] = (acc[e.format] ?? 0) + 1), acc), {});
+  const formats = (Object.keys(FORMATS) as FormatKey[]).filter((k) => formatCounts[k]).sort((a, b) => (formatCounts[b] ?? 0) - (formatCounts[a] ?? 0));
+  const guests = speakers.filter((s) => s.name !== SITE.founder);
 
   return (
     <>
@@ -54,35 +64,34 @@ export default async function HomePage() {
         <Container>
           <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-7">
-              <Eyebrow>Founder networking · {chapters.length} cities · Free</Eyebrow>
+              <Eyebrow>Curated rooms · {chapters.length} cities · Since {SITE.firstRoom}</Eyebrow>
               <h1 id="hero-title" className="mt-4 font-display text-display-xl text-fg">
                 Meet the people building in your city.
               </h1>
               <p className="mt-6 max-w-measure text-body-lg text-fg-muted">
-                {SITE.name} runs small, hosted rooms for founders, operators and freelancers — in {flagship?.city ?? "Mumbai"} and{" "}
-                {chapters.length - 1} more Indian cities. {STATS.items[2].value} events since {SITE.founded}. Free to join.
+                {SITE.name} curates small, hosted rooms for founders, operators and creators — {STATS.items[2].value} so far across{" "}
+                {STATS.items[1].value} cities, from café meetups in Pune and Nashik to an invite-only real estate room in Lower Parel.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
                 <PrimaryCta size="lg" placement="hero" />
-                <ButtonLink href="/events" variant="ghost">
-                  See upcoming events
+                <ButtonLink href="/events#past" variant="ghost">
+                  See the rooms so far
                 </ButtonLink>
               </div>
             </div>
             <div className="lg:col-span-5">
-              <p className="text-body-sm text-fg-muted lg:text-right">
-                <span className="font-display text-heading-lg text-fg">{STATS.items[0].value}</span> members ·{" "}
-                <span className="font-display text-heading-lg text-fg">{STATS.items[1].value}</span> cities
+              <p className="font-display text-heading-lg italic text-fg lg:text-right">&ldquo;{SITE.tagline}.&rdquo;</p>
+              <span className="gold-rule mt-4 lg:ml-auto" aria-hidden="true" />
+              <p className="mt-4 text-body-sm text-fg-muted lg:text-right">
+                <span className="font-display text-heading-lg text-fg">{STATS.items[0].value}</span> members across 10 cities
                 <span className="block text-caption text-fg-subtle">As of {STATS.asOf}</span>
               </p>
             </div>
           </div>
         </Container>
         <div className="mx-auto mt-10 max-w-[1440px] sm:px-gutter">
-          <figure>
-            <Photo photo={PHOTOS.hero} priority quality={60} sizes="(min-width: 1440px) 1360px, 100vw" ratio="wide" className="sm:rounded-lg" />
-            <figcaption className="px-gutter pt-3 text-caption text-fg-subtle sm:px-0">A BNC evening in Mumbai. Real members, real room.</figcaption>
-          </figure>
+          <VideoLoop video={VIDEOS.room} priority className="sm:rounded-lg" />
+          <p className="px-gutter pt-3 text-caption text-fg-subtle sm:px-0">{VIDEOS.room.label} Real members, real room.</p>
         </div>
       </section>
 
@@ -96,8 +105,32 @@ export default async function HomePage() {
         </Container>
       </Section>
 
+      {/* ───── Recent rooms (from Luma) ───── */}
+      <Section tone="raised" labelledBy="recent-title">
+        <Container>
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <SectionHeader
+              id="recent-title"
+              eyebrow="The track record"
+              title="Not a networking event. A room with a track record."
+              lede="The latest rooms, straight from our Luma calendar. Every one has its own page with the speakers, the format and the photos."
+            />
+            <Link href="/events#past" className="inline-flex min-h-11 items-center gap-1 text-body-sm font-semibold text-fg underline underline-offset-4">
+              All {all.length} rooms <ArrowRight width={16} height={16} />
+            </Link>
+          </div>
+          <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-reveal>
+            {recent.map((e) => (
+              <li key={e.id}>
+                <EventCard event={e} />
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </Section>
+
       {/* ───── Three-step path ───── */}
-      <Section tone="raised" labelledBy="path-title">
+      <Section labelledBy="path-title">
         <Container>
           <SectionHeader id="path-title" eyebrow="How it works" title="Three steps from stranger to member." />
           <ol className="mt-12 grid gap-8 md:grid-cols-3" data-reveal>
@@ -116,9 +149,14 @@ export default async function HomePage() {
       </Section>
 
       {/* ───── Who it's for ───── */}
-      <Section labelledBy="who-title">
+      <Section tone="raised" labelledBy="who-title">
         <Container>
-          <SectionHeader id="who-title" eyebrow="Who it's for" title="Is this your room?" lede="If you're building something — or helping someone else build it — yes." />
+          <SectionHeader
+            id="who-title"
+            eyebrow="Who it's for"
+            title="Is this your room?"
+            lede="The common thread isn't a job title. It's ambition — and a habit of giving before asking."
+          />
           <ul className="mt-12 grid gap-6 md:grid-cols-3" data-reveal>
             {AUDIENCE.map((a) => (
               <li key={a.title} className="rounded-lg border border-line bg-bg-card p-6">
@@ -127,6 +165,14 @@ export default async function HomePage() {
               </li>
             ))}
           </ul>
+          <div className="mt-10 rounded-lg border border-line p-6">
+            <h3 className="text-heading-sm text-fg">Probably not your room if you are…</h3>
+            <ul className="mt-3 grid gap-x-8 gap-y-2 text-body text-fg-muted sm:grid-cols-2">
+              {NOT_FOR.map((n) => (
+                <li key={n}>— {n.charAt(0).toLowerCase() + n.slice(1)}</li>
+              ))}
+            </ul>
+          </div>
         </Container>
       </Section>
 
@@ -138,31 +184,52 @@ export default async function HomePage() {
               <SectionHeader
                 id="room-title"
                 eyebrow="What happens in a room"
-                title="Hosted, small, and built around one specific ask."
-                lede="Strangers don't RSVP to the unknown. Here is how an evening runs."
+                title="Two hours, built so you leave with something."
+                lede="The run-of-show of a BNC city meetup, as published for the Ahmedabad edition."
               />
-              <Photo photo={PHOTOS.talkGarden} sizes="(min-width: 1024px) 400px, 90vw" ratio="portrait" className="mt-10 hidden rounded-lg lg:block" />
+              <Photo photo={MEDIA.delhi_host} sizes="(min-width: 1024px) 400px, 90vw" ratio="portrait" className="mt-10 hidden rounded-lg lg:block" />
             </div>
             <ol className="lg:col-span-7" data-reveal>
               {ROOM_STEPS.map((s, i) => (
                 <li key={s.title} className="grid grid-cols-[48px_1fr] gap-4 border-t border-line py-6">
                   <span className="font-display text-heading-lg text-accent-text">{i + 1}</span>
                   <div>
-                    <h3 className="text-heading-sm text-fg">{s.title}</h3>
+                    <h3 className="text-heading-sm text-fg">
+                      {s.title} <span className="ml-2 text-caption font-regular text-fg-subtle">{s.time}</span>
+                    </h3>
                     <p className="mt-1 text-body text-fg-muted">{s.body}</p>
                   </div>
                 </li>
               ))}
-              <li className="border-t border-line pt-6">
-                <p className="text-body-sm text-fg-subtle">Formats: {Object.values(FORMATS).map((f) => f.label).join(" · ")}.</p>
-              </li>
             </ol>
           </div>
         </Container>
       </Section>
 
+      {/* ───── Formats (counted from the archive) ───── */}
+      <Section labelledBy="formats-title">
+        <Container>
+          <SectionHeader
+            id="formats-title"
+            eyebrow="More than meetups"
+            title={`${formats.length} kinds of room, and counting.`}
+            lede="City meetups are the core. Around them, BNC has tried formats that make ambitious people meet differently — and kept the ones that worked."
+          />
+          <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4" data-reveal>
+            {formats.map((k) => (
+              <li key={k} className="flex flex-col rounded-lg border border-line bg-bg-card p-6">
+                <span className="font-display text-display-md text-fg">{formatCounts[k]}</span>
+                <span className="text-caption text-fg-subtle">{formatCounts[k] === 1 ? "room" : "rooms"} so far</span>
+                <h3 className="mt-4 text-heading-sm text-fg">{FORMATS[k].label}</h3>
+                <p className="mt-2 text-body-sm text-fg-muted">{FORMATS[k].body}</p>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </Section>
+
       {/* ───── Chapter map ───── */}
-      <Section labelledBy="chapters-title">
+      <Section tone="raised" labelledBy="chapters-title">
         <Container>
           <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
             <div className="lg:col-span-6">
@@ -170,7 +237,7 @@ export default async function HomePage() {
                 id="chapters-title"
                 eyebrow="Chapters"
                 title={`${chapters.length} cities. Pick yours.`}
-                lede="Every chapter has its own page with its next date, its lead and its photos."
+                lede="Every chapter has its own page with its rooms so far, its photos and its next date."
               />
               <CityTracker from="home-list">
                 <ul className="mt-10 grid grid-cols-2 gap-x-6 border-t border-line">
@@ -179,7 +246,7 @@ export default async function HomePage() {
                       <Link href={`/chapters/${c.slug}`} data-city={c.slug} className="group flex min-h-14 items-center justify-between gap-2 py-3 text-body-lg text-fg">
                         <span className="group-hover:underline group-hover:underline-offset-4">
                           {c.city}
-                          {c.is_flagship && <span className="ml-2 text-caption text-fg-subtle">Flagship</span>}
+                          {c.is_flagship && <span className="ml-2 text-caption text-fg-subtle">Home</span>}
                         </span>
                         <ArrowRight width={16} height={16} className="text-fg-subtle" />
                       </Link>
@@ -203,31 +270,79 @@ export default async function HomePage() {
       </Section>
 
       {/* ───── Next events ───── */}
-      <Section tone="raised" labelledBy="events-title">
+      <Section labelledBy="events-title">
         <Container>
           <div className="flex flex-wrap items-end justify-between gap-6">
-            <SectionHeader id="events-title" eyebrow="What's on" title="The next three rooms." />
+            <SectionHeader id="events-title" eyebrow="What's on" title="The next rooms." />
             <Link href="/events" className="inline-flex min-h-11 items-center gap-1 text-body-sm font-semibold text-fg underline underline-offset-4">
               All events <ArrowRight width={16} height={16} />
             </Link>
           </div>
           <div className="mt-10">
-            <NextEvents events={events} source="home" />
+            <NextEvents events={upcoming} source="home" />
           </div>
         </Container>
       </Section>
 
-      {/* ───── Photo grid ───── */}
-      <Section labelledBy="photos-title">
+      {/* ───── Photos + reel ───── */}
+      <Section tone="raised" labelledBy="photos-title">
         <Container>
-          <SectionHeader id="photos-title" eyebrow="In the room" title="This is what it looks like." />
-          <ul className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-4" data-reveal>
-            {HOME_GRID.map((p) => (
-              <li key={p.src}>
-                <Photo photo={p} sizes="(min-width: 768px) 25vw, 50vw" ratio="square" className="rounded-md" />
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <SectionHeader id="photos-title" eyebrow="In the room" title="This is what it looks like." lede="Real members, real rooms — Gurugram, Pune and Nashik." />
+            <Link href="/gallery" className="inline-flex min-h-11 items-center gap-1 text-body-sm font-semibold text-fg underline underline-offset-4">
+              Full gallery <ArrowRight width={16} height={16} />
+            </Link>
+          </div>
+          <div className="mt-10 grid gap-3 md:grid-cols-4" data-reveal>
+            <VideoLoop video={VIDEOS.reel} ratio="reel" className="rounded-md md:row-span-2" />
+            <Photo photo={MEDIA.delhi_group} sizes="(min-width: 768px) 25vw, 100vw" ratio="square" className="rounded-md" />
+            <Photo photo={MEDIA.pune_group} sizes="(min-width: 768px) 25vw, 100vw" ratio="square" className="rounded-md" />
+            <Photo photo={MEDIA.nashik_room} sizes="(min-width: 768px) 25vw, 100vw" ratio="square" className="rounded-md" />
+            <Photo photo={MEDIA.delhi_panel} sizes="(min-width: 768px) 25vw, 100vw" ratio="square" className="rounded-md" />
+            <Photo photo={MEDIA.pune_circle} sizes="(min-width: 768px) 25vw, 100vw" ratio="square" className="rounded-md" />
+            <Photo photo={MEDIA.delhi_circle} sizes="(min-width: 768px) 25vw, 100vw" ratio="square" className="rounded-md" />
+          </div>
+        </Container>
+      </Section>
+
+      {/* ───── Voices: who has led a room ───── */}
+      {guests.length > 0 && (
+        <Section labelledBy="voices-title">
+          <Container>
+            <SectionHeader
+              id="voices-title"
+              eyebrow="Who has led a room"
+              title="Practitioners, not hype men."
+              lede="Speakers and co-hosts named on BNC's public event pages."
+            />
+            <ul className="mt-10 grid gap-x-8 gap-y-6 border-t border-line pt-8 sm:grid-cols-2 lg:grid-cols-4">
+              {guests.map((p) => (
+                <li key={p.name}>
+                  <p className="text-heading-sm text-fg">{p.name}</p>
+                  <p className="text-body-sm text-fg-muted">{p.role}</p>
+                  <Link href={`/events/${p.events[0].slug}`} className="mt-1 inline-block text-caption text-fg-subtle underline underline-offset-4">
+                    {p.events[0].title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Container>
+        </Section>
+      )}
+
+      {/* ───── Pillars ───── */}
+      <Section tone="ink" labelledBy="pillars-title">
+        <Container>
+          <SectionHeader id="pillars-title" eyebrow="What we're building" title="Not an events company. A growth ecosystem for builders." />
+          <ol className="mt-12 grid gap-8 md:grid-cols-3" data-reveal>
+            {PILLARS.map((p, i) => (
+              <li key={p.title} className="border-t border-line pt-6">
+                <span className="font-display text-heading-lg text-accent-text">0{i + 1}</span>
+                <h3 className="mt-2 font-display text-heading-lg text-fg">{p.title}</h3>
+                <p className="mt-2 text-body text-fg-muted">{p.body}</p>
               </li>
             ))}
-          </ul>
+          </ol>
         </Container>
       </Section>
 
@@ -256,15 +371,16 @@ export default async function HomePage() {
             <div className="md:col-span-7 md:col-start-6">
               <Eyebrow>A note from the founder</Eyebrow>
               <h2 id="founder-title" className="mt-3 font-display text-display-md text-fg">
-                “Most networking events are contact-swapping. We built rooms where the conversation leads somewhere.”
+                “Growth is engineered. Networks compound. Execution decides outcomes.”
               </h2>
               <p className="mt-6 text-body-lg text-fg-muted">
-                I started BNC in Mumbai after years of working with founders across India and watching the same thing happen: good people, wrong rooms. The
-                fix was simple — smaller groups, a host who makes introductions, and everyone saying out loud what they need.
+                I started BNC after years of working with founders across India and watching the same thing happen: good people, wrong rooms. So we
+                built the opposite — small, curated rooms with a host whose job is introductions, and everyone saying out loud what they&apos;re
+                building and what they need.
               </p>
               <p className="mt-6 text-body-sm font-semibold text-fg">
                 {SITE.founder}, founder
-                <span className="block font-regular text-fg-subtle">Also National Convenor, JIIF (JITO Apex) · Global Shaper, World Economic Forum</span>
+                <span className="block font-regular text-fg-subtle">Founder & CEO, DreamSVin · National Co-Convenor, JITO JIIF · Global Shaper, World Economic Forum</span>
               </p>
               <Link href="/about/story" className="mt-6 inline-flex min-h-11 items-center gap-1 text-body-sm font-semibold text-accent-text underline underline-offset-4">
                 Read the full story <ArrowRight width={16} height={16} />
@@ -277,15 +393,15 @@ export default async function HomePage() {
       {/* ───── Partners ───── */}
       <Section size="sm" tone="raised" labelledBy="partners-title">
         <Container>
-          <div className="flex flex-wrap items-center justify-between gap-6">
+          <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
               <h2 id="partners-title" className="text-heading-md text-fg">
-                {sponsors.length ? "Supported by" : "Put your brand in the room"}
+                {partners.length ? "Rooms made with" : "Put your brand in the room"}
               </h2>
               <p className="mt-1 text-body text-fg-muted">
-                {sponsors.length
-                  ? "The organisations that make free events possible."
-                  : `${STATS.items[0].value} founders, operators and freelancers across ${STATS.items[1].value} cities. Sponsor an event or a city series.`}
+                {partners.length
+                  ? "Venues and collaborators named on our event pages."
+                  : `${STATS.items[0].value} founders, operators and creators across ${STATS.items[1].value} cities. Sponsor a room or a city series.`}
               </p>
             </div>
             <div className="flex flex-wrap gap-4">
@@ -297,6 +413,15 @@ export default async function HomePage() {
               </ButtonLink>
             </div>
           </div>
+          {partners.length > 0 && (
+            <ul className="mt-10 flex flex-wrap items-center gap-3">
+              {partners.map((p) => (
+                <li key={p.id}>
+                  <LogoTile name={p.name} logo={p.logo} compact />
+                </li>
+              ))}
+            </ul>
+          )}
         </Container>
       </Section>
 
@@ -305,7 +430,7 @@ export default async function HomePage() {
         <Container>
           <div className="grid gap-10 lg:grid-cols-12">
             <div className="lg:col-span-4">
-              <SectionHeader id="faq-title" eyebrow="Questions" title="Before you RSVP." />
+              <SectionHeader id="faq-title" eyebrow="Questions" title="Before you register." />
               <Link href="/faq" className="mt-6 inline-flex min-h-11 items-center gap-1 text-body-sm font-semibold text-fg underline underline-offset-4">
                 All questions <ArrowRight width={16} height={16} />
               </Link>
@@ -319,10 +444,11 @@ export default async function HomePage() {
       <Section tone="ink" labelledBy="final-title">
         <Container>
           <div className="max-w-measure">
-            <h2 id="final-title" className="font-display text-display-lg text-fg">
+            <span className="gold-rule" aria-hidden="true" />
+            <h2 id="final-title" className="mt-6 font-display text-display-lg text-fg">
               The next room in your city has a seat for you.
             </h2>
-            <p className="mt-5 text-body-lg text-fg-muted">Find your chapter, see its next date, RSVP. It takes a minute and costs nothing.</p>
+            <p className="mt-5 text-body-lg text-fg-muted">Find your chapter, see what it has run, and get on the list for the next date.</p>
             <div className="mt-8">
               <PrimaryCta size="lg" placement="final" />
             </div>

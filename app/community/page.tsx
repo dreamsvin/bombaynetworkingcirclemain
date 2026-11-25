@@ -16,9 +16,9 @@ import { StatBar } from "@/components/ui/stat-bar";
 export const revalidate = 600;
 
 export const metadata: Metadata = pageMeta({
-  title: "Join the community — free founder network across India",
-  ogTitle: "Join Bombay Networking Circle — it's free",
-  description: `What you get as a BNC member: events in ${STATS.items[1].value} cities, a WhatsApp community, warm introductions and collaboration matching. Free to join.`,
+  title: "Join the community — a founder network across India",
+  ogTitle: "Join Bombay Networking Circle",
+  description: `What you get as a BNC member: events in ${STATS.items[1].value} cities, a WhatsApp community, warm introductions and collaboration matching. Joining is free.`,
   path: "/community",
 });
 

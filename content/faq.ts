@@ -8,17 +8,17 @@ export const FAQ: Faq[] = [
   {
     group: "joining",
     q: "What is Bombay Networking Circle?",
-    a: "A free, in-person community for founders, operators, freelancers and creators. It runs hosted events in eight Indian cities and a WhatsApp community that connects members between events.",
+    a: "A curated, in-person community for founders, operators, creators and professionals who are building something. Since September 2025 it has run 20+ rooms in eight Indian cities, a weekly online Power Hour, and a WhatsApp community that connects members between rooms.",
   },
   {
     group: "joining",
     q: "Does it cost anything?",
-    a: "No. Joining the community is free. Most events are free; if a specific event has a ticket price — for example to cover a venue — the event page and the Luma RSVP will say so before you register.",
+    a: "Joining the community is free. Most in-person rooms have a small ticket — ₹399 to ₹999 so far — that covers the venue, coffee and curation; a few, like Power Hour and invite-only industry rooms, have had no ticket. Every event page here and on Luma shows the price before you register.",
   },
   {
     group: "joining",
     q: "Do I need a startup to join?",
-    a: "No. There are rooms for established founders and rooms like Founders in Making 101 for students and people who haven't started yet, plus operators and freelancers. Rooms are grouped by stage so the conversation stays useful.",
+    a: "No. Rooms are for people actively building — founders, operators, creators, consultants and professionals growing their influence. Some formats, like Career Connect, are made for students and early-career professionals. What matters is ambition and a willingness to contribute, not a job title.",
   },
   {
     group: "joining",
@@ -28,12 +28,17 @@ export const FAQ: Faq[] = [
   {
     group: "events",
     q: "What happens at an event?",
-    a: "You're placed with people at a similar stage, everyone gives a one-line introduction and one specific ask, there's a hosted conversation or pitch, and the evening ends with hosts making introductions based on those asks.",
+    a: "A city meetup runs about two hours: curated introductions over coffee, a 45–60 minute insights session, guided small-group networking, and an open collaboration round where everyone shares what they're building and what they need. Industry rooms add a short panel; reset mornings start with an ice bath or yoga.",
   },
   {
     group: "events",
     q: "How do I RSVP?",
-    a: "Every event has an RSVP button that opens BNC's Luma calendar. Luma handles registration, reminders and check-in.",
+    a: "Every event has a button that opens its Luma page. Luma handles registration and reminders; paid rooms are confirmed once the UPI payment shown on the Luma page is received. Some rooms are curated — you apply, and the team confirms within 24–48 hours.",
+  },
+  {
+    group: "events",
+    q: "Why do some rooms ask me to apply?",
+    a: "Because the people in the room are the product. For curated rooms the team reads every application so the mix works — for the Ahmedabad edition, 208 people registered for 30 seats.",
   },
   {
     group: "events",

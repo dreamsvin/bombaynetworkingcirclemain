@@ -23,7 +23,7 @@ export async function Footer() {
           <div className="lg:col-span-4">
             <Seal className="h-24 w-24 text-accent-text" />
             <p className="mt-6 max-w-measure text-body-sm text-fg-muted">
-              Free, in-person rooms for founders, operators and freelancers in {chapters.length} Indian cities. Started in Mumbai by {SITE.founder}.
+              Curated, in-person rooms for founders, operators and creators in {chapters.length} Indian cities. Started by {SITE.founder}. {SITE.tagline}.
             </p>
             <SubscribeForm className="mt-8 max-w-md" id="footer-subscribe" label="Event updates by email" source="footer" />
           </div>

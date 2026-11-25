@@ -1,28 +1,31 @@
 /* Bombay Networking Circle — globals.css
-   Values mirror tokens/build_tokens.py (run it to re-check contrast). Components use semantic names only.
-   Accent #815936 is the brown of the BNC coffee-cup logo; it is reserved for the primary CTA. */
+   Palette and type follow the official "BNC Brand Identity Guidelines · 2026" (Drive: BNC brand guidelines_cropped.pdf):
+   Anchor Black #1A1612 · Deep Brown #7C5C38 · BNC Gold #C68536 · Warm Glow #EFBC6F · Cream #F9F5EF; Playfair Display + DM Sans.
+   Deep Brown is the CTA on cream (white text, 6:1). Warm Glow is the CTA on black. BNC Gold is for rules, numerals on dark and
+   accents only — "scarcity = premium". Components use semantic names only. */
 
 @import "tailwindcss";
 @config "../tailwind.config.ts";
 
 /* ───────── 1. Primitives ───────── */
 :root {
-  --c-ink: #1c1915;
-  --c-ink-2: #26221d;
-  --c-ink-3: #312c26;
-  --c-paper: #faf7f2;
-  --c-paper-2: #f3ede4;
-  --c-paper-3: #e9e1d5;
-  --c-white: #ffffff;
+  --c-ink: #1a1612;
+  --c-ink-2: #241e19;
+  --c-ink-3: #2f2822;
+  --c-paper: #f9f5ef;
+  --c-paper-2: #f2ebe0;
+  --c-paper-3: #e8dfd1;
+  --c-white: #fffdf9;
   --c-ink-muted: #4f473f;
   --c-ink-subtle: #665d53;
   --c-paper-muted: #dcd3c7;
   --c-paper-subtle: #b3a898;
-  --c-brown: #815936;
-  --c-brown-hover: #6c4a2c;
-  --c-brown-press: #5a3d24;
-  --c-caramel: #d9a877;
-  --c-caramel-hover: #e6bd93;
+  --c-brown: #7c5c38;
+  --c-brown-hover: #664a2c;
+  --c-brown-press: #533c23;
+  --c-caramel: #efbc6f;
+  --c-gold: #c68536;
+  --c-caramel-hover: #f5cd8f;
   --c-clay: #b9a48c;
   --c-clay-tint: #efe6da;
   --c-line: #e3dacd;
@@ -51,19 +54,20 @@
   --accent-text: var(--c-brown);
   --support: var(--c-clay);
   --support-tint: var(--c-clay-tint);
+  --gold: var(--c-gold);
   --line: var(--c-line);
   --line-strong: var(--c-line-strong);
   --line-control: var(--c-line-control);
   --focus: var(--c-ink);
   --danger: var(--c-danger);
   --success: var(--c-success);
-  --scrim: rgb(28 25 21 / 0.62);
+  --scrim: rgb(26 22 18 / 0.62);
   --shadow-e1: 0 1px 2px 0 rgb(28 25 21 / 0.05);
   --shadow-e2: 0 1px 2px 0 rgb(28 25 21 / 0.05), 0 12px 32px -16px rgb(28 25 21 / 0.18);
 
   /* ───────── 3. Type — fluid 360 → 1440 ───────── */
-  --font-display: var(--font-newsreader), Georgia, "Times New Roman", serif;
-  --font-sans: var(--font-public-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --text-display-xl: clamp(2.5rem, 1.75rem + 3.333vw, 4.75rem);
   --text-display-lg: clamp(2.125rem, 1.583rem + 2.407vw, 3.75rem);
   --text-display-md: clamp(1.875rem, 1.5rem + 1.667vw, 3rem);
@@ -212,4 +216,14 @@
     scroll-behavior: auto !important;
   }
   .js [data-reveal] { opacity: 1; transform: none; }
+}
+
+/* ───────── Brand: the gold rule. One 2px BNC Gold line per composition — structural, never decoration. ───────── */
+@layer components {
+  .gold-rule {
+    display: block;
+    width: 56px;
+    height: 2px;
+    background: var(--gold);
+  }
 }

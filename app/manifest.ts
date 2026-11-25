@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Founder networking events in eight Indian cities.",
     start_url: "/",
     display: "browser",
-    background_color: "#FAF7F2",
-    theme_color: "#FAF7F2",
+    background_color: "#F9F5EF",
+    theme_color: "#F9F5EF",
     icons: [{ src: "/icon.svg", type: "image/svg+xml", sizes: "any" }],
   };
 }

@@ -15,11 +15,13 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     qualities: [60, 75],
     deviceSizes: [360, 480, 640, 768, 1024, 1280, 1600, 1920],
+    // Event covers are served from Luma's CDN (the same artwork as each event's Luma page). See content/events-luma.ts.
+    remotePatterns: [{ protocol: "https", hostname: "images.lumacdn.com", pathname: "/**" }],
   },
-  // OG images read the Newsreader .woff files at render time; make sure they ship with the functions.
+  // OG images read the Playfair Display .woff files at render time; make sure they ship with the functions.
   outputFileTracingIncludes: {
-    "/opengraph-image": ["./node_modules/@fontsource/newsreader/files/newsreader-latin-*-normal.woff"],
-    "/chapters/[city]/opengraph-image": ["./node_modules/@fontsource/newsreader/files/newsreader-latin-*-normal.woff"],
+    "/opengraph-image": ["./node_modules/@fontsource/playfair-display/files/playfair-display-latin-*-normal.woff"],
+    "/chapters/[city]/opengraph-image": ["./node_modules/@fontsource/playfair-display/files/playfair-display-latin-*-normal.woff"],
   },
   // The old static site's URLs. Anything shared in the past keeps working.
   async redirects() {

@@ -20,7 +20,7 @@ export function NextStep({ rsvpHref, rsvpLabel = "RSVP to the next event", place
           <li className="border-t border-line pt-6">
             <p className="text-label uppercase text-fg-subtle">Step 1</p>
             <h3 className="mt-2 text-heading-md text-fg">RSVP</h3>
-            <p className="mt-2 text-body text-fg-muted">Pick a date and register on Luma. Free, two minutes, and you get a reminder.</p>
+            <p className="mt-2 text-body text-fg-muted">Pick a date and register on Luma. Two minutes, the ticket price is shown up front, and you get a reminder.</p>
             <TrackedLink
               href={rsvpHref}
               event={external ? "rsvp_click" : "cta_click"}

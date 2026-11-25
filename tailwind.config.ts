@@ -34,6 +34,7 @@ const config: Config = {
       "accent-text": v("accent-text"),
       support: v("support"),
       "support-tint": v("support-tint"),
+      gold: v("gold"),
       line: v("line"),
       "line-strong": v("line-strong"),
       "line-control": v("line-control"),
@@ -99,7 +100,7 @@ const config: Config = {
     transitionTimingFunction: { out: v("ease-out"), "in-out": v("ease-in-out") },
     extend: {
       gridTemplateColumns: { 12: "repeat(12, minmax(0, 1fr))" },
-      aspectRatio: { photo: "3 / 2", portrait: "4 / 5", wide: "16 / 9" },
+      aspectRatio: { photo: "3 / 2", portrait: "4 / 5", wide: "16 / 9", reel: "9 / 16" },
     },
   },
 };

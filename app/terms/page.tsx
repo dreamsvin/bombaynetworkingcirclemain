@@ -21,7 +21,7 @@ export default function TermsPage() {
       <h2>1. What BNC is</h2>
       <p>
         BNC is a free, community-led network that organises in-person events for founders, operators, freelancers, creators and students in cities across
-        India. Membership is free. BNC is not a recruitment agency, investment adviser or broker, and nothing said at an event or on this site is
+        India. Membership is free; some events are ticketed, and the price is shown on the event page before you register. BNC is not a recruitment agency, investment adviser or broker, and nothing said at an event or on this site is
         professional, legal, financial or investment advice.
       </p>
 

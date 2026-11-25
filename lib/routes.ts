@@ -1,10 +1,11 @@
 /** Static routes, used by the sitemap, the search index and the link crawl. */
 export const STATIC_ROUTES: { path: string; title: string; summary: string; priority: number }[] = [
-  { path: "/", title: "Home", summary: "Founder networking events in eight Indian cities.", priority: 1 },
+  { path: "/", title: "Home", summary: "Curated founder rooms in eight Indian cities.", priority: 1 },
   { path: "/chapters", title: "Chapters", summary: "Find your city's chapter.", priority: 0.9 },
-  { path: "/events", title: "Events", summary: "Upcoming and past BNC events, every city.", priority: 0.9 },
-  { path: "/community", title: "Join the community", summary: "What members get. Free to join.", priority: 0.8 },
-  { path: "/about", title: "About BNC", summary: "What BNC is, the mission, the four formats.", priority: 0.7 },
+  { path: "/events", title: "Events", summary: "Upcoming and past BNC rooms, every city.", priority: 0.9 },
+  { path: "/gallery", title: "Gallery", summary: "Photos and video from BNC rooms.", priority: 0.6 },
+  { path: "/community", title: "Join the community", summary: "What members get. Joining is free.", priority: 0.8 },
+  { path: "/about", title: "About BNC", summary: "What BNC is, the mission, the formats and values.", priority: 0.7 },
   { path: "/about/story", title: "Our story", summary: "Why founder networking was broken and what BNC does instead.", priority: 0.6 },
   { path: "/about/team", title: "Team", summary: "The founder, city leads and volunteers.", priority: 0.5 },
   { path: "/chapters/start", title: "Start a chapter", summary: "Bring BNC to your city.", priority: 0.6 },

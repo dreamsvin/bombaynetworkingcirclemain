@@ -12,7 +12,7 @@ export const revalidate = 600;
 
 export const metadata: Metadata = pageMeta({
   title: "FAQ — joining, events, chapters and cost",
-  description: "Answers to common questions about Bombay Networking Circle: what it is, whether it's free, which cities it runs in, how events work and how to RSVP.",
+  description: "Answers to common questions about Bombay Networking Circle: what it is, what it costs, which cities it runs in, how events work and how to RSVP.",
   path: "/faq",
 });
 

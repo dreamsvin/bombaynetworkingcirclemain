@@ -20,9 +20,9 @@
     "crawl": "tsx scripts/crawl.ts"
   },
   "dependencies": {
-    "@fontsource-variable/newsreader": "5.3.0",
-    "@fontsource-variable/public-sans": "5.3.0",
-    "@fontsource/newsreader": "5.3.0",
+    "@fontsource-variable/dm-sans": "^5.3.0",
+    "@fontsource-variable/playfair-display": "^5.3.0",
+    "@fontsource/playfair-display": "^5.3.0",
     "@supabase/supabase-js": "2.119.2",
     "@vercel/analytics": "1.6.1",
     "clsx": "2.1.1",

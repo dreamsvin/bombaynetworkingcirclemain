@@ -147,3 +147,44 @@ export const getSponsors = cached("sponsors", async (): Promise<Sponsor[]> => {
   if (error) throw error;
   return data;
 });
+
+// ───────── history, people and proof derived from events ─────────
+export type Person = { name: string; role: string };
+export type GalleryPhoto = { src: string; width: number; height: number; alt: string };
+
+const isPeople = (v: unknown): v is Person[] =>
+  Array.isArray(v) && v.every((x) => x && typeof x === "object" && "name" in x && "role" in x);
+const isGallery = (v: unknown): v is GalleryPhoto[] =>
+  Array.isArray(v) && v.every((x) => x && typeof x === "object" && "src" in x && "width" in x && "height" in x);
+
+export const eventSpeakers = (e: Event): Person[] => (isPeople(e.speakers) ? e.speakers : []);
+export const eventPartners = (e: Event): Person[] => (isPeople(e.partners) ? e.partners : []);
+export const eventGallery = (e: Event): GalleryPhoto[] => (isGallery(e.gallery) ? e.gallery : []);
+
+/** Every event, oldest first, with its chapter. Used by the timeline, gallery and archive. */
+export async function getAllEvents() {
+  const list = [...(await allEvents())].sort((a, b) => a.starts_at.localeCompare(b.starts_at));
+  return withChapters(list);
+}
+
+/** Speakers and hosts named on public event pages, de-duplicated, with the rooms they appeared in. Host listed last. */
+export async function getSpeakers() {
+  const events = await getAllEvents();
+  const map = new Map<string, Person & { events: { slug: string; title: string; city: string }[] }>();
+  for (const e of events) {
+    for (const p of eventSpeakers(e)) {
+      const cur = map.get(p.name) ?? { ...p, events: [] };
+      cur.events.push({ slug: e.slug, title: e.title, city: e.chapter.city });
+      map.set(p.name, cur);
+    }
+  }
+  return [...map.values()].sort((a, b) => Number(a.name === "Isha Ostwal") - Number(b.name === "Isha Ostwal"));
+}
+
+/** Simple, sourced counts from the event table (shown with the archive). */
+export async function getEventTotals() {
+  const events = (await getAllEvents()).filter((e) => !isUpcoming(e));
+  const cities = new Set(events.filter((e) => !e.is_online).map((e) => e.chapter.slug));
+  const seats = events.reduce((n, e) => n + (e.registrations ?? 0), 0);
+  return { rooms: events.length, cities: cities.size, seats };
+}

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { MISSION, SITE } from "@/content/site";
-import { PHOTOS } from "@/content/photos";
+import { MISSION, SITE, STATS } from "@/content/site";
+import { MEDIA } from "@/content/media";
+import { getAllEvents } from "@/lib/data";
+import { Timeline } from "@/components/events/timeline";
 import { pageMeta } from "@/lib/seo";
 import { Container, Section } from "@/components/ui/layout";
 import { Breadcrumbs } from "@/components/ui/misc";
@@ -10,12 +12,13 @@ import { PrimaryCta } from "@/components/site/primary-cta";
 export const metadata: Metadata = pageMeta({
   title: "Our story — why founder networking was broken, and what BNC does instead",
   ogTitle: "The system was broken. So we built smaller rooms.",
-  description: `${SITE.founder} on why most networking events fail founders, and how Bombay Networking Circle grew from one Mumbai room to eight cities.`,
+  description: `${SITE.founder} on why most networking events fail founders, and how Bombay Networking Circle grew to 20+ rooms in eight cities.`,
   path: "/about/story",
   type: "article",
 });
 
-export default function StoryPage() {
+export default async function StoryPage() {
+  const events = await getAllEvents();
   return (
     <Section size="sm">
       <Container narrow>
@@ -47,7 +50,7 @@ export default function StoryPage() {
 
           <h2>What we do instead</h2>
           <p>
-            Bombay Networking Circle started in Mumbai in {SITE.founded} with a few deliberate choices. Keep rooms small. Group people by stage, so a
+            Bombay Networking Circle started in {SITE.founded} with a few deliberate choices. Keep rooms small. Group people by stage, so a
             first-time founder isn&apos;t lost among people three years ahead. Put a host in the room whose job is introductions. And ask everyone to say,
             in one line, what they need.
           </p>
@@ -58,22 +61,36 @@ export default function StoryPage() {
         </article>
 
         <figure className="my-12">
-          <Photo photo={PHOTOS.hero} sizes="(min-width: 768px) 680px, 100vw" ratio="photo" className="rounded-lg" />
-          <figcaption className="mt-3 text-caption text-fg-subtle">A BNC evening in Mumbai.</figcaption>
+          <Photo photo={MEDIA.delhi_room} sizes="(min-width: 768px) 680px, 100vw" ratio="photo" className="rounded-lg" />
+          <figcaption className="mt-3 text-caption text-fg-subtle">Career Connect – Delhi, Masters&apos; Union, Gurugram, January 2026.</figcaption>
         </figure>
 
         <article className="prose-bnc">
-          <h2>Why it&apos;s free</h2>
+          <h2>Why there&apos;s no membership fee</h2>
           <p>
             Charging for membership changes who comes into the room — and the people who most need a warm introduction are often the ones who can least
-            afford a membership fee. BNC stays free. Sponsors and partners cover what costs money, and every sponsorship is visible on this site.
+            afford a membership fee. Joining BNC costs nothing. Individual rooms carry a small ticket, usually ₹399–₹999, that pays for the venue, the
+            coffee and the curation; partners host and co-promote, and every partner is named on this site.
           </p>
 
+          <h2>The journey so far</h2>
+          <p>
+            The first room on the calendar was a café in Pune in September 2025. Within three months there were rooms in Hyderabad, Nashik, Surat and
+            Delhi; by spring 2026, Ahmedabad and Bengaluru. Along the way BNC tried new formats — a weekly Power Hour, ice-bath resets, a pitch
+            competition in an ice bath, an AI meetup, and an invite-only Real Estate Room in Lower Parel. That&apos;s {STATS.items[2].value} rooms and{" "}
+            {STATS.items[3].value} seats filled on Luma, as of {STATS.asOf}.
+          </p>
+        </article>
+
+        <div className="my-10">
+          <Timeline events={events} />
+        </div>
+
+        <article className="prose-bnc">
           <h2>Where it&apos;s going</h2>
           <p>
-            Mumbai was the first chapter; other cities asked for the same format, and today there are chapters in eight. The goal is concrete: connect{" "}
-            {MISSION.builders} builders across India and catalyse {MISSION.collaborations} collaborations between them. Collaborations, not attendees —
-            because that&apos;s the number that means a room did its job.
+            The goal is concrete: connect {MISSION.builders} builders across India and catalyse {MISSION.collaborations} collaborations between them.
+            Collaborations, not attendees — because that&apos;s the number that means a room did its job. {MISSION.vision}
           </p>
           <p>If that sounds like the kind of room you&apos;ve been looking for, come to one.</p>
         </article>

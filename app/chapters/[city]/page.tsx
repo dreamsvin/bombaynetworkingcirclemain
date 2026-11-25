@@ -2,16 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getChapter, getChapters, getNextEventFor, getPastEvents, getStories, getUpcomingEvents } from "@/lib/data";
+import { eventGallery, getChapter, getChapters, getNextEventFor, getPastEvents, getStories, getUpcomingEvents } from "@/lib/data";
 import { pageMeta } from "@/lib/seo";
 import { fmtLongDate } from "@/lib/format";
-import { GALLERY } from "@/content/photos";
 import { LINKS, STATS } from "@/content/site";
 import { Container, Section, SectionHeader, Eyebrow } from "@/components/ui/layout";
 import { Breadcrumbs, EmptyState, Tag } from "@/components/ui/misc";
 import { Photo } from "@/components/ui/photo";
 import { StoryCard } from "@/components/ui/cards";
+import { EventCard } from "@/components/events/event-card";
 import { EventListItem } from "@/components/ui/event-list-item";
+import { GALLERY } from "@/content/photos";
 import { ButtonLink } from "@/components/ui/button";
 import { EventFeature } from "@/components/events/event-feature";
 import { NextStep } from "@/components/events/next-step";
@@ -45,12 +46,16 @@ export default async function ChapterPage({ params }: PageProps<"/chapters/[city
   const [next, upcoming, past, stories] = await Promise.all([
     getNextEventFor(chapter),
     getUpcomingEvents({ chapterId: chapter.id }),
-    getPastEvents({ chapterId: chapter.id, limit: 6 }),
+    getPastEvents({ chapterId: chapter.id }),
     getStories(),
   ]);
   const local = stories.filter((s) => s.chapter_id === chapter.id);
   const later = upcoming.filter((e) => e.id !== next?.event.id);
-  const hasPhotos = chapter.slug === "mumbai"; // The only real photo set so far is from Mumbai events.
+
+  // Event photos first. Mumbai falls back to the BNC collage from Isha's site (labelled Mumbai there; see CONTENT-TODO 5.4).
+  const eventPhotos = past.flatMap((e) => eventGallery(e)).slice(0, 8);
+  const photos = eventPhotos.length ? eventPhotos : chapter.slug === "mumbai" ? GALLERY : [];
+  const seats = past.reduce((n, e) => n + (e.registrations ?? 0), 0);
 
   return (
     <>
@@ -73,7 +78,7 @@ export default async function ChapterPage({ params }: PageProps<"/chapters/[city
             <div className="lg:col-span-6">
               <div className="flex flex-wrap items-center gap-2">
                 <Eyebrow>{chapter.state}</Eyebrow>
-                {chapter.is_flagship && <Tag>Flagship chapter</Tag>}
+                {chapter.is_flagship && <Tag>Home chapter</Tag>}
               </div>
               <h1 className="mt-3 font-display text-display-xl text-fg">
                 Founder networking in {chapter.city}
@@ -85,11 +90,13 @@ export default async function ChapterPage({ params }: PageProps<"/chapters/[city
                   <dd className="mt-1 font-semibold text-fg">{chapter.lead_name ?? "Being appointed"}</dd>
                 </div>
                 <div>
-                  <dt className="text-fg-subtle">Members here</dt>
+                  <dt className="text-fg-subtle">{chapter.member_count && chapter.member_count_as_of ? "Members here" : "Rooms so far"}</dt>
                   <dd className="mt-1 font-semibold text-fg">
                     {chapter.member_count && chapter.member_count_as_of
                       ? `${chapter.member_count.toLocaleString("en-IN")} (as of ${fmtLongDate(chapter.member_count_as_of)})`
-                      : `Part of ${STATS.items[0].value} across India`}
+                      : past.length
+                        ? `${past.length}${seats ? ` · ${seats} registered` : ""}${chapter.launched_on ? ` · since ${fmtLongDate(chapter.launched_on)}` : ""}`
+                        : `Part of ${STATS.items[0].value} across India`}
                   </dd>
                 </div>
               </dl>
@@ -162,12 +169,12 @@ export default async function ChapterPage({ params }: PageProps<"/chapters/[city
       {/* Past events & photos */}
       <Section labelledBy="past-title">
         <Container>
-          <SectionHeader id="past-title" eyebrow="Past events" title={`What ${chapter.city} rooms look like`} />
-          {hasPhotos ? (
+          <SectionHeader id="past-title" eyebrow="Past rooms" title={`What ${chapter.city} rooms look like`} />
+          {photos.length > 0 ? (
             <ul className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-4">
-              {GALLERY.map((p) => (
+              {photos.map((p) => (
                 <li key={p.src}>
-                  <Photo photo={p} sizes="(min-width: 768px) 25vw, 50vw" ratio="portrait" className="rounded-md" />
+                  <Photo photo={p} sizes="(min-width: 768px) 25vw, 50vw" ratio="square" className="rounded-md" />
                 </li>
               ))}
             </ul>
@@ -178,7 +185,7 @@ export default async function ChapterPage({ params }: PageProps<"/chapters/[city
                 {chapter.city}
               </p>
               <p className="text-body text-fg-muted md:col-span-7">
-                Photos from {chapter.city} events will appear here. Until then, every BNC room follows the same format — see{" "}
+                Photos from {chapter.city} rooms will appear here. Until then, every BNC room follows the same format — see{" "}
                 <Link href="/about" className="font-semibold text-accent-text underline underline-offset-4">
                   how an evening runs
                 </Link>
@@ -187,9 +194,11 @@ export default async function ChapterPage({ params }: PageProps<"/chapters/[city
             </div>
           )}
           {past.length > 0 && (
-            <ul className="mt-10 border-t border-line">
+            <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {past.map((e) => (
-                <EventListItem key={e.id} event={e} showCity={false} past />
+                <li key={e.id}>
+                  <EventCard event={e} />
+                </li>
               ))}
             </ul>
           )}

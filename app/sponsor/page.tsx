@@ -54,7 +54,7 @@ export default async function SponsorPage() {
         breadcrumbs={<Breadcrumbs items={[{ label: "Sponsor", href: "/sponsor" }]} />}
         eyebrow="Sponsorship"
         title="Sponsor the rooms where India's founders meet."
-        lede="BNC is free for members. Sponsors make that possible — and get in front of founders when they're actively looking for tools, partners and services."
+        lede="Membership is free and tickets stay small. Sponsors make that possible — and get in front of founders when they're actively looking for tools, partners and services."
       >
         <a href="#sponsor-form" className={buttonClass("secondary", "lg")}>
           Enquire about sponsoring

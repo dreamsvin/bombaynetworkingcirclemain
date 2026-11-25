@@ -17,3 +17,12 @@ export const fmtDay = (iso: string) => {
 
 export const fmtLongDate = (iso: string) =>
   new Intl.DateTimeFormat("en-IN", { timeZone: TZ, day: "numeric", month: "long", year: "numeric" }).format(new Date(iso));
+
+const inr = new Intl.NumberFormat("en-IN");
+
+/** Ticket price as published on Luma. null = not published (we never guess), 0 = no ticket. */
+export const fmtPrice = (price: number | null | undefined) =>
+  price === null || price === undefined ? null : price === 0 ? "No ticket" : `₹${inr.format(price)}`;
+
+export const fmtMonthYear = (iso: string) =>
+  new Intl.DateTimeFormat("en-IN", { timeZone: TZ, month: "short", year: "numeric" }).format(new Date(iso));

@@ -46,6 +46,33 @@ export const inquirySchema = z
       ctx.addIssue({ code: "custom", path: ["organisation"], message: "Which organisation is this for?" });
   });
 
+export const LOOKING_FOR_VALUES = ["co-founder", "clients", "hires", "investors", "partners", "peers", "learning"] as const;
+
+/** Request access — the profile intake that lets BNC match people to rooms. Mirrored client-side in components/request-access. */
+export const accessRequestSchema = z.object({
+  name,
+  email,
+  phone,
+  city: z.string().trim().min(2, "Which city are you in?").max(80),
+  role: z.string().trim().min(2, "Pick the role closest to yours.").max(60),
+  company: optionalText(120),
+  industry: optionalText(60),
+  linkedin: z
+    .string()
+    .trim()
+    .max(200)
+    .optional()
+    .transform((v) => (v ? v : undefined))
+    .refine((v) => !v || /^https:\/\/(www\.|[a-z]{2}\.)?linkedin\.com\//.test(v), "Paste the full LinkedIn URL, starting with https://"),
+  building: z.string().trim().min(10, "A sentence about what you're building — 10 characters minimum.").max(600, "600 characters max."),
+  lookingFor: z.array(z.enum(LOOKING_FOR_VALUES)).min(1, "Pick at least one.").max(7),
+  heardFrom: optionalText(60),
+  charter: z.literal("true", { errorMap: () => ({ message: "Agree to the Charter to send your request." }) }),
+  sourcePath: optionalText(200),
+  ...antiSpam,
+});
+export type AccessRequestInput = z.input<typeof accessRequestSchema>;
+
 export const subscribeSchema = z.object({
   email,
   city: optionalText(80),

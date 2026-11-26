@@ -37,7 +37,7 @@ export const orgJsonLd = () => ({
   name: SITE.name,
   alternateName: SITE.short,
   url: SITE.url,
-  logo: `${SITE.url}/brand/bnc-seal.svg`,
+  logo: `${SITE.url}/brand/bnc-logo.svg`,
   description: SITE.description,
   foundingDate: SITE.founded,
   founder: { "@type": "Person", name: SITE.founder },

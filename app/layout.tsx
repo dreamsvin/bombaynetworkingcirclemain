@@ -7,30 +7,21 @@ import { Header } from "@/components/site/header";
 import { Footer } from "@/components/site/footer";
 import { RevealObserver } from "@/components/site/reveal";
 
-// Self-hosted (fontsource files, served from our origin), font-display: swap.
-const newsreader = localFont({
-  src: "../node_modules/@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2",
-  variable: "--font-newsreader",
-  weight: "200 800",
-  display: "swap",
-  preload: true,
-  fallback: ["Georgia", "Times New Roman", "serif"],
-  adjustFontFallback: "Times New Roman",
-});
-
-const publicSans = localFont({
-  src: "../node_modules/@fontsource-variable/public-sans/files/public-sans-latin-wght-normal.woff2",
-  variable: "--font-public-sans",
+// Self-hosted Archivo (fontsource file, served from our origin), font-display: swap.
+const archivo = localFont({
+  src: "../node_modules/@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2",
+  variable: "--font-archivo",
   weight: "100 900",
   display: "swap",
   preload: true,
-  fallback: ["system-ui", "-apple-system", "Segoe UI", "sans-serif"],
+  fallback: ["system-ui", "-apple-system", "Segoe UI", "Arial", "sans-serif"],
+  adjustFontFallback: "Arial",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "Bombay Networking Circle — founder networking events in 8 Indian cities",
+    default: "Bombay Networking Circle — a network of builders in 8 Indian cities",
     template: "%s · Bombay Networking Circle",
   },
   description: SITE.description,
@@ -39,8 +30,8 @@ export const metadata: Metadata = {
     type: "website",
     siteName: SITE.name,
     locale: SITE.locale,
-    title: "Meet the people building in your city",
-    description: "Free, hosted rooms for founders, operators and freelancers. 1,000+ members across 8 cities (Nov 2026). Find your circle.",
+    title: "The right rooms change everything. The right people make it happen.",
+    description: "A network of founders, operators and creators across 8 Indian cities. 1,000+ members (Nov 2026). Free to join — request access.",
   },
   twitter: { card: "summary_large_image" },
   alternates: { canonical: "/" },
@@ -48,15 +39,15 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  // eslint-disable-next-line no-restricted-syntax -- browser chrome colour must be a literal; mirrors --c-paper
-  themeColor: "#FAF7F2",
+  // eslint-disable-next-line no-restricted-syntax -- browser chrome colour must be a literal; mirrors --c-white
+  themeColor: "#FFFFFF",
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className={`${newsreader.variable} ${publicSans.variable}`} suppressHydrationWarning>
+    <html lang="en-IN" className={archivo.variable} suppressHydrationWarning>
       <head>
         {/* Enables scroll reveals only when JS runs. Without JS everything is visible. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
@@ -64,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <a
           href="#main"
-          className="sr-only z-skip rounded-md bg-fg px-4 py-3 text-body-sm font-semibold text-bg focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+          className="sr-only z-skip bg-fg px-4 py-3 text-body-sm font-semibold text-bg focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
         >
           Skip to content
         </a>

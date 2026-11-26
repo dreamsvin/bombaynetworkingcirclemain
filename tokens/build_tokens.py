@@ -7,8 +7,9 @@ text pair the site uses drops below WCAG AA (4.5:1 body text, 3:1 large text / U
 Change a value here, re-run, then mirror it in app/globals.css (the only other place hex values live).
 Components never use hex — only the semantic Tailwind names wired in tailwind.config.ts.
 
-Accent: #815936 is sampled from the official BNC coffee-cup logo (20 Nov 2026). It is the CTA colour
-and nothing else.
+Palette (approved wireframes, 26 Nov 2026): logo brown #835A33 is the brand colour (bands, kickers, numerals);
+navy #1B3A5C is the one CTA colour ("Request access"). Sand #EDE3D6 and sky #CDE4F5 are surfaces and chips.
+Modernist structure: square corners, 2px ink rules.
 """
 import json
 import os
@@ -17,81 +18,55 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 PRIMITIVES = {
-    # Foundation — warm near-black ink
-    "ink": "#1C1915",
-    "ink-2": "#26221D",
-    "ink-3": "#312C26",
-    # Surfaces — warm off-white paper
-    "paper": "#FAF7F2",
-    "paper-2": "#F3EDE4",
-    "paper-3": "#E9E1D5",
+    "ink": "#1F1F1F",
+    "ink-2": "#2A2A2A",
     "white": "#FFFFFF",
-    # Text steps on paper
-    "ink-muted": "#4F473F",
-    "ink-subtle": "#665D53",
-    # Text steps on ink
-    "paper-muted": "#DCD3C7",
-    "paper-subtle": "#B3A898",
-    # Accent — BNC logo brown. CTAs only.
-    "brown": "#815936",
-    "brown-hover": "#6C4A2C",
-    "brown-press": "#5A3D24",
-    # Accent on dark — caramel, so the CTA stays findable on ink
-    "caramel": "#D9A877",
-    "caramel-hover": "#E6BD93",
-    # Muted support tone — clay, for rules, dots and quiet tags (never text on paper)
-    "clay": "#B9A48C",
-    "clay-tint": "#EFE6DA",
-    # Lines
-    "line": "#E3DACD",
-    "line-strong": "#CFC3B3",
-    "line-control": "#857A6D",
-    "line-dark": "#3A342D",
-    "line-dark-strong": "#4D463E",
-    "line-dark-control": "#8F8577",
-    # Status
-    "danger": "#A3362A",
-    "success": "#2F6B45",
+    "sand": "#EDE3D6",
+    "sky": "#CDE4F5",
+    "brown": "#835A33",
+    "brown-dark": "#6B4828",
+    "navy": "#1B3A5C",
+    "navy-hover": "#132B45",
+    "oxblood": "#7A2E22",
+    "ink-muted": "#444444",
+    "ink-subtle": "#595959",
+    "on-brown-muted": "#F3EDE6",
+    "on-dark-muted": "#D6D6D6",
+    "on-dark-subtle": "#B3B3B3",
+    "line": "#D8D4CF",
+    "danger": "#B3261E",
     "danger-light": "#F2A196",
-    "success-light": "#9CC8A8",
+    "success": "#2F6B45",
 }
 
 # (foreground, background, minimum ratio, what it is)
 PAIRS = [
-    ("ink", "paper", 4.5, "body text on paper"),
-    ("ink", "paper-2", 4.5, "body text on raised paper"),
-    ("ink", "white", 4.5, "body text on cards"),
-    ("ink-muted", "paper", 4.5, "muted text on paper"),
-    ("ink-muted", "paper-2", 4.5, "muted text on raised"),
-    ("ink-muted", "paper-3", 4.5, "muted text on overlay"),
-    ("ink-subtle", "paper", 4.5, "subtle text on paper (captions)"),
-    ("ink-subtle", "paper-2", 4.5, "subtle text on raised"),
-    ("ink-subtle", "white", 4.5, "subtle text on cards"),
-    ("white", "brown", 4.5, "primary button label"),
-    ("white", "brown-hover", 4.5, "primary button hover"),
-    ("brown", "paper", 4.5, "accent text link on paper"),
-    ("brown", "white", 4.5, "accent text link on card"),
-    ("brown", "paper-2", 4.5, "accent text on raised"),
-    ("ink", "clay-tint", 4.5, "tag text on clay tint"),
-    ("paper", "ink", 4.5, "text on ink"),
-    ("paper-muted", "ink", 4.5, "muted text on ink"),
-    ("paper-subtle", "ink", 4.5, "subtle text on ink"),
-    ("paper-subtle", "ink-2", 4.5, "subtle text on raised ink"),
-    ("ink", "caramel", 4.5, "primary button label on dark"),
-    ("ink", "caramel-hover", 4.5, "primary button hover on dark"),
-    ("caramel", "ink", 4.5, "accent text on ink"),
-    ("line-control", "paper", 3.0, "form control border on paper"),
-    ("line-control", "white", 3.0, "form control border on card"),
-    ("line-dark-control", "ink", 3.0, "form control border on ink"),
-    ("brown", "paper", 3.0, "primary button boundary vs page"),
-    ("caramel", "ink", 3.0, "primary button boundary vs dark page"),
-    ("danger", "paper", 4.5, "error text"),
-    ("danger", "white", 4.5, "error text on card"),
-    ("success", "paper", 4.5, "success text"),
-    ("danger-light", "ink", 4.5, "error text on ink"),
-    ("success-light", "ink", 4.5, "success text on ink"),
-    ("ink", "paper", 3.0, "focus ring on paper"),
-    ("caramel", "ink", 3.0, "focus ring on ink"),
+    ("ink", "white", 4.5, "body text"),
+    ("ink", "sand", 4.5, "body text on sand"),
+    ("ink-muted", "white", 4.5, "muted text"),
+    ("ink-muted", "sand", 4.5, "muted text on sand"),
+    ("ink-subtle", "white", 4.5, "captions"),
+    ("ink-subtle", "sand", 4.5, "captions on sand"),
+    ("white", "navy", 4.5, "CTA label"),
+    ("white", "navy-hover", 4.5, "CTA hover"),
+    ("navy", "white", 4.5, "link / outline button"),
+    ("navy", "sand", 4.5, "link on sand"),
+    ("navy", "sky", 4.5, "chip text on sky"),
+    ("white", "brown", 4.5, "text on brown band"),
+    ("on-brown-muted", "brown", 4.5, "muted text on brown"),
+    ("sand", "brown", 4.5, "kicker on brown"),
+    ("brown", "white", 4.5, "kicker / numerals on white"),
+    ("brown", "sand", 4.5, "kicker on sand"),
+    ("white", "ink", 4.5, "footer text"),
+    ("on-dark-muted", "ink", 4.5, "footer muted"),
+    ("on-dark-subtle", "ink", 4.5, "footer subtle"),
+    ("ink", "white", 3.0, "2px rules / control borders"),
+    ("navy", "white", 3.0, "focus ring"),
+    ("white", "brown", 3.0, "focus ring on brown"),
+    ("danger", "white", 4.5, "error text"),
+    ("danger", "sand", 4.5, "error text on sand"),
+    ("danger-light", "ink", 4.5, "error on ink"),
+    ("success", "white", 4.5, "success text"),
 ]
 
 

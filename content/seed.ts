@@ -130,14 +130,16 @@ const event = (e: Partial<Event> & Pick<Event, "slug" | "chapter_id" | "title" |
   capacity: null,
   who_attends: null,
   agenda: null,
+  price_inr: null,
+  theme: null,
   is_published: false,
   ...meta,
   ...e,
 });
 
 /**
- * No real event rows yet — Luma is the live source and is embedded on /events and every city page.
- * These placeholders exist so the event templates can be reviewed. Replace with real events (CONTENT-TODO).
+ * No real room rows yet — Luma is the live source for RSVPs.
+ * These placeholders exist so the room templates can be reviewed. Replace with real rooms (CONTENT-TODO).
  */
 export const EVENTS: Event[] = [
   event(
@@ -152,7 +154,8 @@ export const EVENTS: Event[] = [
       venue_address: "Mumbai, Maharashtra",
       luma_url: "https://luma.com/embed/calendar/cal-vDOs5j3wARFnY6V/events",
       format: "founder_networking",
-      capacity: 40,
+      capacity: 30,
+      theme: `Scaling beyond your first city ${PLACEHOLDER}`,
       who_attends: "Founders from idea stage to post-revenue, plus operators and freelancers who work with startups.",
       agenda: [
         { time: "19:00", item: "Arrive and get placed" },
@@ -175,6 +178,7 @@ export const EVENTS: Event[] = [
       luma_url: "https://luma.com/embed/calendar/cal-vDOs5j3wARFnY6V/events",
       format: "startup_conversations",
       capacity: 30,
+      theme: "Hiring your first five",
     },
     2,
   ),
@@ -220,6 +224,11 @@ const member = (m: Partial<Member> & Pick<Member, "name">, n: number): Member =>
   team_role: null,
   team_order: null,
   consented_on: null,
+  industry: null,
+  stage: null,
+  building: null,
+  looking_for: [],
+  rooms_attended: null,
   is_published: false,
   ...meta,
   ...m,
@@ -241,9 +250,32 @@ export const MEMBERS: Member[] = [
     },
     1,
   ),
-  member({ name: `Featured member ${PLACEHOLDER}`, role: "Founder", company: "Company name", city: "Mumbai", is_featured: true }, 2),
-  member({ name: `Featured member ${PLACEHOLDER}`, role: "Operator", company: "Company name", city: "Bangalore", is_featured: true }, 3),
-  member({ name: `Featured member ${PLACEHOLDER}`, role: "Freelance designer", company: "Independent", city: "Pune", is_featured: true }, 4),
+  // Directory placeholders: the shape of a listed profile, so /members can be reviewed in preview builds.
+  // Real profiles need consented_on before they publish (DB constraint).
+  ...([
+    ["Founder", "Mumbai", "D2C", "seed", "A skincare brand selling direct to consumers", ["clients", "partners"]],
+    ["Operator", "Bangalore", "SaaS", "growth", "Revenue operations for B2B software", ["peers", "hires"]],
+    ["Freelance designer", "Pune", "Creators", "early", "Brand identities for early-stage startups", ["clients"]],
+    ["Founder", "Delhi", "Fintech", "idea", "Credit tools for gig workers", ["co-founder", "investors"]],
+    ["Investor", "Mumbai", "Fintech", "established", "Angel investing in pre-seed fintech", ["peers", "learning"]],
+    ["Founder", "Pune", "D2C", "seed", "Packaged regional snacks", ["partners", "hires"]],
+  ] as const).map(([role, city, industry, stage, building, looking], i) =>
+    member(
+      {
+        name: `Member name ${PLACEHOLDER}`,
+        role,
+        company: "Company name",
+        city,
+        industry,
+        stage,
+        building,
+        looking_for: [...looking],
+        rooms_attended: 3 + i,
+        is_featured: i < 4,
+      },
+      i + 2,
+    ),
+  ),
 ];
 
 export const STORIES: Story[] = [
@@ -253,10 +285,12 @@ export const STORIES: Story[] = [
     member_id: null,
     chapter_id: byCity("mumbai"),
     headline: `How a BNC introduction became a co-founder ${PLACEHOLDER}`,
-    problem: "Describe what the member needed before the event, in their words.",
+    problem: "Describe the two people: who they are and what each was building before they met.",
     connection: "Describe who they met, at which event, and who made the introduction.",
     body: "Write the story in three to five short paragraphs. Name real people and companies only with their written consent, and set consented_on in the database before publishing.",
     outcome: "State the outcome as a fact the member has confirmed.",
+    story_type: "co-founder",
+    second_member_id: null,
     consented_on: null,
     is_published: false,
     ...meta,
@@ -267,10 +301,12 @@ export const STORIES: Story[] = [
     member_id: null,
     chapter_id: byCity("bangalore"),
     headline: `A freelancer's first retainer client, from one room ${PLACEHOLDER}`,
-    problem: "Describe the problem.",
+    problem: "Describe the two people.",
     connection: "Describe the connection.",
     body: "Replace with a real, consented story.",
     outcome: "State the confirmed outcome.",
+    story_type: "client",
+    second_member_id: null,
     consented_on: null,
     is_published: false,
     ...meta,

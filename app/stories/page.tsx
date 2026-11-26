@@ -5,13 +5,15 @@ import { pageMeta } from "@/lib/seo";
 import { Container, Section, PageHeader } from "@/components/ui/layout";
 import { Breadcrumbs, EmptyState } from "@/components/ui/misc";
 import { ButtonLink } from "@/components/ui/button";
+import { ClosingBand } from "@/components/ui/bnc";
+import { PrimaryCta } from "@/components/site/primary-cta";
 import { StoryFilter } from "@/components/chapters/story-filter";
 
 export const revalidate = 600;
 
 export const metadata: Metadata = pageMeta({
-  title: "Member stories — what happened after the introduction",
-  ogTitle: "What happens after a BNC introduction",
+  title: "The Circle in Motion — member stories",
+  ogTitle: "The Circle in Motion",
   description: "Co-founders, first hires and first clients that started in a Bombay Networking Circle room — told by the members, published with their consent.",
   path: "/stories",
 });
@@ -23,8 +25,8 @@ export default async function StoriesPage() {
       <PageHeader
         breadcrumbs={<Breadcrumbs items={[{ label: "Stories", href: "/stories" }]} />}
         eyebrow="Stories"
-        title="What happened after the introduction."
-        lede="Real members, named with their written consent. Every story says who met whom, where, and what came of it."
+        title="The Circle in Motion."
+        lede="Co-founders, clients, hires and investments that started in a BNC room. Every story names the people, the connection and what happened next — published with both members' consent."
       />
       <Section labelledBy="stories-list">
         <Container>
@@ -46,13 +48,16 @@ export default async function StoriesPage() {
               <ButtonLink href="/contact" variant="secondary">
                 Tell us your story
               </ButtonLink>
-              <Link href="/events" className="text-body-sm font-semibold text-fg underline underline-offset-4">
-                Or come to an event and start one
+              <Link href="/rooms" className="text-body-sm font-semibold text-fg underline underline-offset-4">
+                Or come to a room and start one
               </Link>
             </EmptyState>
           )}
         </Container>
       </Section>
+      <ClosingBand title="Your next connection is in a room.">
+        <PrimaryCta size="lg" placement="stories-closing" />
+      </ClosingBand>
     </>
   );
 }

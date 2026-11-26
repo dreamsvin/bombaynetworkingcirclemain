@@ -23,5 +23,5 @@ export default defineConfig([
     files: ["app/**/opengraph-image.tsx", "app/icon.tsx", "app/apple-icon.tsx", "lib/og.tsx", "app/manifest.ts", "scripts/**", "tokens/**"],
     rules: { "no-restricted-syntax": "off" },
   },
-  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts", "lib/supabase/database.types.ts", ".pgdata/**"]),
+  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts", "lib/supabase/database.types.ts", ".pgdata/**", "script.js"]), // script.js: legacy static-site file kept in the repo root, not part of the app
 ]);

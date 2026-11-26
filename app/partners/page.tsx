@@ -41,7 +41,7 @@ export default async function PartnersPage() {
           <SectionHeader id="kinds-title" title="What partnership means" />
           <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {KINDS.map((k) => (
-              <li key={k.title} className="rounded-lg border border-line bg-bg-card p-6">
+              <li key={k.title} className="border-2 border-line-strong bg-bg-card p-6">
                 <h3 className="text-heading-sm text-fg">{k.title}</h3>
                 <p className="mt-2 text-body-sm text-fg-muted">{k.body}</p>
               </li>

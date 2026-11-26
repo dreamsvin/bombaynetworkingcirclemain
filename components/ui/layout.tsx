@@ -5,7 +5,7 @@ export function Container({ className, children, narrow = false }: { className?:
   return <div className={cn("mx-auto px-gutter", narrow ? "max-w-prose box-content" : "w-full max-w-container", className)}>{children}</div>;
 }
 
-type Tone = "paper" | "raised" | "ink";
+type Tone = "paper" | "raised" | "sand" | "brown" | "ink";
 
 export function Section({
   tone = "paper",
@@ -29,15 +29,16 @@ export function Section({
       id={id}
       aria-labelledby={labelledBy}
       data-tone={tone === "paper" ? undefined : tone}
-      className={cn(size === "sm" ? "py-section-sm" : "py-section", className)}
+      className={cn("border-b-2 border-line-strong", size === "sm" ? "py-section-sm" : "py-section", className)}
     >
       {children}
     </As>
   );
 }
 
+/** Kicker: monospace, uppercase, brand brown (sand on brown sections). */
 export function Eyebrow({ children, className }: { children: ReactNode; className?: string }) {
-  return <p className={cn("text-label uppercase text-fg-subtle", className)}>{children}</p>;
+  return <p className={cn("font-mono text-label uppercase text-brand-text", className)}>{children}</p>;
 }
 
 /** Section heading block: eyebrow, h2, optional lede. `id` lets the section use aria-labelledby. */
@@ -84,7 +85,7 @@ export function PageHeader({
   breadcrumbs?: ReactNode;
 }) {
   return (
-    <header className="border-b border-line bg-bg-raised pb-section-sm pt-10">
+    <header data-tone="sand" className="border-b-2 border-line-strong bg-bg pb-section-sm pt-10">
       <Container>
         {breadcrumbs}
         <div className="mt-8 max-w-measure">

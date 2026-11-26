@@ -35,7 +35,7 @@ export function ChapterDirectory({ chapters, nextEvents }: { chapters: Chapter[]
               onChange={(e) => setQ(e.target.value)}
               placeholder="e.g. Pune"
               autoComplete="off"
-              className="block min-h-11 w-full rounded-full border border-line-control bg-bg-card pl-10 pr-4 text-body text-fg placeholder:text-fg-subtle"
+              className="block min-h-11 w-full border-2 border-line-control bg-bg-card pl-10 pr-4 text-body text-fg placeholder:text-fg-subtle"
             />
           </div>
         </div>
@@ -49,7 +49,7 @@ export function ChapterDirectory({ chapters, nextEvents }: { chapters: Chapter[]
                 aria-pressed={state === s}
                 onClick={() => setState(s)}
                 className={cn(
-                  "min-h-11 rounded-full border px-4 text-body-sm transition-colors duration-fast",
+                  "min-h-11 border-2 px-4 font-mono text-label uppercase transition-colors duration-fast",
                   state === s ? "border-fg bg-fg text-bg" : "border-line-control text-fg hover:border-fg",
                 )}
               >
@@ -84,7 +84,7 @@ export function ChapterDirectory({ chapters, nextEvents }: { chapters: Chapter[]
           title={q ? `No chapter in “${q}” yet` : "No chapters match"}
           body="Come to the nearest chapter's events in the meantime — or bring BNC to your city."
         >
-          <ButtonLink href="/chapters/start" variant="secondary">
+          <ButtonLink href="/start-a-chapter" variant="secondary">
             Start a chapter{q ? ` in ${q}` : ""}
           </ButtonLink>
         </EmptyState>

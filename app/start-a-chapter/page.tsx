@@ -10,7 +10,7 @@ export const metadata: Metadata = pageMeta({
   title: "Start a BNC chapter in your city",
   ogTitle: "Bring Bombay Networking Circle to your city",
   description: "Lead a Bombay Networking Circle chapter: host small founder rooms in your city with BNC's format, playbook and community behind you. Apply here.",
-  path: "/chapters/start",
+  path: "/start-a-chapter",
 });
 
 const WHO = [
@@ -32,7 +32,7 @@ export default async function StartChapterPage() {
   return (
     <>
       <PageHeader
-        breadcrumbs={<Breadcrumbs items={[{ label: "Chapters", href: "/chapters" }, { label: "Start a chapter", href: "/chapters/start" }]} />}
+        breadcrumbs={<Breadcrumbs items={[{ label: "Chapters", href: "/chapters" }, { label: "Start a chapter", href: "/start-a-chapter" }]} />}
         eyebrow="Expansion"
         title="Start a chapter in your city."
         lede={`BNC is in ${chapters.length} cities because someone in each one decided their city needed better rooms. Here's who that should be, and what you get.`}

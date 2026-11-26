@@ -63,10 +63,10 @@ export default function StoryPage() {
         </figure>
 
         <article className="prose-bnc">
-          <h2>Why it&apos;s free</h2>
+          <h2>Why joining is free</h2>
           <p>
             Charging for membership changes who comes into the room — and the people who most need a warm introduction are often the ones who can least
-            afford a membership fee. BNC stays free. Sponsors and partners cover what costs money, and every sponsorship is visible on this site.
+            afford a membership fee. Joining BNC stays free. Each room has a price that covers the venue, the host and keeping it small, and sponsors and partners cover the rest — every sponsorship is visible on this site.
           </p>
 
           <h2>Where it&apos;s going</h2>

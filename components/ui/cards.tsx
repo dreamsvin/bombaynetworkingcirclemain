@@ -14,7 +14,7 @@ export function ChapterCard({ chapter, nextEvent }: { chapter: Chapter; nextEven
     <Link
       href={`/chapters/${chapter.slug}`}
       data-city={chapter.slug}
-      className="group flex h-full flex-col rounded-lg border border-line bg-bg-card p-6 transition-shadow duration-base ease-out hover:shadow-e2"
+      className="group flex h-full flex-col border-2 border-line-strong bg-bg-card p-6"
     >
       <div className="flex items-start justify-between gap-4">
         <div>
@@ -37,7 +37,7 @@ export function ChapterCard({ chapter, nextEvent }: { chapter: Chapter; nextEven
 /* ───────── Story card ───────── */
 export function StoryCard({ story, city }: { story: Story; city?: string }) {
   return (
-    <Link href={`/stories/${story.slug}`} className="group flex h-full flex-col rounded-lg border border-line bg-bg-card p-6 hover:shadow-e2">
+    <Link href={`/stories/${story.slug}`} className="group flex h-full flex-col border-2 border-line-strong bg-bg-card p-6">
       <div className="flex flex-wrap items-center gap-2">
         {city && <Tag>{city}</Tag>}
         {isPlaceholder(story) && <PlaceholderBadge />}
@@ -60,10 +60,10 @@ export function MemberCard({ member, showTeamRole = false }: { member: Member; s
     .slice(0, 2)
     .join("");
   return (
-    <article className="flex h-full flex-col rounded-lg border border-line bg-bg-card p-5">
-      <div className="aspect-portrait overflow-hidden rounded-md bg-bg-overlay">
+    <article className="flex h-full flex-col border-2 border-line-strong bg-bg-card p-5">
+      <div className="aspect-portrait overflow-hidden bg-bg-overlay">
         {member.photo ? (
-          <Image src={member.photo} alt={`${name}`} width={720} height={900} sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 90vw" className="h-full w-full object-cover" />
+          <Image src={member.photo} alt={`${name}`} width={720} height={900} sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 90vw" className="h-full w-full object-cover grayscale" />
         ) : (
           // No photo: typographic treatment, never a stock face.
           <div className="flex h-full items-center justify-center font-display text-display-md text-fg-subtle" aria-hidden="true">

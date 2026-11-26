@@ -4,37 +4,29 @@ Every text/background pair the site uses, checked against WCAG 2.1 AA.
 
 | Foreground | Background | Ratio | Needs | Result | Used for |
 |---|---|---|---|---|---|
-| ink `#1C1915` | paper `#FAF7F2` | 16.39:1 | 4.5:1 | PASS | body text on paper |
-| ink `#1C1915` | paper-2 `#F3EDE4` | 15.05:1 | 4.5:1 | PASS | body text on raised paper |
-| ink `#1C1915` | white `#FFFFFF` | 17.51:1 | 4.5:1 | PASS | body text on cards |
-| ink-muted `#4F473F` | paper `#FAF7F2` | 8.52:1 | 4.5:1 | PASS | muted text on paper |
-| ink-muted `#4F473F` | paper-2 `#F3EDE4` | 7.83:1 | 4.5:1 | PASS | muted text on raised |
-| ink-muted `#4F473F` | paper-3 `#E9E1D5` | 7.02:1 | 4.5:1 | PASS | muted text on overlay |
-| ink-subtle `#665D53` | paper `#FAF7F2` | 6.04:1 | 4.5:1 | PASS | subtle text on paper (captions) |
-| ink-subtle `#665D53` | paper-2 `#F3EDE4` | 5.54:1 | 4.5:1 | PASS | subtle text on raised |
-| ink-subtle `#665D53` | white `#FFFFFF` | 6.45:1 | 4.5:1 | PASS | subtle text on cards |
-| white `#FFFFFF` | brown `#815936` | 6.15:1 | 4.5:1 | PASS | primary button label |
-| white `#FFFFFF` | brown-hover `#6C4A2C` | 7.91:1 | 4.5:1 | PASS | primary button hover |
-| brown `#815936` | paper `#FAF7F2` | 5.75:1 | 4.5:1 | PASS | accent text link on paper |
-| brown `#815936` | white `#FFFFFF` | 6.15:1 | 4.5:1 | PASS | accent text link on card |
-| brown `#815936` | paper-2 `#F3EDE4` | 5.28:1 | 4.5:1 | PASS | accent text on raised |
-| ink `#1C1915` | clay-tint `#EFE6DA` | 14.18:1 | 4.5:1 | PASS | tag text on clay tint |
-| paper `#FAF7F2` | ink `#1C1915` | 16.39:1 | 4.5:1 | PASS | text on ink |
-| paper-muted `#DCD3C7` | ink `#1C1915` | 11.83:1 | 4.5:1 | PASS | muted text on ink |
-| paper-subtle `#B3A898` | ink `#1C1915` | 7.48:1 | 4.5:1 | PASS | subtle text on ink |
-| paper-subtle `#B3A898` | ink-2 `#26221D` | 6.75:1 | 4.5:1 | PASS | subtle text on raised ink |
-| ink `#1C1915` | caramel `#D9A877` | 8.19:1 | 4.5:1 | PASS | primary button label on dark |
-| ink `#1C1915` | caramel-hover `#E6BD93` | 10.06:1 | 4.5:1 | PASS | primary button hover on dark |
-| caramel `#D9A877` | ink `#1C1915` | 8.19:1 | 4.5:1 | PASS | accent text on ink |
-| line-control `#857A6D` | paper `#FAF7F2` | 3.93:1 | 3.0:1 | PASS | form control border on paper |
-| line-control `#857A6D` | white `#FFFFFF` | 4.20:1 | 3.0:1 | PASS | form control border on card |
-| line-dark-control `#8F8577` | ink `#1C1915` | 4.83:1 | 3.0:1 | PASS | form control border on ink |
-| brown `#815936` | paper `#FAF7F2` | 5.75:1 | 3.0:1 | PASS | primary button boundary vs page |
-| caramel `#D9A877` | ink `#1C1915` | 8.19:1 | 3.0:1 | PASS | primary button boundary vs dark page |
-| danger `#A3362A` | paper `#FAF7F2` | 6.30:1 | 4.5:1 | PASS | error text |
-| danger `#A3362A` | white `#FFFFFF` | 6.73:1 | 4.5:1 | PASS | error text on card |
-| success `#2F6B45` | paper `#FAF7F2` | 5.94:1 | 4.5:1 | PASS | success text |
-| danger-light `#F2A196` | ink `#1C1915` | 8.60:1 | 4.5:1 | PASS | error text on ink |
-| success-light `#9CC8A8` | ink `#1C1915` | 9.37:1 | 4.5:1 | PASS | success text on ink |
-| ink `#1C1915` | paper `#FAF7F2` | 16.39:1 | 3.0:1 | PASS | focus ring on paper |
-| caramel `#D9A877` | ink `#1C1915` | 8.19:1 | 3.0:1 | PASS | focus ring on ink |
+| ink `#1F1F1F` | white `#FFFFFF` | 16.48:1 | 4.5:1 | PASS | body text |
+| ink `#1F1F1F` | sand `#EDE3D6` | 13.00:1 | 4.5:1 | PASS | body text on sand |
+| ink-muted `#444444` | white `#FFFFFF` | 9.74:1 | 4.5:1 | PASS | muted text |
+| ink-muted `#444444` | sand `#EDE3D6` | 7.68:1 | 4.5:1 | PASS | muted text on sand |
+| ink-subtle `#595959` | white `#FFFFFF` | 7.00:1 | 4.5:1 | PASS | captions |
+| ink-subtle `#595959` | sand `#EDE3D6` | 5.52:1 | 4.5:1 | PASS | captions on sand |
+| white `#FFFFFF` | navy `#1B3A5C` | 11.63:1 | 4.5:1 | PASS | CTA label |
+| white `#FFFFFF` | navy-hover `#132B45` | 14.39:1 | 4.5:1 | PASS | CTA hover |
+| navy `#1B3A5C` | white `#FFFFFF` | 11.63:1 | 4.5:1 | PASS | link / outline button |
+| navy `#1B3A5C` | sand `#EDE3D6` | 9.17:1 | 4.5:1 | PASS | link on sand |
+| navy `#1B3A5C` | sky `#CDE4F5` | 8.86:1 | 4.5:1 | PASS | chip text on sky |
+| white `#FFFFFF` | brown `#835A33` | 6.04:1 | 4.5:1 | PASS | text on brown band |
+| on-brown-muted `#F3EDE6` | brown `#835A33` | 5.20:1 | 4.5:1 | PASS | muted text on brown |
+| sand `#EDE3D6` | brown `#835A33` | 4.76:1 | 4.5:1 | PASS | kicker on brown |
+| brown `#835A33` | white `#FFFFFF` | 6.04:1 | 4.5:1 | PASS | kicker / numerals on white |
+| brown `#835A33` | sand `#EDE3D6` | 4.76:1 | 4.5:1 | PASS | kicker on sand |
+| white `#FFFFFF` | ink `#1F1F1F` | 16.48:1 | 4.5:1 | PASS | footer text |
+| on-dark-muted `#D6D6D6` | ink `#1F1F1F` | 11.34:1 | 4.5:1 | PASS | footer muted |
+| on-dark-subtle `#B3B3B3` | ink `#1F1F1F` | 7.86:1 | 4.5:1 | PASS | footer subtle |
+| ink `#1F1F1F` | white `#FFFFFF` | 16.48:1 | 3.0:1 | PASS | 2px rules / control borders |
+| navy `#1B3A5C` | white `#FFFFFF` | 11.63:1 | 3.0:1 | PASS | focus ring |
+| white `#FFFFFF` | brown `#835A33` | 6.04:1 | 3.0:1 | PASS | focus ring on brown |
+| danger `#B3261E` | white `#FFFFFF` | 6.54:1 | 4.5:1 | PASS | error text |
+| danger `#B3261E` | sand `#EDE3D6` | 5.15:1 | 4.5:1 | PASS | error text on sand |
+| danger-light `#F2A196` | ink `#1F1F1F` | 8.10:1 | 4.5:1 | PASS | error on ink |
+| success `#2F6B45` | white `#FFFFFF` | 6.34:1 | 4.5:1 | PASS | success text |

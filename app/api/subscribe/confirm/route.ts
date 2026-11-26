@@ -9,5 +9,5 @@ export async function GET(req: NextRequest) {
   if (ok && db) {
     await db.from("subscribers").update({ confirmed_at: new Date().toISOString() }).eq("confirm_token", token).is("confirmed_at", null);
   }
-  return NextResponse.redirect(new URL(ok ? "/community?subscribed=1" : "/community", req.url), 303);
+  return NextResponse.redirect(new URL(ok ? "/?subscribed=1" : "/", req.url), 303);
 }

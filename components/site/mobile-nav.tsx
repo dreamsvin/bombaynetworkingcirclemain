@@ -3,10 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { NAV, PRIMARY_CTA } from "@/content/site";
-import { Menu, Close, ArrowRight } from "@/components/ui/icons";
-import { buttonClass } from "@/components/ui/button";
-import { track } from "@/lib/analytics";
+import { NAV, FOOTER } from "@/content/site";
+import { Menu, Close } from "@/components/ui/icons";
 
 /** Mobile menu: a modal sheet with focus trap, Escape to close, and focus returned to the trigger. */
 export function MobileNav() {
@@ -62,46 +60,32 @@ export function MobileNav() {
         aria-expanded={open}
         aria-controls="mobile-menu"
         onClick={() => setOpen((o) => !o)}
-        className="inline-flex h-11 w-11 items-center justify-center rounded-full text-fg hover:bg-bg-raised"
+        className="inline-flex h-11 items-center gap-1.5 border-2 border-line-strong px-3 text-body-sm font-bold text-fg"
       >
-        {open ? <Close /> : <Menu />}
-        <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
+        {open ? <Close width={18} height={18} /> : <Menu width={18} height={18} />}
+        <span>{open ? "Close" : "Menu"}</span>
       </button>
       {open && (
-        <div id="mobile-menu" ref={panel} role="dialog" aria-modal="true" aria-label="Menu" className="fixed inset-x-0 bottom-0 top-nav z-sheet overflow-y-auto border-t border-line bg-bg">
+        <div id="mobile-menu" ref={panel} role="dialog" aria-modal="true" aria-label="Menu" className="fixed inset-x-0 bottom-0 top-nav z-sheet overflow-y-auto border-t-2 border-line-strong bg-bg">
           <nav aria-label="Mobile" className="px-gutter pb-10 pt-6">
-            <ul className="space-y-8">
-              {NAV.map((g) => (
-                <li key={g.label}>
-                  <p className="text-label uppercase text-fg-subtle">{g.label}</p>
-                  <ul className="mt-2">
-                    {g.items.map((it) => (
-                      <li key={it.href}>
-                        <Link href={it.href} className="flex min-h-11 items-center border-b border-line text-body-lg text-fg" onClick={() => setOpen(false)}>
-                          {it.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+            <ul>
+              {NAV.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="flex min-h-14 items-center border-b-2 border-line-strong text-heading-md font-bold text-fg" onClick={() => setOpen(false)}>
+                    {l.label}
+                  </Link>
                 </li>
               ))}
             </ul>
-            <Link
-              href={PRIMARY_CTA.href}
-              className={buttonClass("primary", "lg", "mt-10 w-full")}
-              onClick={() => {
-                track("cta_click", { placement: "mobile-menu" });
-                setOpen(false);
-              }}
-            >
-              {PRIMARY_CTA.label} <ArrowRight width={18} height={18} />
-            </Link>
-            <Link href="/search" className="mt-4 flex min-h-11 items-center justify-center text-body-sm text-fg-muted underline underline-offset-4" onClick={() => setOpen(false)}>
-              Search
-            </Link>
-            <Link href="/contact" className="mt-1 flex min-h-11 items-center justify-center text-body-sm text-fg-muted underline underline-offset-4" onClick={() => setOpen(false)}>
-              Contact
-            </Link>
+            <ul className="mt-8 grid grid-cols-2 gap-x-4">
+              {FOOTER.flatMap((g): readonly { label: string; href: string }[] => g.links).map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="flex min-h-11 items-center text-body-sm text-fg-muted underline underline-offset-4" onClick={() => setOpen(false)}>
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </nav>
         </div>
       )}

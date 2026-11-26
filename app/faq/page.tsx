@@ -11,14 +11,14 @@ import { CONTACT } from "@/content/site";
 export const revalidate = 600;
 
 export const metadata: Metadata = pageMeta({
-  title: "FAQ — joining, events, chapters and cost",
-  description: "Answers to common questions about Bombay Networking Circle: what it is, whether it's free, which cities it runs in, how events work and how to RSVP.",
+  title: "FAQ — joining, rooms, chapters and cost",
+  description: "Answers to common questions about Bombay Networking Circle: what it is, whether it's free, who can join, what happens after you request access and how rooms are curated.",
   path: "/faq",
 });
 
 const GROUPS: { key: Faq["group"]; title: string }[] = [
   { key: "joining", title: "Joining" },
-  { key: "events", title: "Events" },
+  { key: "events", title: "Rooms" },
   { key: "chapters", title: "Chapters" },
   { key: "partners", title: "Sponsors and partners" },
 ];

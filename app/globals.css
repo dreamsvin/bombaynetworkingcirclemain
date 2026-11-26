@@ -1,69 +1,112 @@
 /* Bombay Networking Circle — globals.css
    Values mirror tokens/build_tokens.py (run it to re-check contrast). Components use semantic names only.
-   Accent #815936 is the brown of the BNC coffee-cup logo; it is reserved for the primary CTA. */
+   Brown #835A33 = brand (bands, kickers, numerals). Navy #1B3A5C = the one CTA colour. Square corners, 2px ink rules. */
 
 @import "tailwindcss";
 @config "../tailwind.config.ts";
 
 /* ───────── 1. Primitives ───────── */
 :root {
-  --c-ink: #1c1915;
-  --c-ink-2: #26221d;
-  --c-ink-3: #312c26;
-  --c-paper: #faf7f2;
-  --c-paper-2: #f3ede4;
-  --c-paper-3: #e9e1d5;
+  --c-ink: #1f1f1f;
+  --c-ink-2: #2a2a2a;
   --c-white: #ffffff;
-  --c-ink-muted: #4f473f;
-  --c-ink-subtle: #665d53;
-  --c-paper-muted: #dcd3c7;
-  --c-paper-subtle: #b3a898;
-  --c-brown: #815936;
-  --c-brown-hover: #6c4a2c;
-  --c-brown-press: #5a3d24;
-  --c-caramel: #d9a877;
-  --c-caramel-hover: #e6bd93;
-  --c-clay: #b9a48c;
-  --c-clay-tint: #efe6da;
-  --c-line: #e3dacd;
-  --c-line-strong: #cfc3b3;
-  --c-line-control: #857a6d;
-  --c-line-dark: #3a342d;
-  --c-line-dark-strong: #4d463e;
-  --c-line-dark-control: #8f8577;
-  --c-danger: #a3362a;
-  --c-success: #2f6b45;
+  --c-sand: #ede3d6;
+  --c-sky: #cde4f5;
+  --c-brown: #835a33;
+  --c-brown-dark: #6b4828;
+  --c-navy: #1b3a5c;
+  --c-navy-hover: #132b45;
+  --c-ink-muted: #444444;
+  --c-ink-subtle: #595959;
+  --c-on-brown-muted: #f3ede6;
+  --c-on-dark-muted: #d6d6d6;
+  --c-on-dark-subtle: #b3b3b3;
+  --c-line: #d8d4cf;
+  --c-danger: #b3261e;
   --c-danger-light: #f2a196;
-  --c-success-light: #9cc8a8;
+  --c-success: #2f6b45;
 
-  /* ───────── 2. Semantic — paper tone (default) ───────── */
-  --bg: var(--c-paper);
-  --bg-raised: var(--c-paper-2);
+  /* ───────── 2. Semantic — white tone (default) ───────── */
+  --bg: var(--c-white);
+  --bg-raised: var(--c-sand);
   --bg-card: var(--c-white);
-  --bg-overlay: var(--c-paper-3);
+  --bg-overlay: var(--c-sand);
   --fg: var(--c-ink);
   --fg-muted: var(--c-ink-muted);
   --fg-subtle: var(--c-ink-subtle);
-  --accent: var(--c-brown);
-  --accent-hover: var(--c-brown-hover);
-  --accent-press: var(--c-brown-press);
+  --accent: var(--c-navy);
+  --accent-hover: var(--c-navy-hover);
+  --accent-press: var(--c-navy-hover);
   --on-accent: var(--c-white);
-  --accent-text: var(--c-brown);
-  --support: var(--c-clay);
-  --support-tint: var(--c-clay-tint);
+  --accent-text: var(--c-navy);
+  --brand: var(--c-brown);
+  --brand-text: var(--c-brown);
+  --support: var(--c-brown);
+  --support-tint: var(--c-sky);
+  --on-support-tint: var(--c-navy);
   --line: var(--c-line);
-  --line-strong: var(--c-line-strong);
-  --line-control: var(--c-line-control);
-  --focus: var(--c-ink);
+  --line-strong: var(--c-ink);
+  --line-control: var(--c-ink);
+  --focus: var(--c-navy);
   --danger: var(--c-danger);
   --success: var(--c-success);
-  --scrim: rgb(28 25 21 / 0.62);
-  --shadow-e1: 0 1px 2px 0 rgb(28 25 21 / 0.05);
-  --shadow-e2: 0 1px 2px 0 rgb(28 25 21 / 0.05), 0 12px 32px -16px rgb(28 25 21 / 0.18);
+  --scrim: rgb(31 31 31 / 0.55);
+  --shadow-e1: none;
+  --shadow-e2: 0 -8px 24px rgb(0 0 0 / 0.18);
+  color-scheme: light;
+}
 
-  /* ───────── 3. Type — fluid 360 → 1440 ───────── */
-  --font-display: var(--font-newsreader), Georgia, "Times New Roman", serif;
-  --font-sans: var(--font-public-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+/* Sand tone. <Section tone="sand">. */
+[data-tone="sand"],
+[data-tone="raised"] {
+  --bg: var(--c-sand);
+  --bg-card: var(--c-white);
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+/* Brown tone: brand bands (Charter, closing CTA, success screen). */
+[data-tone="brown"] {
+  --bg: var(--c-brown);
+  --bg-raised: var(--c-brown-dark);
+  --fg: var(--c-white);
+  --fg-muted: var(--c-on-brown-muted);
+  --fg-subtle: var(--c-sand);
+  --accent-text: var(--c-white);
+  --brand-text: var(--c-sand);
+  --line: rgb(255 255 255 / 0.4);
+  --line-strong: var(--c-white);
+  --line-control: var(--c-white);
+  --focus: var(--c-white);
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+/* Ink tone: footer. */
+[data-tone="ink"] {
+  --bg: var(--c-ink);
+  --bg-raised: var(--c-ink-2);
+  --bg-card: var(--c-ink-2);
+  --fg: var(--c-white);
+  --fg-muted: var(--c-on-dark-muted);
+  --fg-subtle: var(--c-on-dark-subtle);
+  --accent-text: var(--c-white);
+  --brand-text: var(--c-sand);
+  --line: #444444;
+  --line-strong: var(--c-white);
+  --line-control: var(--c-on-dark-subtle);
+  --focus: var(--c-white);
+  --danger: var(--c-danger-light);
+  color-scheme: dark;
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+:root {
+/* ───────── 3. Type — fluid 360 → 1440 ───────── */
+  --font-display: var(--font-archivo), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --text-display-xl: clamp(2.5rem, 1.75rem + 3.333vw, 4.75rem);
   --text-display-lg: clamp(2.125rem, 1.583rem + 2.407vw, 3.75rem);
   --text-display-md: clamp(1.875rem, 1.5rem + 1.667vw, 3rem);
@@ -80,7 +123,7 @@
   --gutter: clamp(1.25rem, 0.833rem + 1.852vw, 2.5rem);
   --section-sm: clamp(3.5rem, 2.833rem + 2.963vw, 5.5rem);
   --section: clamp(4rem, 2.667rem + 5.926vw, 8rem);
-  --nav-height: 64px;
+  --nav-height: 80px;
 
   /* ───────── 5. Motion ───────── */
   --dur-fast: 150ms;
@@ -90,38 +133,6 @@
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
   color-scheme: light;
-}
-
-/* Semantic — ink tone. <Section tone="ink">. */
-[data-tone="ink"] {
-  --bg: var(--c-ink);
-  --bg-raised: var(--c-ink-2);
-  --bg-card: var(--c-ink-2);
-  --bg-overlay: var(--c-ink-3);
-  --fg: var(--c-paper);
-  --fg-muted: var(--c-paper-muted);
-  --fg-subtle: var(--c-paper-subtle);
-  --accent: var(--c-caramel);
-  --accent-hover: var(--c-caramel-hover);
-  --accent-press: var(--c-caramel);
-  --on-accent: var(--c-ink);
-  --accent-text: var(--c-caramel);
-  --support-tint: var(--c-ink-3);
-  --line: var(--c-line-dark);
-  --line-strong: var(--c-line-dark-strong);
-  --line-control: var(--c-line-dark-control);
-  --focus: var(--c-caramel);
-  --danger: var(--c-danger-light);
-  --success: var(--c-success-light);
-  --shadow-e1: inset 0 1px 0 0 rgb(255 255 255 / 0.04);
-  --shadow-e2: inset 0 1px 0 0 rgb(255 255 255 / 0.05), 0 12px 32px -16px rgb(0 0 0 / 0.5);
-  color-scheme: dark;
-  background-color: var(--bg);
-  color: var(--fg);
-}
-
-[data-tone="raised"] {
-  background-color: var(--bg-raised);
 }
 
 /* ───────── Base ───────── */
@@ -146,18 +157,13 @@
     text-wrap: pretty;
   }
   ::selection {
-    background: var(--c-clay-tint);
+    background: var(--c-sky);
     color: var(--c-ink);
   }
   /* Visible focus everywhere. 2px ring, offset, high contrast against both tones. */
   :focus-visible {
     outline: 2px solid var(--focus);
     outline-offset: 3px;
-    border-radius: 2px;
-  }
-  [data-tone="ink"] ::selection {
-    background: var(--c-caramel);
-    color: var(--c-ink);
   }
 }
 
@@ -171,8 +177,9 @@
   .prose-bnc h2 {
     font-family: var(--font-display);
     font-size: var(--text-heading-lg);
-    line-height: 1.2;
-    font-weight: 500;
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -0.01em;
     margin-top: 2.2em;
   }
   .prose-bnc h3 {
@@ -187,10 +194,10 @@
   .prose-bnc a { color: var(--accent-text); text-decoration: underline; text-underline-offset: 3px; }
   .prose-bnc a:hover { text-decoration-thickness: 2px; }
   .prose-bnc blockquote {
-    border-left: 2px solid var(--support);
+    border-left: 2px solid var(--brand);
     padding-left: 1.25em;
-    font-family: var(--font-display);
     font-size: var(--text-heading-sm);
+    font-weight: 600;
   }
   .prose-bnc strong { font-weight: 600; }
 }

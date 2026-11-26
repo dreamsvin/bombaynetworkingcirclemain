@@ -51,6 +51,16 @@ do $$ declare n int; begin
   exception when insufficient_privilege then raise notice 'PASS: anon cannot read subscribers';
   end;
   begin
+    perform 1 from public.access_requests limit 1;
+    raise exception 'FAIL: anon can select from access_requests';
+  exception when insufficient_privilege then raise notice 'PASS: anon cannot read access_requests';
+  end;
+  begin
+    insert into public.access_requests (name, email, city, role, charter_agreed_at) values ('Anon', 'anon@example.com', 'Pune', 'Founder', now());
+    raise exception 'FAIL: anon can insert into access_requests';
+  exception when insufficient_privilege then raise notice 'PASS: anon cannot write access_requests';
+  end;
+  begin
     insert into public.inquiries (type, name, email) values ('contact', 'Anon', 'anon@example.com');
     raise exception 'FAIL: anon can insert into inquiries';
   exception when insufficient_privilege then raise notice 'PASS: anon cannot write inquiries';
@@ -69,6 +79,11 @@ do $$ begin
     perform 1 from public.inquiries limit 1;
     raise exception 'FAIL: authenticated can select from inquiries';
   exception when insufficient_privilege then raise notice 'PASS: authenticated cannot read inquiries';
+  end;
+  begin
+    perform 1 from public.access_requests limit 1;
+    raise exception 'FAIL: authenticated can select from access_requests';
+  exception when insufficient_privilege then raise notice 'PASS: authenticated cannot read access_requests';
   end;
 end $$;
 

@@ -20,8 +20,8 @@ export default function TermsPage() {
     >
       <h2>1. What BNC is</h2>
       <p>
-        BNC is a free, community-led network that organises in-person events for founders, operators, freelancers, creators and students in cities across
-        India. Membership is free. BNC is not a recruitment agency, investment adviser or broker, and nothing said at an event or on this site is
+        BNC is a community-led network that organises small, hosted, in-person rooms for founders, operators, freelancers, creators and students in cities across
+        India. Joining is free; rooms are paid, and each room shows its price before you commit. BNC is not a recruitment agency, investment adviser or broker, and nothing said at an event or on this site is
         professional, legal, financial or investment advice.
       </p>
 
@@ -29,7 +29,7 @@ export default function TermsPage() {
       <ul>
         <li>RSVPs are handled on Luma. An RSVP does not guarantee a place where capacity is limited; hosts may confirm, waitlist or decline.</li>
         <li>Event details (date, venue, agenda, speakers) can change. We&apos;ll update the event page and notify registered guests where we can.</li>
-        <li>If a specific event charges a fee, the price and any refund terms are shown on its Luma page before you pay.</li>
+        <li>Rooms are paid. The price is shown on the room page and in your invite, and any refund terms are shown before you pay.</li>
         <li>You attend at your own risk and are responsible for your belongings, travel and conduct. Venues may have their own rules.</li>
         <li>Everyone who attends agrees to the <Link href="/code-of-conduct">code of conduct</Link>. Hosts may ask anyone who breaks it to leave.</li>
       </ul>

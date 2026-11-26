@@ -33,7 +33,7 @@ export function Photo({
         sizes={sizes}
         preload={priority}
         quality={quality}
-        className={cn("h-full w-full object-cover", imgClassName)}
+        className={cn("h-full w-full object-cover grayscale", imgClassName)}
       />
     </div>
   );

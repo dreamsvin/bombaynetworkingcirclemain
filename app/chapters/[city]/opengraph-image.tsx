@@ -15,7 +15,7 @@ export default async function Image({ params }: { params: Promise<{ city: string
   const c = await getChapter(city);
   return ogImage({
     eyebrow: `${c?.state ?? "India"} · BNC chapter`,
-    title: `Meet founders in ${c?.city ?? "your city"}.`,
-    footer: "Free, hosted rooms for founders, operators and freelancers",
+    title: `BNC ${c?.city ?? "chapter"}. Find your people.`,
+    footer: "Small, hosted rooms for founders, operators and creators",
   });
 }

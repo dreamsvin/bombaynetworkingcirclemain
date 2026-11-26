@@ -12,7 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     ...STATIC_ROUTES.map((r) => ({ url: u(r.path), priority: r.priority, changeFrequency: "weekly" as const })),
     ...chapters.map((c) => ({ url: u(`/chapters/${c.slug}`), lastModified: c.updated_at, priority: 0.8, changeFrequency: "weekly" as const })),
-    ...[...upcoming, ...past].filter((e) => !isPlaceholder(e)).map((e) => ({ url: u(`/events/${e.slug}`), lastModified: e.updated_at, priority: 0.7 })),
+    ...[...upcoming, ...past].filter((e) => !isPlaceholder(e)).map((e) => ({ url: u(`/rooms/${e.slug}`), lastModified: e.updated_at, priority: 0.7 })),
     ...stories.filter((s) => !isPlaceholder(s)).map((s) => ({ url: u(`/stories/${s.slug}`), lastModified: s.updated_at, priority: 0.5 })),
     ...POSTS.map((p) => ({ url: u(`/blog/${p.slug}`), lastModified: p.date, priority: 0.5 })),
   ];

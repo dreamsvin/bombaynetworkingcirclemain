@@ -18,7 +18,7 @@ export default async function SearchPage() {
   const index: SearchItem[] = [
     ...STATIC_ROUTES.map((r) => ({ href: r.path, title: r.title, summary: r.summary, kind: "Page" })),
     ...chapters.map((c) => ({ href: `/chapters/${c.slug}`, title: `${c.city} chapter`, summary: c.intro ?? `${c.city}, ${c.state}`, kind: "Chapter" })),
-    ...[...upcoming, ...past].map((e) => ({ href: `/events/${e.slug}`, title: clean(e.title), summary: `${e.chapter.city} · ${fmtDate(e.starts_at)}`, kind: "Event" })),
+    ...[...upcoming, ...past].map((e) => ({ href: `/rooms/${e.slug}`, title: clean(e.title), summary: `${e.chapter.city} · ${fmtDate(e.starts_at)}`, kind: "Room" })),
     ...stories.map((s) => ({ href: `/stories/${s.slug}`, title: clean(s.headline), summary: s.outcome ?? "", kind: "Story" })),
     ...POSTS.map((p) => ({ href: `/blog/${p.slug}`, title: p.title, summary: p.dek, kind: "Blog" })),
   ];

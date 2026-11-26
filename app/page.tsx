@@ -1,331 +1,345 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { AUDIENCE, FORMATS, ROOM_STEPS, SITE, STATS } from "@/content/site";
-import { PHOTOS, HOME_GRID } from "@/content/photos";
+import { CHARTER, CURATION, HERO, PILLARS, SECONDARY_CTA, SITE, STATS, WHAT_IS, INDUSTRIES } from "@/content/site";
+import { PHOTOS } from "@/content/photos";
 import { FAQ } from "@/content/faq";
-import { getChapters, getSponsors, getTestimonials, getUpcomingEvents } from "@/lib/data";
+import { getChapters, getFeaturedMembers, getSponsors, getStories, getUpcomingEvents } from "@/lib/data";
 import { pageMeta, orgJsonLd } from "@/lib/seo";
+import { clean, isPlaceholder } from "@/lib/is-placeholder";
 import { Container, Section, SectionHeader, Eyebrow } from "@/components/ui/layout";
 import { ButtonLink } from "@/components/ui/button";
 import { Photo } from "@/components/ui/photo";
-import { StatBar } from "@/components/ui/stat-bar";
-import { Testimonial } from "@/components/ui/testimonial";
 import { CityMap } from "@/components/ui/city-map";
-import { Accordion } from "@/components/ui/misc";
+import { Accordion, EmptyState } from "@/components/ui/misc";
+import { Chip, ClosingBand, NumberedRows, RoomCard, StatLine } from "@/components/ui/bnc";
+import { LogoTile } from "@/components/ui/logo-tile";
+import { PlaceholderBadge } from "@/components/ui/placeholder-badge";
 import { PrimaryCta } from "@/components/site/primary-cta";
 import { CityTracker } from "@/components/site/city-tracker";
 import { JsonLd } from "@/components/site/json-ld";
-import { NextEvents } from "@/components/home/next-events";
-import { ArrowRight } from "@/components/ui/icons";
+import { SubscribeForm } from "@/components/forms/subscribe-form";
+import { MemberTile } from "@/components/members/member-tile";
 
 export const revalidate = 600; // ISR; must be a literal (matches REVALIDATE in lib/data.ts)
 
 export const metadata: Metadata = {
   ...pageMeta({
-    title: "Founder networking events in Mumbai and 7 more Indian cities",
-    ogTitle: "Meet the people building in your city",
-    description: `Free, hosted rooms for founders, operators and freelancers. ${STATS.items[0].value} members across ${STATS.items[1].value} cities as of ${STATS.asOf}. Find your city and come to the next event.`,
+    title: "The right rooms change everything",
+    ogTitle: "The right rooms change everything. The right people make it happen.",
+    description: `${HERO.lede} ${STATS.items[0].value} members across ${STATS.items[1].value} cities as of ${STATS.asOf}. Free to join; rooms are paid.`,
     path: "/",
   }),
-  title: { absolute: "Bombay Networking Circle — founder networking events in Mumbai and 7 more Indian cities" },
+  title: { absolute: "Bombay Networking Circle — the right rooms change everything" },
 };
 
-const PATH = [
-  { n: "01", title: "Find your city", body: "Pick your chapter. Eight cities today; if yours isn't one, start it." },
-  { n: "02", title: "Come to a room", body: "RSVP to the next event on Luma. Small, hosted, free." },
-  { n: "03", title: "Stay in the circle", body: "After your first RSVP, join the WhatsApp community where every event is announced first." },
+const HOME_FAQ = [
+  "Is it free?",
+  "Who can join?",
+  "What happens after I request access?",
+  "Do I need a startup?",
+  "How are rooms curated?",
+  "Is there a WhatsApp group?",
 ];
 
 export default async function HomePage() {
-  const [chapters, events, testimonials, sponsors] = await Promise.all([
+  const [chapters, rooms, members, stories, sponsors] = await Promise.all([
     getChapters(),
     getUpcomingEvents({ limit: 3 }),
-    getTestimonials(),
+    getFeaturedMembers(),
+    getStories(),
     getSponsors(),
   ]);
-  const flagship = chapters.find((c) => c.is_flagship);
+  const cityOf = (id: string | null) => chapters.find((c) => c.id === id)?.city;
+  const faq = HOME_FAQ.flatMap((q) => FAQ.filter((f) => f.q === q));
 
   return (
     <>
       <JsonLd data={orgJsonLd()} />
 
-      {/* ───── Hero: what it is, who it's for, where and how often, how to get in ───── */}
-      <section aria-labelledby="hero-title" className="pt-10 sm:pt-14">
-        <Container>
-          <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
-            <div className="lg:col-span-7">
-              <Eyebrow>Founder networking · {chapters.length} cities · Free</Eyebrow>
-              <h1 id="hero-title" className="mt-4 font-display text-display-xl text-fg">
-                Meet the people building in your city.
-              </h1>
-              <p className="mt-6 max-w-measure text-body-lg text-fg-muted">
-                {SITE.name} runs small, hosted rooms for founders, operators and freelancers — in {flagship?.city ?? "Mumbai"} and{" "}
-                {chapters.length - 1} more Indian cities. {STATS.items[2].value} events since {SITE.founded}. Free to join.
-              </p>
-              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
-                <PrimaryCta size="lg" placement="hero" />
-                <ButtonLink href="/events" variant="ghost">
-                  See upcoming events
-                </ButtonLink>
-              </div>
+      {/* ───── 1. Hero (direction 1g, photo-led) ───── */}
+      <section aria-labelledby="hero-title" className="border-b-2 border-line-strong">
+        <Container className="grid gap-10 py-10 sm:py-14 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-7">
+            <Eyebrow>Bombay Networking Circle</Eyebrow>
+            <h1 id="hero-title" className="mt-4 font-display text-display-xl text-fg">
+              {HERO.title}
+            </h1>
+            <p className="mt-6 max-w-measure text-body-lg text-fg-muted">{HERO.lede}</p>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <PrimaryCta size="lg" placement="hero" />
+              <ButtonLink href={SECONDARY_CTA.href} variant="secondary" size="lg">
+                {SECONDARY_CTA.label}
+              </ButtonLink>
             </div>
-            <div className="lg:col-span-5">
-              <p className="text-body-sm text-fg-muted lg:text-right">
-                <span className="font-display text-heading-lg text-fg">{STATS.items[0].value}</span> members ·{" "}
-                <span className="font-display text-heading-lg text-fg">{STATS.items[1].value}</span> cities
-                <span className="block text-caption text-fg-subtle">As of {STATS.asOf}</span>
-              </p>
-            </div>
+            <StatLine className="mt-8" />
+          </div>
+          <div className="lg:col-span-5">
+            <Photo photo={PHOTOS.roomG} priority quality={60} sizes="(min-width: 1024px) 560px, 100vw" ratio="photo" className="border-2 border-line-strong" />
           </div>
         </Container>
-        <div className="mx-auto mt-10 max-w-[1440px] sm:px-gutter">
-          <figure>
-            <Photo photo={PHOTOS.hero} priority quality={60} sizes="(min-width: 1440px) 1360px, 100vw" ratio="wide" className="sm:rounded-lg" />
-            <figcaption className="px-gutter pt-3 text-caption text-fg-subtle sm:px-0">A BNC evening in Mumbai. Real members, real room.</figcaption>
-          </figure>
-        </div>
       </section>
 
-      {/* ───── Stats ───── */}
-      <Section size="sm" labelledBy="stats-title">
+      {/* ───── 2. What is BNC ───── */}
+      <Section size="sm" labelledBy="what-title">
         <Container>
-          <h2 id="stats-title" className="sr-only">
-            BNC in numbers
+          <h2 id="what-title" className="sr-only">
+            What is BNC
           </h2>
-          <StatBar />
-        </Container>
-      </Section>
-
-      {/* ───── Three-step path ───── */}
-      <Section tone="raised" labelledBy="path-title">
-        <Container>
-          <SectionHeader id="path-title" eyebrow="How it works" title="Three steps from stranger to member." />
-          <ol className="mt-12 grid gap-8 md:grid-cols-3" data-reveal>
-            {PATH.map((s) => (
-              <li key={s.n} className="border-t-2 border-fg pt-6">
-                <span className="font-display text-heading-md text-fg-subtle">{s.n}</span>
-                <h3 className="mt-2 text-heading-md text-fg">{s.title}</h3>
-                <p className="mt-2 text-body text-fg-muted">{s.body}</p>
-              </li>
+          <dl className="grid border-t-2 border-line-strong sm:grid-cols-2 lg:grid-cols-4">
+            {WHAT_IS.map((w) => (
+              <div key={w.term} className="border-b-2 border-line-strong py-5 sm:pr-6">
+                <dt className="font-mono text-label uppercase text-brand-text">{w.term}</dt>
+                <dd className="mt-2 text-heading-sm font-bold text-fg">{w.body}</dd>
+              </div>
             ))}
-          </ol>
-          <div className="mt-12">
-            <PrimaryCta placement="path" />
-          </div>
+          </dl>
         </Container>
       </Section>
 
-      {/* ───── Who it's for ───── */}
-      <Section labelledBy="who-title">
+      {/* ───── 3. Inside BNC ───── */}
+      <Section tone="sand" labelledBy="inside-title">
         <Container>
-          <SectionHeader id="who-title" eyebrow="Who it's for" title="Is this your room?" lede="If you're building something — or helping someone else build it — yes." />
-          <ul className="mt-12 grid gap-6 md:grid-cols-3" data-reveal>
-            {AUDIENCE.map((a) => (
-              <li key={a.title} className="rounded-lg border border-line bg-bg-card p-6">
-                <h3 className="text-heading-md text-fg">{a.title}</h3>
-                <p className="mt-3 text-body text-fg-muted">{a.body}</p>
+          <SectionHeader id="inside-title" eyebrow="Inside BNC" title="A network you experience. Not just a community you join." />
+          <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {PILLARS.map((p) => (
+              <li key={p.title} className="border-t-2 border-line-strong pt-4">
+                <h3 className="text-heading-md text-fg">{p.title}</h3>
+                <p className="mt-2 text-body text-fg-muted">{p.body}</p>
               </li>
             ))}
           </ul>
+          <Link href="/inside" className="mt-10 inline-flex min-h-11 items-center text-body font-bold text-accent-text underline underline-offset-4">
+            See what happens in a room →
+          </Link>
         </Container>
       </Section>
 
-      {/* ───── What happens in a room ───── */}
-      <Section tone="ink" labelledBy="room-title">
+      {/* ───── 4. How a room is curated ───── */}
+      <Section labelledBy="curation-title">
         <Container>
-          <div className="grid gap-12 lg:grid-cols-12">
-            <div className="lg:col-span-5">
-              <SectionHeader
-                id="room-title"
-                eyebrow="What happens in a room"
-                title="Hosted, small, and built around one specific ask."
-                lede="Strangers don't RSVP to the unknown. Here is how an evening runs."
-              />
-              <Photo photo={PHOTOS.talkGarden} sizes="(min-width: 1024px) 400px, 90vw" ratio="portrait" className="mt-10 hidden rounded-lg lg:block" />
-            </div>
-            <ol className="lg:col-span-7" data-reveal>
-              {ROOM_STEPS.map((s, i) => (
-                <li key={s.title} className="grid grid-cols-[48px_1fr] gap-4 border-t border-line py-6">
-                  <span className="font-display text-heading-lg text-accent-text">{i + 1}</span>
-                  <div>
-                    <h3 className="text-heading-sm text-fg">{s.title}</h3>
-                    <p className="mt-1 text-body text-fg-muted">{s.body}</p>
-                  </div>
-                </li>
-              ))}
-              <li className="border-t border-line pt-6">
-                <p className="text-body-sm text-fg-subtle">Formats: {Object.values(FORMATS).map((f) => f.label).join(" · ")}.</p>
-              </li>
-            </ol>
-          </div>
+          <SectionHeader id="curation-title" eyebrow="How a room is curated" title="Four decisions behind every room." />
+          <NumberedRows items={CURATION} className="mt-10" />
         </Container>
       </Section>
 
-      {/* ───── Chapter map ───── */}
-      <Section labelledBy="chapters-title">
+      {/* ───── 5. Ecosystem ───── */}
+      <Section tone="sand" labelledBy="eco-title">
         <Container>
-          <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
-            <div className="lg:col-span-6">
-              <SectionHeader
-                id="chapters-title"
-                eyebrow="Chapters"
-                title={`${chapters.length} cities. Pick yours.`}
-                lede="Every chapter has its own page with its next date, its lead and its photos."
-              />
-              <CityTracker from="home-list">
-                <ul className="mt-10 grid grid-cols-2 gap-x-6 border-t border-line">
-                  {chapters.map((c) => (
-                    <li key={c.slug} className="border-b border-line">
-                      <Link href={`/chapters/${c.slug}`} data-city={c.slug} className="group flex min-h-14 items-center justify-between gap-2 py-3 text-body-lg text-fg">
-                        <span className="group-hover:underline group-hover:underline-offset-4">
-                          {c.city}
-                          {c.is_flagship && <span className="ml-2 text-caption text-fg-subtle">Flagship</span>}
-                        </span>
-                        <ArrowRight width={16} height={16} className="text-fg-subtle" />
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </CityTracker>
-              <p className="mt-6 text-body-sm text-fg-muted">
-                Not listed?{" "}
-                <Link href="/chapters/start" className="font-semibold text-accent-text underline underline-offset-4">
-                  Start a chapter in your city
-                </Link>
-                .
-              </p>
-            </div>
-            <CityTracker from="home-map" className="mx-auto w-full max-w-sm lg:col-span-6 lg:max-w-md">
-              <CityMap chapters={chapters} />
-            </CityTracker>
-          </div>
-        </Container>
-      </Section>
-
-      {/* ───── Next events ───── */}
-      <Section tone="raised" labelledBy="events-title">
-        <Container>
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <SectionHeader id="events-title" eyebrow="What's on" title="The next three rooms." />
-            <Link href="/events" className="inline-flex min-h-11 items-center gap-1 text-body-sm font-semibold text-fg underline underline-offset-4">
-              All events <ArrowRight width={16} height={16} />
-            </Link>
-          </div>
-          <div className="mt-10">
-            <NextEvents events={events} source="home" />
-          </div>
-        </Container>
-      </Section>
-
-      {/* ───── Photo grid ───── */}
-      <Section labelledBy="photos-title">
-        <Container>
-          <SectionHeader id="photos-title" eyebrow="In the room" title="This is what it looks like." />
-          <ul className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-4" data-reveal>
-            {HOME_GRID.map((p) => (
-              <li key={p.src}>
-                <Photo photo={p} sizes="(min-width: 768px) 25vw, 50vw" ratio="square" className="rounded-md" />
+          <SectionHeader id="eco-title" eyebrow="The ecosystem" title="Who's in the circle." />
+          <ul className="mt-8 flex flex-wrap gap-2" aria-label="Industries in the network">
+            {INDUSTRIES.filter((i) => i !== "Other").map((i) => (
+              <li key={i}>
+                <Chip>{i}</Chip>
               </li>
             ))}
           </ul>
-        </Container>
-      </Section>
-
-      {/* ───── Proof strip: only consented quotes (placeholders in preview) ───── */}
-      {testimonials.length > 0 && (
-        <Section tone="raised" labelledBy="proof-title">
-          <Container>
-            <SectionHeader id="proof-title" eyebrow="From members" title="In their words." />
-            <ul className="mt-10 grid gap-6 md:grid-cols-3">
-              {testimonials.slice(0, 3).map((t) => (
-                <li key={t.id}>
-                  <Testimonial t={t} />
+          {members.length ? (
+            <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {members.slice(0, 4).map((m) => (
+                <li key={m.id}>
+                  <MemberTile member={m} />
                 </li>
               ))}
             </ul>
-            <p className="mt-6 text-caption text-fg-subtle">Quotes are published only with the member&apos;s written consent.</p>
-          </Container>
-        </Section>
-      )}
+          ) : (
+            <p className="mt-8 max-w-measure text-body text-fg-muted">Member profiles are being added with each member&rsquo;s consent.</p>
+          )}
+          <Link href="/members" className="mt-8 inline-flex min-h-11 items-center text-body font-bold text-accent-text underline underline-offset-4">
+            Browse members →
+          </Link>
+        </Container>
+      </Section>
 
-      {/* ───── Founder note ───── */}
+      {/* ───── 6. The Circle in Motion ───── */}
+      <Section labelledBy="stories-title">
+        <Container>
+          <SectionHeader id="stories-title" eyebrow="Stories" title="The Circle in Motion." lede="What happened after the introduction." />
+          {stories.length ? (
+            <ul className="mt-10 grid gap-6 lg:grid-cols-2">
+              {stories.slice(0, 2).map((s) => (
+                <li key={s.id} className="relative border-2 border-line-strong bg-bg-card p-6">
+                  <div className="flex flex-wrap gap-2">
+                    {cityOf(s.chapter_id) && <Chip variant="outline">{cityOf(s.chapter_id)}</Chip>}
+                    {isPlaceholder(s) && <PlaceholderBadge />}
+                  </div>
+                  <h3 className="mt-4 text-heading-md text-fg">
+                    <Link href={`/stories/${s.slug}`} className="after:absolute after:inset-0 hover:underline hover:underline-offset-4">
+                      {clean(s.headline)}
+                    </Link>
+                  </h3>
+                  <dl className="mt-5 space-y-3 text-body-sm">
+                    {[
+                      ["The people", s.problem],
+                      ["The connection", s.connection],
+                      ["What happened next", s.outcome],
+                    ].map(([k, v]) => (
+                      <div key={k}>
+                        <dt className="font-mono text-label uppercase text-brand-text">{k}</dt>
+                        <dd className="mt-1 text-fg-muted">{v}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <EmptyState className="mt-10" title="Stories are being written" body="We publish a story only when both members have agreed to it. The first ones are on their way." />
+          )}
+        </Container>
+      </Section>
+
+      {/* ───── 7. Charter ───── */}
+      <section data-tone="brown" aria-labelledby="charter-title" className="border-b-2 border-line-strong py-section">
+        <Container>
+          <Eyebrow>The BNC Charter</Eyebrow>
+          <h2 id="charter-title" className="mt-3 font-display text-display-lg text-fg">
+            How we show up.
+          </h2>
+          <p className="mt-4 max-w-measure text-body-lg text-fg-muted">The standard is how you take part, not what&rsquo;s on your card.</p>
+          <ol className="mt-10 grid border-t-2 border-line-strong sm:grid-cols-2 lg:grid-cols-3">
+            {CHARTER.map((c, i) => (
+              <li key={c.title} className="border-b-2 border-line-strong py-5 sm:pr-6">
+                <span className="font-mono text-label text-brand-text">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="mt-2 text-heading-md text-fg">{c.title}</h3>
+                <p className="mt-1 text-body-sm text-fg-muted">{c.body}</p>
+              </li>
+            ))}
+          </ol>
+        </Container>
+      </section>
+
+      {/* ───── 8. Chapters ───── */}
+      <Section labelledBy="chapters-title">
+        <Container>
+          <CityTracker from="home-chapters" className="grid gap-10 lg:grid-cols-12">
+            <div className="lg:col-span-6">
+              <SectionHeader id="chapters-title" eyebrow="Chapters" title={`${chapters.length} cities. One circle.`} />
+              <ul className="mt-8 border-t-2 border-line-strong">
+                {chapters.map((c) => (
+                  <li key={c.id}>
+                    <Link href={`/chapters/${c.slug}`} data-city={c.slug} className="flex min-h-14 items-center justify-between border-b-2 border-line-strong text-heading-sm font-bold text-fg hover:underline hover:underline-offset-4">
+                      {c.city}
+                      <span className="font-mono text-label uppercase text-fg-subtle">{c.is_flagship ? "Flagship" : c.state}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <CityMap chapters={chapters} className="hidden lg:col-span-5 lg:col-start-8 lg:block" />
+          </CityTracker>
+        </Container>
+      </Section>
+
+      {/* ───── 9. Upcoming rooms ───── */}
+      <Section tone="sand" labelledBy="rooms-title">
+        <Container>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <SectionHeader id="rooms-title" eyebrow="Upcoming rooms" title="Small, hosted, one theme." />
+            <Link href="/rooms" className="inline-flex min-h-11 items-center text-body font-bold text-accent-text underline underline-offset-4">
+              All rooms →
+            </Link>
+          </div>
+          {rooms.length ? (
+            <ul className="mt-10 grid gap-6 md:grid-cols-3">
+              {rooms.map((r) => (
+                <li key={r.id}>
+                  <RoomCard room={r} />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <EmptyState className="mt-10" title="Next dates are being set" body="Request access and we'll invite you to the next room in your city as soon as it's scheduled.">
+              <PrimaryCta placement="home-rooms-empty" />
+            </EmptyState>
+          )}
+        </Container>
+      </Section>
+
+      {/* ───── 10. Founder note ───── */}
       <Section labelledBy="founder-title">
         <Container>
           <div className="grid gap-10 md:grid-cols-12 md:items-center">
-            <Photo photo={PHOTOS.founder} sizes="(min-width: 768px) 360px, 80vw" ratio="portrait" className="max-w-sm rounded-lg md:col-span-4" />
+            <Photo photo={PHOTOS.founder} sizes="(min-width: 768px) 360px, 80vw" ratio="portrait" className="max-w-sm border-2 border-line-strong md:col-span-4" />
             <div className="md:col-span-7 md:col-start-6">
               <Eyebrow>A note from the founder</Eyebrow>
               <h2 id="founder-title" className="mt-3 font-display text-display-md text-fg">
-                “Most networking events are contact-swapping. We built rooms where the conversation leads somewhere.”
+                &ldquo;Good people, wrong rooms. We built the right ones.&rdquo;
               </h2>
               <p className="mt-6 text-body-lg text-fg-muted">
-                I started BNC in Mumbai after years of working with founders across India and watching the same thing happen: good people, wrong rooms. The
-                fix was simple — smaller groups, a host who makes introductions, and everyone saying out loud what they need.
+                I started BNC in Mumbai after years of working with founders across India and watching the same thing happen: good people, wrong rooms. The fix
+                was simple — smaller rooms with one theme, a host who makes introductions, and everyone saying out loud what they need.
               </p>
-              <p className="mt-6 text-body-sm font-semibold text-fg">
-                {SITE.founder}, founder
-                <span className="block font-regular text-fg-subtle">Also National Convenor, JIIF (JITO Apex) · Global Shaper, World Economic Forum</span>
+              <p className="mt-6 text-body-sm font-bold text-fg">
+                Isha Vijay Ostwal, founder
+                <span className="block font-regular text-fg-subtle">National Convenor, JIIF (JITO Apex) · Global Shaper, World Economic Forum</span>
               </p>
-              <Link href="/about/story" className="mt-6 inline-flex min-h-11 items-center gap-1 text-body-sm font-semibold text-accent-text underline underline-offset-4">
-                Read the full story <ArrowRight width={16} height={16} />
+              <Link href="/about/story" className="mt-6 inline-flex min-h-11 items-center text-body-sm font-bold text-accent-text underline underline-offset-4">
+                Read the full story →
               </Link>
             </div>
           </div>
         </Container>
       </Section>
 
-      {/* ───── Partners ───── */}
-      <Section size="sm" tone="raised" labelledBy="partners-title">
+      {/* ───── 11. Partners — confirmed logos only ───── */}
+      <Section size="sm" tone="sand" labelledBy="partners-title">
         <Container>
           <div className="flex flex-wrap items-center justify-between gap-6">
             <div>
-              <h2 id="partners-title" className="text-heading-md text-fg">
+              <Eyebrow>Partners</Eyebrow>
+              <h2 id="partners-title" className="mt-2 text-heading-lg text-fg">
                 {sponsors.length ? "Supported by" : "Put your brand in the room"}
               </h2>
-              <p className="mt-1 text-body text-fg-muted">
-                {sponsors.length
-                  ? "The organisations that make free events possible."
-                  : `${STATS.items[0].value} founders, operators and freelancers across ${STATS.items[1].value} cities. Sponsor an event or a city series.`}
-              </p>
             </div>
-            <div className="flex flex-wrap gap-4">
-              <ButtonLink href="/sponsor" variant="secondary">
-                Sponsor BNC
-              </ButtonLink>
-              <ButtonLink href="/partners" variant="ghost">
-                Partner with us
-              </ButtonLink>
-            </div>
+            <ButtonLink href="/sponsor" variant="secondary">
+              Sponsor BNC
+            </ButtonLink>
           </div>
+          {sponsors.length > 0 && (
+            <ul className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6">
+              {sponsors.map((s) => (
+                <li key={s.id}>
+                  <LogoTile name={s.name} logo={s.logo} />
+                </li>
+              ))}
+            </ul>
+          )}
         </Container>
       </Section>
 
-      {/* ───── FAQ ───── */}
+      {/* ───── 12. FAQ ───── */}
       <Section labelledBy="faq-title">
         <Container>
           <div className="grid gap-10 lg:grid-cols-12">
             <div className="lg:col-span-4">
-              <SectionHeader id="faq-title" eyebrow="Questions" title="Before you RSVP." />
-              <Link href="/faq" className="mt-6 inline-flex min-h-11 items-center gap-1 text-body-sm font-semibold text-fg underline underline-offset-4">
-                All questions <ArrowRight width={16} height={16} />
+              <SectionHeader id="faq-title" eyebrow="FAQ" title="Questions, answered." />
+              <Link href="/faq" className="mt-6 inline-flex min-h-11 items-center text-body-sm font-bold text-accent-text underline underline-offset-4">
+                All questions →
               </Link>
             </div>
-            <Accordion className="lg:col-span-8" items={FAQ.filter((f) => f.group !== "partners").slice(0, 6).map((f) => ({ q: f.q, a: f.a }))} />
+            <Accordion className="lg:col-span-8" items={faq.map((f) => ({ q: f.q, a: f.a }))} />
           </div>
         </Container>
       </Section>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+        }}
+      />
 
-      {/* ───── Final CTA ───── */}
-      <Section tone="ink" labelledBy="final-title">
+      {/* ───── 13. Closing CTA ───── */}
+      <ClosingBand title="Explore the circle. Find your people." body={`${SITE.name} is free to join. Request access and we'll match you to a room.`}>
+        <PrimaryCta size="lg" placement="home-closing" />
+      </ClosingBand>
+      <Section size="sm" labelledBy="next-room-title">
         <Container>
-          <div className="max-w-measure">
-            <h2 id="final-title" className="font-display text-display-lg text-fg">
-              The next room in your city has a seat for you.
+          <div className="grid gap-6 md:grid-cols-2 md:items-center">
+            <h2 id="next-room-title" className="text-heading-lg text-fg">
+              Not ready yet? Get the next room in your city by email.
             </h2>
-            <p className="mt-5 text-body-lg text-fg-muted">Find your chapter, see its next date, RSVP. It takes a minute and costs nothing.</p>
-            <div className="mt-8">
-              <PrimaryCta size="lg" placement="final" />
-            </div>
+            <SubscribeForm variant="city" source="home" id="home-next-room" label="Your email" />
           </div>
         </Container>
       </Section>

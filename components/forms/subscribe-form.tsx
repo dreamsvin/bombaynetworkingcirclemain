@@ -95,7 +95,7 @@ export function SubscribeForm({
           aria-describedby={err ? `${inputId}-error` : undefined}
           className="block min-h-11 w-full min-w-0 flex-1 border-2 border-line-control bg-bg-card px-4 text-body text-fg placeholder:text-fg-subtle"
         />
-        <button type="submit" disabled={pending} className={buttonClass(variant === "newsletter" ? "secondary" : "primary")}>
+        <button type="submit" disabled={pending} className={buttonClass(variant === "rsvp" ? "primary" : "secondary")}>
           {pending ? "Saving…" : (submitLabel ?? (variant === "rsvp" ? "RSVP on Luma" : variant === "city" ? "Notify me" : "Subscribe"))}
         </button>
       </div>

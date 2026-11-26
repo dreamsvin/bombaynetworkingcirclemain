@@ -16,13 +16,13 @@ export function Footer() {
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <Seal className="h-28 w-28 text-brand-text" />
-            <p className="mt-6 font-display text-heading-lg text-fg">{TAGLINE}</p>
+            <p className="mt-6 font-display text-heading-lg font-regular italic text-fg">{TAGLINE}</p>
             <SubscribeForm className="mt-8 max-w-md" id="footer-subscribe" label="Get the next room in your city by email" source="footer" />
           </div>
           <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-4 lg:col-span-7">
             {FOOTER.map((col) => (
               <div key={col.title}>
-                <h2 className="font-mono text-label uppercase text-brand-text">{col.title}</h2>
+                <h2 className="text-label uppercase text-fg-subtle">{col.title}</h2>
                 <ul className="mt-4 space-y-1">
                   {col.links.map((l) => (
                     <li key={l.href}>

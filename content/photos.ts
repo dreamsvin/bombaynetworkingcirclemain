@@ -3,6 +3,8 @@
  * assets/ folder and Isha Ostwal's site repo, one consistent grade). Sizes are the real output dimensions — next/image needs them.
  * Alt text describes what is in the frame; it does not name people who haven't been identified.
  */
+import drivePhotos from "./drive-photos.json";
+
 export type Photo = { src: string; width: number; height: number; alt: string };
 
 const p = (file: string, width: number, height: number, alt: string): Photo => ({ src: `/photos/${file}`, width, height, alt });
@@ -66,4 +68,19 @@ export const GALLERY: Photo[] = [
   PHOTOS.hosts,
   PHOTOS.groupMono,
   PHOTOS.groupMono2,
+];
+
+/**
+ * Photos pulled from BNC's Google Drive event folders (Surat Edition, Masters Union, BNC × Re-Defined Delhi) by
+ * scripts/fetch-photos.mjs at build time. The script rewrites drive-photos.json with whatever it could fetch, so an
+ * unreachable Drive never breaks a build — the wall just shows fewer frames.
+ */
+export const DRIVE_PHOTOS: Photo[] = drivePhotos as Photo[];
+
+/** Home photo wall: every event photo we have — the previous site's set first, then Drive. Founder portraits excluded. */
+export const ALL_EVENT_PHOTOS: Photo[] = [
+  ...Object.entries(PHOTOS)
+    .filter(([k]) => !k.startsWith("founder") && k !== "hero")
+    .map(([, v]) => v),
+  ...DRIVE_PHOTOS,
 ];

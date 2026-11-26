@@ -2,17 +2,17 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+import "./house.css";
 import { SITE } from "@/content/site";
 import { Header } from "@/components/site/header";
 import { Footer } from "@/components/site/footer";
 import { RevealObserver } from "@/components/site/reveal";
-import { ScrollProgress } from "@/components/motion/scroll-progress";
 
-// Editorial display serif (headlines). Self-hosted, regular + italic only — never synthesised bold.
+// Display serif: Fraunces (variable: weight, optical size, softness). Self-hosted, normal + italic.
 const serif = localFont({
   src: [
-    { path: "../node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2", style: "normal", weight: "400" },
-    { path: "../node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2", style: "italic", weight: "400" },
+    { path: "../node_modules/@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2", style: "normal", weight: "100 900" },
+    { path: "../node_modules/@fontsource-variable/fraunces/files/fraunces-latin-full-italic.woff2", style: "italic", weight: "100 900" },
   ],
   variable: "--font-serif",
   display: "swap",
@@ -21,11 +21,11 @@ const serif = localFont({
   adjustFontFallback: "Times New Roman",
 });
 
-// Self-hosted Archivo (fontsource file, served from our origin), font-display: swap.
+// UI and body: Instrument Sans (variable weight), self-hosted. Variable name kept so every existing class still resolves.
 const archivo = localFont({
-  src: "../node_modules/@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2",
+  src: "../node_modules/@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2",
   variable: "--font-archivo",
-  weight: "100 900",
+  weight: "400 700",
   display: "swap",
   preload: true,
   fallback: ["system-ui", "-apple-system", "Segoe UI", "Arial", "sans-serif"],
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   // eslint-disable-next-line no-restricted-syntax -- browser chrome colour must be a literal; mirrors --c-paper
-  themeColor: "#FAF7F2",
+  themeColor: "#F5EFE6",
   width: "device-width",
   initialScale: 1,
 };
@@ -73,7 +73,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
-        <ScrollProgress />
         <Header />
         <main id="main" tabIndex={-1} className="outline-none">
           {children}

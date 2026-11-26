@@ -67,7 +67,7 @@ export const accessRequestSchema = z.object({
   building: z.string().trim().min(10, "A sentence about what you're building — 10 characters minimum.").max(600, "600 characters max."),
   lookingFor: z.array(z.enum(LOOKING_FOR_VALUES)).min(1, "Pick at least one.").max(7),
   heardFrom: optionalText(60),
-  charter: z.literal("true", { errorMap: () => ({ message: "Agree to the Charter to send your request." }) }),
+  charter: z.literal("true", { errorMap: () => ({ message: "Agree to the house rules to send your request." }) }),
   sourcePath: optionalText(200),
   ...antiSpam,
 });

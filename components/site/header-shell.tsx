@@ -21,7 +21,7 @@ export function HeaderShell({ children }: { children: ReactNode }) {
     <header
       data-hidden={hidden}
       onFocusCapture={() => setHidden(false)}
-      className="site-header sticky top-0 z-header border-b-2 border-line-strong bg-bg/90 backdrop-blur-md supports-[backdrop-filter]:bg-bg/80"
+      className="site-header sticky top-0 z-header border-b-2 border-line bg-bg/90 backdrop-blur-md supports-[backdrop-filter]:bg-bg/80"
     >
       {children}
     </header>

@@ -1,7 +1,7 @@
 /* Bombay Networking Circle — globals.css
    Values mirror tokens/build_tokens.py (run it to re-check contrast). Components use semantic names only.
-   Editorial direction: warm paper, serif display type (Instrument Serif) over Archivo, hairline rules, black-and-white
-   photography. Brown #835A33 = brand. Navy #1B3A5C = the one CTA colour. Motion lives at the end of this file. */
+   "House Rules" direction: the Irani café table. Cream wall, Fraunces display over Instrument Sans, warm monochrome
+   photography. Brown #835A33 = brand. Navy #1B3A5C = the one CTA colour. Home-page components live in house.css. */
 
 @import "tailwindcss";
 @config "../tailwind.config.ts";
@@ -11,19 +11,20 @@
   --c-ink: #1f1f1f;
   --c-ink-2: #2a2a2a;
   --c-white: #ffffff;
-  --c-paper: #faf7f2;
+  --c-paper: #f5efe6;
+  --c-marble: #fbf8f3;
   --c-sand: #ede3d6;
   --c-sky: #cde4f5;
   --c-brown: #835a33;
   --c-brown-dark: #6b4828;
   --c-navy: #1b3a5c;
   --c-navy-hover: #132b45;
-  --c-ink-muted: #444444;
-  --c-ink-subtle: #595959;
+  --c-ink-muted: #4a4540;
+  --c-ink-subtle: #6b645c;
   --c-on-brown-muted: #f3ede6;
   --c-on-dark-muted: #d6d6d6;
   --c-on-dark-subtle: #b3b3b3;
-  --c-line: #d8d4cf;
+  --c-line: #cfc4b6;
   --c-danger: #b3261e;
   --c-danger-light: #f2a196;
   --c-success: #2f6b45;
@@ -31,7 +32,7 @@
   /* ───────── 2. Semantic — white tone (default) ───────── */
   --bg: var(--c-paper);
   --bg-raised: var(--c-sand);
-  --bg-card: var(--c-paper);
+  --bg-card: var(--c-marble);
   --bg-overlay: var(--c-sand);
   --fg: var(--c-ink);
   --fg-muted: var(--c-ink-muted);

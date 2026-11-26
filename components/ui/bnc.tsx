@@ -6,6 +6,7 @@ import type { EventWithChapter } from "@/lib/data";
 import { fmtDate } from "@/lib/format";
 import { clean, isPlaceholder } from "@/lib/is-placeholder";
 import { PlaceholderBadge } from "./placeholder-badge";
+import { SplitWords } from "@/components/motion/split-words";
 
 /* ───────── Chip: sky/navy (default), outline, or active (navy fill) ───────── */
 export function Chip({ children, variant = "sky", className }: { children: ReactNode; variant?: "sky" | "outline" | "active"; className?: string }) {
@@ -33,7 +34,7 @@ export function StatLine({ className, items = STATS.items.slice(0, 2) }: { class
   );
 }
 
-/* ───────── Numbered rows: 01–04 with a 2px rule between ───────── */
+/* ───────── Numbered rows: large serif numerals 01–04, hairline columns ───────── */
 export function NumberedRows({
   items,
   className,
@@ -56,9 +57,16 @@ export function NumberedRows({
       )}
     >
       {items.map((it, i) => (
-        <li key={it.title} className="border-b-2 border-line-strong py-6 md:pr-6">
-          <span className="font-mono text-label text-brand-text">{String(i + 1).padStart(2, "0")}</span>
-          <H className="mt-3 text-heading-md text-fg">{it.title}</H>
+        <li
+          key={it.title}
+          data-reveal
+          style={{ "--d": `${i * 110}ms` } as React.CSSProperties}
+          className="group border-b-2 border-line-strong py-8 md:border-r-2 md:px-6 md:first:pl-0 md:last:border-r-0"
+        >
+          <span className="block font-display text-display-md leading-none text-brand-text transition-transform duration-moderate ease-out group-hover:-translate-y-1">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          <H className="mt-6 text-heading-md text-fg">{it.title}</H>
           <div className="mt-2 text-body text-fg-muted">{it.body}</div>
         </li>
       ))}
@@ -72,15 +80,15 @@ export const priceLabel = (price: number | null) => (price != null ? `₹${price
 /* ───────── Room card: brown band, title, date, seats chip, theme · price, Details ───────── */
 export function RoomCard({ room, headingAs: H = "h3" }: { room: EventWithChapter; headingAs?: "h2" | "h3" }) {
   return (
-    <article className="relative flex h-full flex-col border-2 border-line-strong bg-bg-card">
+    <article className="group relative flex h-full flex-col border-2 border-line-strong bg-bg-card transition-transform duration-moderate ease-out hover:-translate-y-1">
       <div data-tone="brown" className="flex items-center justify-between gap-3 px-4 py-3">
         <span className="font-mono text-label uppercase">{room.chapter.city}</span>
         {room.capacity && <span className="font-mono text-label uppercase">{room.capacity} seats</span>}
       </div>
       <div className="flex flex-1 flex-col p-5">
         {isPlaceholder(room) && <PlaceholderBadge className="mb-2 self-start" />}
-        <H className="text-heading-md text-fg">
-          <Link href={`/rooms/${room.slug}`} className="after:absolute after:inset-0 hover:underline hover:underline-offset-4">
+        <H className="font-display text-heading-lg font-regular leading-tight text-fg">
+          <Link href={`/rooms/${room.slug}`} className="after:absolute after:inset-0">
             {clean(room.title)}
           </Link>
         </H>
@@ -90,7 +98,9 @@ export function RoomCard({ room, headingAs: H = "h3" }: { room: EventWithChapter
         <p className="mt-3 text-body-sm text-fg">
           {room.theme ? clean(room.theme) : "Theme to be announced"} · <strong>{priceLabel(room.price_inr)}</strong>
         </p>
-        <span className="mt-auto pt-5 text-body-sm font-bold text-accent-text underline underline-offset-4">Details →</span>
+        <span className="mt-auto pt-5 text-body-sm font-semibold text-accent-text">
+          Details <span className="nudge">→</span>
+        </span>
       </div>
     </article>
   );
@@ -99,13 +109,19 @@ export function RoomCard({ room, headingAs: H = "h3" }: { room: EventWithChapter
 /* ───────── Closing band on brown: every page ends with a path to the CTA ───────── */
 export function ClosingBand({ title, body, children, id = "closing" }: { title: ReactNode; body?: ReactNode; children: ReactNode; id?: string }) {
   return (
-    <section data-tone="brown" aria-labelledby={id} className="border-b-2 border-line-strong py-section">
+    <section data-tone="brown" aria-labelledby={id} className="relative overflow-hidden border-b-2 border-line-strong py-section">
       <div className="mx-auto w-full max-w-container px-gutter">
-        <h2 id={id} className="max-w-measure font-display text-display-lg text-fg">
-          {title}
-        </h2>
-        {body && <p className="mt-5 max-w-measure text-body-lg text-fg-muted">{body}</p>}
-        <div className="mt-8 flex flex-wrap items-center gap-4">{children}</div>
+        {typeof title === "string" ? (
+          <SplitWords id={id} text={title} className="max-w-4xl font-display text-display-xl text-fg" />
+        ) : (
+          <h2 id={id} className="max-w-4xl font-display text-display-xl text-fg">
+            {title}
+          </h2>
+        )}
+        <div data-reveal className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between" style={{ "--d": "300ms" } as React.CSSProperties}>
+          {body && <p className="max-w-measure text-body-lg text-fg-muted">{body}</p>}
+          <div className="flex flex-wrap items-center gap-4">{children}</div>
+        </div>
       </div>
     </section>
   );

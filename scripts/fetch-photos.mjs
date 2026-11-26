@@ -103,3 +103,93 @@ for (const file of BRANDS) {
   made++;
 }
 console.log(made ? `fetch-photos: wrote ${made} file(s) to public/photos` : "fetch-photos: up to date");
+
+// ───────── 3. BNC's Google Drive event folders ─────────
+// Files are shared "anyone with the link". Drive's thumbnail endpoint returns a JPEG for every type (including HEIC,
+// which sharp can't decode), sized to 2000px. Fetched at build time; failures are skipped, never fatal, and
+// content/drive-photos.json lists exactly what was written so the site never points at a missing file.
+const DRIVE = [
+  { key: "surat", label: "BNC Surat Edition", ids: [
+    "1htnxZROBkn2vP41DZ8ISYekLgYNVY6p6",
+    "1mfovfVVyxuEOjZWqnFffm7JfW6GOF2gY",
+    "1oiF3bb6au_DA8AWI-WLaGO0ahrOulhoz",
+    "1Dc7fLqm8B23mAIzo0ubJ_EEj90DrV8Ds",
+    "1P2ehldBegbJvaCtIqzxSvQx3C8rKw-U1",
+    "1YuA4S_M-ezCIaUbXElABiE46S0-yW6Xo",
+    "1uA0tUFT1HvsbjHxtL08W-X6xT3g6NWgx",
+    "14zbT4tsxHDEs1KIq-kx_tdd5i2Kix5EU",
+    "1qcv1ABDtYhNmpYqThuxHrbLlFFXw-IHF",
+    "1GiPix8hIhBn-DMEEPTbzqHH-uQwKPiin",
+  ] },
+  { key: "masters-union", label: "BNC at Masters' Union", ids: [
+    "1j9CYff0eD8vHlpDK3z6OV6D-lXMxruxO",
+    "1h9RIsk9Kfwralx1hO2OsKrh7V-VHMagx",
+    "1ZaW6xgQIrPVwmhHweTKOsdTcEvS7VxeS",
+  ] },
+  { key: "delhi", label: "BNC × Re-Defined, Delhi", ids: [
+    "1RBYmhTtct0V95dWvNymX0DS5x22XbPeG",
+    "1GkrwrRxUvExZu3k_WGt6_EheeT7UoaB2",
+    "1K5pOzjz6MXqRou4YjLuFdjBAxM0QIv9E",
+    "1nbl9YWJjw035cxEM9hrm-LATCLcDdDxD",
+    "1qNFeUlJXNk2lElrHmFkSA7s8D9YqDfAk",
+    "1yOuNPhIuuXbiMNsHPhyTCTkzyHnOAsY6",
+    "1zSlPiJV0q090hmv-Gj8xM5XQJCd-yYGY",
+    "1YNwiRu2AaRXA-Uty0geWhpkmMXsU7Cko",
+    "1z_ptprKjWKrYVenwW3IqmS9ndIRuAVwh",
+    "152FrZeDc05x_NohYYb7BGLhYGSgZLEb_",
+    "19Z4tClGletORx_5dNw9b4B7Qdpd_UoqX",
+    "1si4OmWMyZWOpS61tN1EIECCfD_sV28m7",
+    "1ioZalQZHFl4svDOz3UYU3_VmG1Re-_l9",
+    "1E0VBRc7w8UgI6qqNvjnqJityBSQi7MHB",
+    "1S5dLebZS4KZs7rMzdvhQXD8iW42Brqg1",
+  ] },
+];
+const MANIFEST = path.join(ROOT, "content", "drive-photos.json");
+const driveUrls = (id) => [
+  `https://drive.google.com/thumbnail?id=${id}&sz=w2000`,
+  `https://lh3.googleusercontent.com/d/${id}=w2000`,
+];
+async function fetchDrive(id) {
+  for (const url of driveUrls(id)) {
+    try {
+      const res = await fetch(url, { redirect: "follow", signal: AbortSignal.timeout(20_000) });
+      const type = res.headers.get("content-type") ?? "";
+      if (res.ok && type.startsWith("image/")) return Buffer.from(await res.arrayBuffer());
+    } catch {
+      /* try the next URL */
+    }
+  }
+  return null;
+}
+const manifest = [];
+const driveJobs = DRIVE.flatMap((g) => g.ids.map((id, n) => ({ id, out: `drive-${g.key}-${String(n + 1).padStart(2, "0")}.webp`, label: g.label })));
+let driveMade = 0;
+let driveFailed = 0;
+await Promise.all(
+  driveJobs.map(async (job) => {
+    const dest = path.join(OUT, job.out);
+    let buf = !force && (await exists(dest)) ? await readFile(dest) : null;
+    if (!buf) {
+      const src = await fetchDrive(job.id);
+      if (!src) {
+        driveFailed++;
+        return;
+      }
+      try {
+        buf = await grade(sharp(src).rotate().resize({ width: 1200, height: 1200, fit: "inside", withoutEnlargement: true }))
+          .webp({ quality: 72, effort: 5 })
+          .toBuffer();
+      } catch {
+        driveFailed++;
+        return;
+      }
+      await writeFile(dest, buf);
+      driveMade++;
+    }
+    const meta = await sharp(buf).metadata();
+    manifest.push({ src: `/photos/${job.out}`, width: meta.width, height: meta.height, alt: `Members at ${job.label}.` });
+  }),
+);
+manifest.sort((a, b) => a.src.localeCompare(b.src));
+await writeFile(MANIFEST, JSON.stringify(manifest, null, 2) + "\n");
+console.log(`fetch-photos: Drive — ${manifest.length} photo(s) ready, ${driveMade} new, ${driveFailed} unavailable`);

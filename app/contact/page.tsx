@@ -62,7 +62,7 @@ export default async function ContactPage() {
                     <Link href="/partners" className="inline-flex min-h-11 items-center text-accent-text underline underline-offset-4">Partnerships</Link>
                   </li>
                   <li>
-                    <Link href="/chapters/start" className="inline-flex min-h-11 items-center text-accent-text underline underline-offset-4">Start a chapter</Link>
+                    <Link href="/start-a-chapter" className="inline-flex min-h-11 items-center text-accent-text underline underline-offset-4">Start a chapter</Link>
                   </li>
                 </ul>
               </div>

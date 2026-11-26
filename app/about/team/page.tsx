@@ -46,7 +46,7 @@ export default async function TeamPage() {
           {led.length > 0 && (
             <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {led.map((c) => (
-                <li key={c.slug} className="rounded-lg border border-line bg-bg-card p-5">
+                <li key={c.slug} className="border-2 border-line-strong bg-bg-card p-5">
                   <p className="text-heading-sm text-fg">{c.lead_name}</p>
                   <Link href={`/chapters/${c.slug}`} className="text-body-sm text-accent-text underline underline-offset-4">
                     {c.city}
@@ -61,7 +61,7 @@ export default async function TeamPage() {
               title={`Lead roles open in ${open.length} ${open.length === 1 ? "city" : "cities"}`}
               body={<>Being announced or open: {open.map((c) => c.city).join(", ")}. If you know the founders in one of these cities, apply.</>}
             >
-              <ButtonLink href="/chapters/start" variant="secondary">
+              <ButtonLink href="/start-a-chapter" variant="secondary">
                 Apply to lead a chapter
               </ButtonLink>
             </EmptyState>

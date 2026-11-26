@@ -2,7 +2,7 @@ import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 const control =
-  "block w-full min-h-11 rounded-md border border-line-control bg-bg-card px-3 py-2 text-body text-fg placeholder:text-fg-subtle aria-[invalid=true]:border-danger";
+  "block w-full min-h-11 border-2 border-line-control bg-bg-card px-3 py-2 text-body text-fg placeholder:text-fg-subtle aria-[invalid=true]:border-danger";
 
 type Common = { label: string; name: string; error?: string; hint?: ReactNode; optional?: boolean; className?: string };
 

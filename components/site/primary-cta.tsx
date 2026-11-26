@@ -8,9 +8,6 @@ export function PrimaryCta({ size = "md", placement, className, city }: { size?:
   return (
     <TrackedLink href={href} event="cta_click" props={{ placement }} className={buttonClass("primary", size, className)}>
       {PRIMARY_CTA.label}
-      <span aria-hidden="true" className="nudge">
-        →
-      </span>
     </TrackedLink>
   );
 }

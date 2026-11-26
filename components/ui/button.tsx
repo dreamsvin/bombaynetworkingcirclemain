@@ -3,14 +3,14 @@ import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 /**
- * One primary style across the site: square navy block with a trailing arrow ("Request access").
- * Secondary is a 2px ink outline ("Explore BNC"); ghost is a text link. Never put two primaries side by side.
+ * One primary style across the site: the navy enamel pill ("Request access").
+ * Secondary is a 1px ink outline pill ("Explore BNC"); ghost is a text link. Never put two primaries side by side.
  */
 export type ButtonVariant = "primary" | "secondary" | "ghost";
 export type ButtonSize = "md" | "lg";
 
 const base =
-  "inline-flex min-h-12 items-center justify-center gap-3 rounded-none font-semibold whitespace-nowrap transition-colors duration-base ease-out disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex min-h-12 items-center justify-center gap-3 rounded-full font-semibold whitespace-nowrap transition-colors duration-base ease-out disabled:cursor-not-allowed disabled:opacity-60";
 
 const variants: Record<ButtonVariant, string> = {
   primary: "border-2 border-accent bg-accent text-on-accent hover:border-accent-hover hover:bg-accent-hover active:bg-accent-press",
@@ -19,7 +19,7 @@ const variants: Record<ButtonVariant, string> = {
 };
 
 const sizes: Record<ButtonSize, string> = {
-  md: "px-5 text-body-sm",
+  md: "px-6 text-body-sm",
   lg: "px-8 text-body",
 };
 
@@ -38,11 +38,6 @@ export function ButtonLink({ variant = "primary", size = "md", className, childr
   return (
     <Link className={buttonClass(variant, size, className)} {...rest}>
       {children}
-      {variant === "primary" && (
-        <span aria-hidden="true" className="nudge">
-          →
-        </span>
-      )}
     </Link>
   );
 }

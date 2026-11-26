@@ -3,11 +3,12 @@ import { Logo } from "./logo";
 import { PrimaryCta } from "./primary-cta";
 import { MobileNav } from "./mobile-nav";
 import { NavLink } from "./nav-link";
+import { HeaderShell } from "./header-shell";
 
-/** Flat header: logo · five links · Request access. On mobile the CTA stays visible beside "Menu". */
+/** Flat header: logo · five links · Request access. Hides on scroll down. On mobile the CTA stays visible beside "Menu". */
 export function Header() {
   return (
-    <header className="sticky top-0 z-header border-b-2 border-line-strong bg-bg">
+    <HeaderShell>
       <div className="mx-auto flex h-nav max-w-container items-center justify-between gap-4 px-gutter">
         <Logo />
         <nav aria-label="Main" className="hidden lg:block">
@@ -24,6 +25,6 @@ export function Header() {
           <MobileNav />
         </div>
       </div>
-    </header>
+    </HeaderShell>
   );
 }

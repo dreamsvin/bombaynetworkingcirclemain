@@ -10,7 +10,7 @@ export type ButtonVariant = "primary" | "secondary" | "ghost";
 export type ButtonSize = "md" | "lg";
 
 const base =
-  "inline-flex min-h-11 items-center justify-center gap-2 rounded-none font-bold whitespace-nowrap transition-colors duration-fast ease-out disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex min-h-12 items-center justify-center gap-3 rounded-none font-semibold whitespace-nowrap transition-colors duration-base ease-out disabled:cursor-not-allowed disabled:opacity-60";
 
 const variants: Record<ButtonVariant, string> = {
   primary: "border-2 border-accent bg-accent text-on-accent hover:border-accent-hover hover:bg-accent-hover active:bg-accent-press",
@@ -20,7 +20,7 @@ const variants: Record<ButtonVariant, string> = {
 
 const sizes: Record<ButtonSize, string> = {
   md: "px-5 text-body-sm",
-  lg: "px-6 text-body",
+  lg: "px-8 text-body",
 };
 
 export function buttonClass(variant: ButtonVariant = "primary", size: ButtonSize = "md", className?: string) {
@@ -38,7 +38,11 @@ export function ButtonLink({ variant = "primary", size = "md", className, childr
   return (
     <Link className={buttonClass(variant, size, className)} {...rest}>
       {children}
-      {variant === "primary" && <span aria-hidden="true">→</span>}
+      {variant === "primary" && (
+        <span aria-hidden="true" className="nudge">
+          →
+        </span>
+      )}
     </Link>
   );
 }

@@ -6,6 +6,20 @@ import { SITE } from "@/content/site";
 import { Header } from "@/components/site/header";
 import { Footer } from "@/components/site/footer";
 import { RevealObserver } from "@/components/site/reveal";
+import { ScrollProgress } from "@/components/motion/scroll-progress";
+
+// Editorial display serif (headlines). Self-hosted, regular + italic only — never synthesised bold.
+const serif = localFont({
+  src: [
+    { path: "../node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2", style: "normal", weight: "400" },
+    { path: "../node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2", style: "italic", weight: "400" },
+  ],
+  variable: "--font-serif",
+  display: "swap",
+  preload: true,
+  fallback: ["Georgia", "Times New Roman", "serif"],
+  adjustFontFallback: "Times New Roman",
+});
 
 // Self-hosted Archivo (fontsource file, served from our origin), font-display: swap.
 const archivo = localFont({
@@ -39,15 +53,15 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  // eslint-disable-next-line no-restricted-syntax -- browser chrome colour must be a literal; mirrors --c-white
-  themeColor: "#FFFFFF",
+  // eslint-disable-next-line no-restricted-syntax -- browser chrome colour must be a literal; mirrors --c-paper
+  themeColor: "#FAF7F2",
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className={archivo.variable} suppressHydrationWarning>
+    <html lang="en-IN" className={`${archivo.variable} ${serif.variable}`} suppressHydrationWarning>
       <head>
         {/* Enables scroll reveals only when JS runs. Without JS everything is visible. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
@@ -59,6 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
+        <ScrollProgress />
         <Header />
         <main id="main" tabIndex={-1} className="outline-none">
           {children}

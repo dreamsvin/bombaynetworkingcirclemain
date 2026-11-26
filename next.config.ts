@@ -16,17 +16,22 @@ const nextConfig: NextConfig = {
     qualities: [60, 75],
     deviceSizes: [360, 480, 640, 768, 1024, 1280, 1600, 1920],
   },
-  // OG images read the Newsreader .woff files at render time; make sure they ship with the functions.
+  // OG images read the Archivo .woff files at render time; make sure they ship with the functions.
   outputFileTracingIncludes: {
-    "/opengraph-image": ["./node_modules/@fontsource/newsreader/files/newsreader-latin-*-normal.woff"],
-    "/chapters/[city]/opengraph-image": ["./node_modules/@fontsource/newsreader/files/newsreader-latin-*-normal.woff"],
+    "/opengraph-image": ["./node_modules/@fontsource/archivo/files/archivo-latin-{400,800}-normal.woff"],
+    "/chapters/[city]/opengraph-image": ["./node_modules/@fontsource/archivo/files/archivo-latin-{400,800}-normal.woff"],
   },
   // The old static site's URLs. Anything shared in the past keeps working.
   async redirects() {
     return [
       { source: "/index.html", destination: "/", permanent: true },
       { source: "/sponsor.html", destination: "/sponsor", permanent: true },
-      { source: "/join", destination: "/community", permanent: true },
+      { source: "/join", destination: "/request-access", permanent: true },
+      // Redesign (Nov 2026): events became rooms, the community page became the member directory.
+      { source: "/events", destination: "/rooms", permanent: true },
+      { source: "/events/:slug", destination: "/rooms/:slug", permanent: true },
+      { source: "/community", destination: "/members", permanent: true },
+      { source: "/chapters/start", destination: "/start-a-chapter", permanent: true },
       { source: "/cities", destination: "/chapters", permanent: true },
       { source: "/cities/:city", destination: "/chapters/:city", permanent: true },
       { source: "/privacy-policy", destination: "/privacy", permanent: true },

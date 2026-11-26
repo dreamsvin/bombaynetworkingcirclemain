@@ -38,7 +38,7 @@ export function SearchBox({ index }: { index: SearchItem[] }) {
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Try “Pune”, “sponsor” or “pitch”"
-          className="block min-h-14 w-full rounded-full border border-line-control bg-bg-card pl-12 pr-4 text-body-lg text-fg placeholder:text-fg-subtle"
+          className="block min-h-14 w-full border-2 border-line-control bg-bg-card pl-12 pr-4 text-body-lg text-fg placeholder:text-fg-subtle"
         />
       </div>
       <p className="mt-4 text-body-sm text-fg-muted" aria-live="polite">

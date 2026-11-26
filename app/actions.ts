@@ -1,7 +1,7 @@
 "use server";
 
 import { headers } from "next/headers";
-import { inquirySchema, subscribeSchema, flatten, type FormState } from "@/lib/schemas";
+import { accessRequestSchema, inquirySchema, subscribeSchema, flatten, type FormState } from "@/lib/schemas";
 import { serviceClient } from "@/lib/supabase/server";
 import { rateLimit } from "@/lib/rate-limit";
 import { CONTACT, SITE } from "@/content/site";
@@ -91,3 +91,43 @@ export async function subscribe(_prev: FormState, fd: FormData): Promise<FormSta
   };
 }
 
+/**
+ * Request access. Stored in the private access_requests table (no public policies; service role only).
+ * Returns the first name so the success screen can address the person.
+ */
+export async function requestAccess(_prev: FormState, fd: FormData): Promise<FormState> {
+  const raw = { ...fields(fd), lookingFor: fd.getAll("lookingFor").filter((v) => typeof v === "string") };
+  const parsed = accessRequestSchema.safeParse(raw);
+  if (!parsed.success) return { status: "error", message: "Check the highlighted fields.", errors: flatten(parsed.error) };
+  const v = parsed.data;
+  const ok: FormState = { status: "ok", message: v.name.split(" ")[0] };
+
+  if (v.website || Date.now() - v.startedAt < MIN_FILL_MS) return ok;
+
+  const rl = await rateLimit(await clientKey("access"));
+  if (!rl.ok) return { status: "error", message: "Too many submissions from this connection. Try again in a few minutes." };
+
+  const db = serviceClient();
+  if (!db) return unavailable;
+
+  const { error } = await db.from("access_requests").insert({
+    name: v.name,
+    email: v.email,
+    phone: v.phone ?? null,
+    city: v.city,
+    role: v.role,
+    company: v.company ?? null,
+    industry: v.industry ?? null,
+    linkedin: v.linkedin ?? null,
+    building: v.building,
+    looking_for: v.lookingFor,
+    heard_from: v.heardFrom ?? null,
+    charter_agreed_at: new Date().toISOString(),
+    source_path: v.sourcePath ?? null,
+  });
+  if (error) {
+    console.error("access request insert failed", error.code);
+    return { status: "error", message: `Something went wrong on our side. Please email ${CONTACT.email}.` };
+  }
+  return ok;
+}

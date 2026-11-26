@@ -48,12 +48,12 @@ export function InquiryForm({ kind, cities = [] }: { kind: Kind; cities?: string
 
   if (state.status === "ok") {
     return (
-      <div role="status" className="rounded-lg border border-line bg-bg-card p-6 sm:p-8">
+      <div role="status" className="border-2 border-line-strong bg-bg-card p-6 sm:p-8">
         <h3 className="text-heading-sm text-fg">Received.</h3>
         <p className="mt-2 text-body text-fg-muted">{state.message}</p>
         <p className="mt-4 text-body-sm">
-          <Link href="/events" className="font-semibold text-accent-text underline underline-offset-4">
-            See upcoming events
+          <Link href="/rooms" className="font-semibold text-accent-text underline underline-offset-4">
+            See upcoming rooms
           </Link>
         </p>
       </div>
@@ -63,9 +63,9 @@ export function InquiryForm({ kind, cities = [] }: { kind: Kind; cities?: string
   const type = kind === "contact" ? topic : kind;
 
   return (
-    <form onSubmit={onSubmit} noValidate className="grid gap-5 rounded-lg border border-line bg-bg-card p-6 sm:grid-cols-2 sm:p-8">
+    <form onSubmit={onSubmit} noValidate className="grid gap-5 border-2 border-line-strong bg-bg-card p-6 sm:grid-cols-2 sm:p-8">
       <input type="hidden" name="type" value={type} />
-            <input type="hidden" name="sourcePath" value={path} />
+      <input type="hidden" name="sourcePath" value={path} />
       {/* honeypot */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label htmlFor={`website-${kind}`}>Website</label>
@@ -81,7 +81,7 @@ export function InquiryForm({ kind, cities = [] }: { kind: Kind; cities?: string
           onChange={(ev) => setTopic(ev.target.value as "contact" | "speak")}
           options={[
             { value: "contact", label: "General question" },
-            { value: "speak", label: "Speak at or host an event" },
+            { value: "speak", label: "Speak at or host a room" },
           ]}
         />
       )}

@@ -54,7 +54,7 @@ export default async function SponsorPage() {
         breadcrumbs={<Breadcrumbs items={[{ label: "Sponsor", href: "/sponsor" }]} />}
         eyebrow="Sponsorship"
         title="Sponsor the rooms where India's founders meet."
-        lede="BNC is free for members. Sponsors make that possible — and get in front of founders when they're actively looking for tools, partners and services."
+        lede="BNC is free to join. Sponsors keep it that way — and get in front of founders when they're actively looking for tools, partners and services."
       >
         <a href="#sponsor-form" className={buttonClass("secondary", "lg")}>
           Enquire about sponsoring
@@ -84,7 +84,7 @@ export default async function SponsorPage() {
           <SectionHeader id="tiers-title" eyebrow="Opportunities" title="Three ways in." lede="Pricing depends on city and format; we'll send a proposal after a short call." />
           <ul className="mt-10 grid gap-6 lg:grid-cols-3">
             {TIERS.map((t) => (
-              <li key={t.name} className="flex flex-col rounded-lg border border-line bg-bg-card p-6 sm:p-8">
+              <li key={t.name} className="flex flex-col border-2 border-line-strong bg-bg-card p-6 sm:p-8">
                 <h3 className="font-display text-heading-lg text-fg">{t.name}</h3>
                 <p className="mt-1 text-body-sm text-fg-muted">{t.fit}</p>
                 <ul className="mt-6 space-y-3 border-t border-line pt-6 text-body-sm text-fg">

@@ -60,7 +60,7 @@ export function MobileNav() {
         aria-expanded={open}
         aria-controls="mobile-menu"
         onClick={() => setOpen((o) => !o)}
-        className="inline-flex h-11 items-center gap-1.5 border-2 border-line-strong px-3 text-body-sm font-bold text-fg"
+        className="inline-flex h-11 items-center gap-1.5 rounded-full border-2 border-line-strong px-4 text-body-sm font-bold text-fg"
       >
         {open ? <Close width={18} height={18} /> : <Menu width={18} height={18} />}
         <span>{open ? "Close" : "Menu"}</span>

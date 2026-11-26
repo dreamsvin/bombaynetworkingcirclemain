@@ -5,9 +5,8 @@ import Link from "next/link";
 import { requestAccess } from "@/app/actions";
 import { initialFormState, type FieldErrors } from "@/lib/schemas";
 import { CHARTER, HEARD_FROM, INDUSTRIES, LINKS, LOOKING_FOR, NEXT_STEPS, ROLES } from "@/content/site";
-import { buttonClass } from "@/components/ui/button";
 import { track } from "@/lib/analytics";
-import { cn } from "@/lib/cn";
+import type { CSSProperties } from "react";
 
 type Values = {
   name: string;
@@ -43,7 +42,7 @@ const EMPTY: Values = {
 const STEPS: { title: string; fields: Key[] }[] = [
   { title: "About you", fields: ["name", "email", "phone", "city"] },
   { title: "What you're building", fields: ["role", "company", "industry", "linkedin", "building", "lookingFor"] },
-  { title: "The Charter", fields: ["heardFrom", "charter"] },
+  { title: "The house rules", fields: ["heardFrom", "charter"] },
 ];
 
 const DRAFT_KEY = "bnc:request-access:v1";
@@ -69,16 +68,33 @@ function validate(k: Key, v: Values): string | undefined {
     case "lookingFor":
       return v.lookingFor.length ? undefined : "Pick at least one.";
     case "charter":
-      return v.charter ? undefined : "Agree to the Charter to send your request.";
+      return v.charter ? undefined : "Agree to the house rules to send your request.";
     default:
       return undefined;
   }
 }
 
-const control =
-  "block w-full min-h-11 border-2 border-line-control bg-bg-card px-3 py-2 text-body text-fg placeholder:text-fg-subtle aria-[invalid=true]:border-danger";
+const SUBS = ["The basics, so we can write back.", "This is how we decide who you sit with.", "Last thing. Everyone at the table agrees to these."];
+const LABELS: Partial<Record<Key, string>> = {
+  name: "Full name",
+  email: "Email",
+  phone: "Phone",
+  city: "City",
+  role: "Your role",
+  linkedin: "LinkedIn",
+  building: "What are you building",
+  lookingFor: "What you're looking for",
+  charter: "House rules",
+};
+/** Three seats round a small table, one per step (house.css, M5). */
+const SEAT_POS = [
+  { x: "50%", y: "6%" },
+  { x: "88.1%", y: "72%" },
+  { x: "11.9%", y: "72%" },
+];
 
 export function RequestAccessForm({ cities, initialCity }: { cities: string[]; initialCity?: string }) {
+  const [summary, setSummary] = useState<Key[]>([]);
   const [state, action, pending] = useActionState(requestAccess, initialFormState);
   const [step, setStep] = useState(0);
   const [values, setValues] = useState<Values>(() => ({ ...EMPTY, city: initialCity ?? "" }));
@@ -147,9 +163,10 @@ export function RequestAccessForm({ cities, initialCity }: { cities: string[]; i
       if (msg) found[f] = msg;
     }
     setErrors((e) => ({ ...e, ...Object.fromEntries(STEPS[i].fields.map((f) => [f, found[f]])) }));
-    const first = STEPS[i].fields.find((f) => found[f]);
-    if (first) {
-      requestAnimationFrame(() => formRef.current?.querySelector<HTMLElement>(`[data-field="${first}"]`)?.focus());
+    const bad = STEPS[i].fields.filter((f) => found[f]);
+    setSummary(bad);
+    if (bad.length) {
+      requestAnimationFrame(() => formRef.current?.querySelector<HTMLElement>(`[data-field="${bad[0]}"]`)?.focus());
       return false;
     }
     return true;
@@ -158,6 +175,7 @@ export function RequestAccessForm({ cities, initialCity }: { cities: string[]; i
   const next = () => {
     if (!check(step)) return;
     setStep((s) => s + 1);
+    setSummary([]);
     requestAnimationFrame(() => formRef.current?.querySelector<HTMLElement>("[data-step-title]")?.focus());
   };
 
@@ -177,42 +195,9 @@ export function RequestAccessForm({ cities, initialCity }: { cities: string[]; i
     startTransition(() => action(fd));
   };
 
-  if (state.status === "ok") {
-    const first = state.message ?? values.name.split(" ")[0];
-    return (
-      <div data-tone="brown" className="border-2 border-line-strong p-6 sm:p-10">
-        <h2 ref={headingRef} tabIndex={-1} className="font-display text-display-md text-fg outline-none">
-          Thanks, {first}. Here&rsquo;s what happens next.
-        </h2>
-        <ol className="mt-8 border-t-2 border-line-strong">
-          {NEXT_STEPS.map((s, i) => (
-            <li key={s.title} className="grid grid-cols-[3rem_1fr] border-b-2 border-line-strong py-5">
-              <span className="font-mono text-label text-brand-text">{String(i + 1).padStart(2, "0")}</span>
-              <div>
-                <p className="text-heading-sm font-bold text-fg">{i === 1 ? `You're matched to a room in ${values.city}` : s.title}</p>
-                <p className="mt-1 text-body-sm text-fg-muted">{s.body}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-        <div className="mt-8 flex flex-wrap items-center gap-3">
-          <a
-            href={LINKS.whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => track("whatsapp_click", { placement: "request-access-success" })}
-            className={buttonClass("secondary", "lg")}
-          >
-            Join the WhatsApp community<span className="sr-only"> (opens in a new tab)</span>
-          </a>
-          <Link href={`/members?city=${encodeURIComponent(values.city)}`} className="inline-flex min-h-11 items-center font-bold text-fg underline underline-offset-4">
-            See who&rsquo;s in {values.city} →
-          </Link>
-        </div>
-      </div>
-    );
-  }
 
+  const done = state.status === "ok";
+  const first = state.message ?? values.name.split(" ")[0];
   const err = (k: Key) => errors[k];
   const field = (k: Key) => ({
     id: `ra-${k}`,
@@ -222,198 +207,261 @@ export function RequestAccessForm({ cities, initialCity }: { cities: string[]; i
     onBlur: () => blur(k),
   });
   const label = (k: Key, text: string, optional = false) => (
-    <label htmlFor={`ra-${k}`} className="mb-1.5 block text-body-sm font-bold text-fg">
-      {text} {optional && <span className="font-regular text-fg-subtle">(optional)</span>}
+    <label htmlFor={`ra-${k}`}>
+      {text} {optional && <span className="hr-opt">(optional)</span>}
     </label>
   );
   const errorFor = (k: Key) =>
     err(k) ? (
-      <p id={`ra-${k}-error`} className="mt-1.5 text-caption font-semibold text-danger">
+      <p id={`ra-${k}-error`} className="hr-err">
         {err(k)}
       </p>
     ) : null;
-
-  const pct = Math.round(((step + 1) / STEPS.length) * 100);
+  const shown = summary.filter((k) => errors[k]);
+  const seatState = (i: number) => (done || i < step ? "done" : i === step ? "current" : undefined);
 
   return (
-    <form ref={formRef} noValidate onSubmit={onSubmit} className="border-2 border-line-strong bg-bg-card p-5 sm:p-8" aria-describedby="ra-progress-label">
-      <div>
-        <p id="ra-progress-label" className="font-mono text-label uppercase text-brand-text">
-          Step {step + 1} of {STEPS.length} · {STEPS[step].title}
-        </p>
-        <div className="mt-3 h-2 border-2 border-line-strong" role="progressbar" aria-valuemin={1} aria-valuemax={STEPS.length} aria-valuenow={step + 1} aria-label="Progress">
-          <div className="h-full bg-accent transition-[width] duration-base" style={{ width: `${pct}%` }} />
+    <div className="hr-wrap hr-ra-grid">
+      <aside className="hr-ra-side">
+        <div className="hr-seat-progress" aria-hidden="true">
+          <div className="hr-table-top">{done ? "Seat set" : "Setting your seat"}</div>
+          {SEAT_POS.map((p, i) => (
+            <span key={i} className="hr-seat" data-state={seatState(i)} style={{ "--x": p.x, "--y": p.y } as CSSProperties} />
+          ))}
         </div>
-      </div>
-      {restored && step === 0 && <p className="mt-4 text-caption text-fg-subtle">We restored what you typed last time on this device.</p>}
+        <h1 id="ra-title" className="hr-d2">
+          Tell us who you are. We&rsquo;ll find your seat.
+        </h1>
+        <p className="hr-lede">Joining is free. Your answers let us seat you at a room in your city with people worth meeting.</p>
+        <ul className="hr-assure">
+          <li>About three minutes.</li>
+          <li>A person reads every request.</li>
+          <li>Nothing here is shown publicly or shared.</li>
+          <li>Rooms are paid; your invite shows the price.</li>
+        </ul>
+      </aside>
 
-      {/* honeypot */}
-      <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
-        <label>
-          Website <input type="text" name="website" tabIndex={-1} autoComplete="off" />
-        </label>
-      </div>
-
-      <fieldset className="mt-6">
-        <legend data-step-title tabIndex={-1} className="font-display text-heading-lg text-fg outline-none">
-          {STEPS[step].title}
-        </legend>
-
-        {step === 0 && (
-          <div className="mt-6 grid gap-5">
-            <div>
-              {label("name", "Full name")}
-              <input {...field("name")} className={control} autoComplete="name" value={values.name} onChange={(e) => set("name", e.target.value)} />
-              {errorFor("name")}
-            </div>
-            <div>
-              {label("email", "Email")}
-              <input {...field("email")} type="email" inputMode="email" className={control} autoComplete="email" value={values.email} onChange={(e) => set("email", e.target.value)} />
-              {errorFor("email")}
-            </div>
-            <div>
-              {label("phone", "Phone", true)}
-              <input {...field("phone")} type="tel" inputMode="tel" className={control} autoComplete="tel" value={values.phone} onChange={(e) => set("phone", e.target.value)} />
-              {errorFor("phone")}
-            </div>
-            <div>
-              {label("city", "City")}
-              <input {...field("city")} list="ra-cities" className={control} autoComplete="address-level2" value={values.city} onChange={(e) => set("city", e.target.value)} />
-              <datalist id="ra-cities">
-                {cities.map((c) => (
-                  <option key={c} value={c} />
-                ))}
-              </datalist>
-              <p className="mt-1.5 text-caption text-fg-subtle">No chapter in your city yet? Tell us anyway — it decides where we open next.</p>
-              {errorFor("city")}
+      <div className="hr-ra-form" data-done={done}>
+        {done ? (
+          <div className="hr-success hr-dark">
+            <h2 ref={headingRef} tabIndex={-1} className="hr-d2">
+              Thanks, {first}. Your seat&rsquo;s being set.
+            </h2>
+            <ol>
+              {NEXT_STEPS.map((s, i) => (
+                <li key={s.title}>
+                  <span>{i + 1}</span>
+                  <div>
+                    <b>{i === 1 ? `You're matched to a room in ${values.city}.` : `${s.title}.`}</b>
+                    <p>{s.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            <div className="hr-ctas">
+              <a
+                href={LINKS.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => track("whatsapp_click", { placement: "request-access-success" })}
+                className="hr-btn hr-btn-quiet"
+              >
+                Join the WhatsApp community<span className="sr-only"> (opens in a new tab)</span>
+              </a>
+              <Link href={`/members?city=${encodeURIComponent(values.city)}`} className="hr-link">
+                See who&rsquo;s in {values.city}
+              </Link>
             </div>
           </div>
-        )}
-
-        {step === 1 && (
-          <div className="mt-6 grid gap-5">
-            <div className="grid gap-5 sm:grid-cols-2">
-              <div>
-                {label("role", "Role")}
-                <select {...field("role")} className={control} value={values.role} onChange={(e) => set("role", e.target.value)}>
-                  <option value="">Choose…</option>
-                  {ROLES.map((r) => (
-                    <option key={r}>{r}</option>
-                  ))}
-                </select>
-                {errorFor("role")}
-              </div>
-              <div>
-                {label("company", "Company", true)}
-                <input {...field("company")} className={control} autoComplete="organization" value={values.company} onChange={(e) => set("company", e.target.value)} />
-              </div>
-              <div>
-                {label("industry", "Industry", true)}
-                <select {...field("industry")} className={control} value={values.industry} onChange={(e) => set("industry", e.target.value)}>
-                  <option value="">Choose…</option>
-                  {INDUSTRIES.map((r) => (
-                    <option key={r}>{r}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                {label("linkedin", "LinkedIn", true)}
-                <input {...field("linkedin")} type="url" inputMode="url" placeholder="https://www.linkedin.com/in/…" className={control} value={values.linkedin} onChange={(e) => set("linkedin", e.target.value)} />
-                {errorFor("linkedin")}
-              </div>
-            </div>
-            <div>
-              {label("building", "What are you building?")}
-              <textarea {...field("building")} rows={4} maxLength={600} className={cn(control, "min-h-28")} value={values.building} onChange={(e) => set("building", e.target.value)} />
-              {errorFor("building")}
-            </div>
-            <fieldset aria-describedby={err("lookingFor") ? "ra-lookingFor-error" : undefined}>
-              <legend className="mb-2 text-body-sm font-bold text-fg">What are you looking for?</legend>
-              <div className="flex flex-wrap gap-2">
-                {LOOKING_FOR.map((l, i) => {
-                  const on = values.lookingFor.includes(l.value);
-                  return (
-                    <label
-                      key={l.value}
-                      className={cn(
-                        "inline-flex min-h-11 cursor-pointer items-center border-2 px-3 font-mono text-label uppercase has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[var(--focus)]",
-                        on ? "border-accent bg-accent text-on-accent" : "border-line-strong text-fg",
-                      )}
-                    >
-                      <input
-                        type="checkbox"
-                        className="sr-only"
-                        data-field={i === 0 ? "lookingFor" : undefined}
-                        checked={on}
-                        onChange={() => set("lookingFor", on ? values.lookingFor.filter((x) => x !== l.value) : [...values.lookingFor, l.value])}
-                      />
-                      {l.label}
-                    </label>
-                  );
-                })}
-              </div>
-              {errorFor("lookingFor")}
-            </fieldset>
-          </div>
-        )}
-
-        {step === 2 && (
-          <div className="mt-6 grid gap-5">
-            <div>
-              {label("heardFrom", "How did you hear about BNC?", true)}
-              <select {...field("heardFrom")} className={control} value={values.heardFrom} onChange={(e) => set("heardFrom", e.target.value)}>
-                <option value="">Choose…</option>
-                {HEARD_FROM.map((r) => (
-                  <option key={r}>{r}</option>
-                ))}
-              </select>
-            </div>
-            <div data-tone="sand" className="border-2 border-line-strong p-5">
-              <p className="font-mono text-label uppercase text-brand-text">The BNC Charter</p>
-              <ol className="mt-3 space-y-2 text-body-sm">
-                {CHARTER.map((c) => (
-                  <li key={c.title}>
-                    <strong className="text-fg">{c.title}</strong> <span className="text-fg-muted">{c.body}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-            <div>
-              <label className="flex min-h-11 cursor-pointer items-start gap-3 text-body font-bold text-fg">
-                <input
-                  {...field("charter")}
-                  type="checkbox"
-                  className="mt-1 h-5 w-5 shrink-0 accent-[var(--accent)]"
-                  checked={values.charter}
-                  onChange={(e) => set("charter", e.target.checked)}
-                />
-                I agree to the BNC Charter
-              </label>
-              {errorFor("charter")}
-            </div>
-          </div>
-        )}
-      </fieldset>
-
-      {state.status === "error" && state.message && (
-        <p role="alert" className="mt-6 border-2 border-danger p-3 text-body-sm font-semibold text-danger">
-          {state.message}
-        </p>
-      )}
-
-      <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
-        {step > 0 ? (
-          <button type="button" onClick={() => setStep((s) => s - 1)} className={buttonClass("ghost")}>
-            ← Back
-          </button>
         ) : (
-          <span />
+          <form ref={formRef} noValidate onSubmit={onSubmit} aria-describedby="ra-progress-label">
+            <p id="ra-progress-label" className="hr-progress-label" aria-live="polite">
+              Step {step + 1} of {STEPS.length} · {STEPS[step].title}
+            </p>
+            <div className="hr-bar" role="progressbar" aria-valuemin={1} aria-valuemax={STEPS.length} aria-valuenow={step + 1} aria-label="Progress">
+              <i style={{ width: `${((step + 1) / STEPS.length) * 100}%` }} />
+            </div>
+            {restored && step === 0 && <p className="hr-hint" style={{ marginBottom: 24 }}>We restored what you typed last time on this device.</p>}
+
+            {shown.length > 0 && (
+              <div className="hr-error-summary" role="alert">
+                {shown.length === 1 ? "One thing to fix:" : `${shown.length} things to fix:`}
+                <ul>
+                  {shown.map((k) => (
+                    <li key={k}>
+                      <a
+                        href={`#ra-${k}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          formRef.current?.querySelector<HTMLElement>(`[data-field="${k}"]`)?.focus();
+                        }}
+                      >
+                        {LABELS[k] ?? k}
+                      </a>
+                      : {errors[k]}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* honeypot */}
+            <div aria-hidden="true" className="sr-only">
+              <label>
+                Website <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+              </label>
+            </div>
+
+            <fieldset style={{ border: 0, padding: 0, margin: 0, minWidth: 0 }}>
+              <legend data-step-title tabIndex={-1} className="hr-step-title">
+                {STEPS[step].title}
+              </legend>
+              <p className="hr-step-sub">{SUBS[step]}</p>
+
+              {step === 0 && (
+                <>
+                  <div className="hr-field">
+                    {label("name", "Full name")}
+                    <input {...field("name")} className="hr-input" autoComplete="name" value={values.name} onChange={(e) => set("name", e.target.value)} />
+                    {errorFor("name")}
+                  </div>
+                  <div className="hr-field">
+                    {label("email", "Email")}
+                    <input {...field("email")} type="email" inputMode="email" className="hr-input" autoComplete="email" value={values.email} onChange={(e) => set("email", e.target.value)} />
+                    <p className="hr-hint">Your invite comes here.</p>
+                    {errorFor("email")}
+                  </div>
+                  <div className="hr-field">
+                    {label("phone", "Phone", true)}
+                    <input {...field("phone")} type="tel" inputMode="tel" className="hr-input" autoComplete="tel" value={values.phone} onChange={(e) => set("phone", e.target.value)} />
+                    {errorFor("phone")}
+                  </div>
+                  <div className="hr-field">
+                    {label("city", "City")}
+                    <input {...field("city")} list="ra-cities" className="hr-input" autoComplete="address-level2" value={values.city} onChange={(e) => set("city", e.target.value)} />
+                    <datalist id="ra-cities">
+                      {cities.map((c) => (
+                        <option key={c} value={c} />
+                      ))}
+                    </datalist>
+                    <p className="hr-hint">No chapter in your city yet? Tell us anyway. Requests decide where we open next.</p>
+                    {errorFor("city")}
+                  </div>
+                </>
+              )}
+
+              {step === 1 && (
+                <>
+                  <div className="hr-two">
+                    <div className="hr-field">
+                      {label("role", "Your role")}
+                      <select {...field("role")} className="hr-input" value={values.role} onChange={(e) => set("role", e.target.value)}>
+                        <option value="">Choose one</option>
+                        {ROLES.map((r) => (
+                          <option key={r}>{r}</option>
+                        ))}
+                      </select>
+                      {errorFor("role")}
+                    </div>
+                    <div className="hr-field">
+                      {label("company", "Company", true)}
+                      <input {...field("company")} className="hr-input" autoComplete="organization" value={values.company} onChange={(e) => set("company", e.target.value)} />
+                    </div>
+                    <div className="hr-field">
+                      {label("industry", "Industry", true)}
+                      <select {...field("industry")} className="hr-input" value={values.industry} onChange={(e) => set("industry", e.target.value)}>
+                        <option value="">Choose one</option>
+                        {INDUSTRIES.map((r) => (
+                          <option key={r}>{r}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="hr-field">
+                      {label("linkedin", "LinkedIn", true)}
+                      <input {...field("linkedin")} type="url" inputMode="url" placeholder="https://www.linkedin.com/in/…" className="hr-input" value={values.linkedin} onChange={(e) => set("linkedin", e.target.value)} />
+                      {errorFor("linkedin")}
+                    </div>
+                  </div>
+                  <div className="hr-field">
+                    {label("building", "What are you building?")}
+                    <textarea {...field("building")} rows={4} maxLength={600} className="hr-input" value={values.building} onChange={(e) => set("building", e.target.value)} />
+                    <p className="hr-counter">{values.building.length} / 600</p>
+                    {errorFor("building")}
+                  </div>
+                  <fieldset className="hr-field" style={{ border: 0, padding: 0, minWidth: 0 }} aria-describedby={err("lookingFor") ? "ra-lookingFor-error" : undefined}>
+                    <legend>What are you looking for?</legend>
+                    <div className="hr-chips">
+                      {LOOKING_FOR.map((l, i) => {
+                        const on = values.lookingFor.includes(l.value);
+                        return (
+                          <label key={l.value} className="hr-chip">
+                            <input
+                              type="checkbox"
+                              data-field={i === 0 ? "lookingFor" : undefined}
+                              checked={on}
+                              onChange={() => set("lookingFor", on ? values.lookingFor.filter((x) => x !== l.value) : [...values.lookingFor, l.value])}
+                            />
+                            <span>{l.label}</span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                    {errorFor("lookingFor")}
+                  </fieldset>
+                </>
+              )}
+
+              {step === 2 && (
+                <>
+                  <div className="hr-field">
+                    {label("heardFrom", "How did you hear about BNC?", true)}
+                    <select {...field("heardFrom")} className="hr-input" value={values.heardFrom} onChange={(e) => set("heardFrom", e.target.value)}>
+                      <option value="">Choose one</option>
+                      {HEARD_FROM.map((r) => (
+                        <option key={r}>{r}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="hr-rules-mini">
+                    <ol>
+                      {CHARTER.map((c) => (
+                        <li key={c.title}>
+                          <b>{c.title}</b> {c.body}
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                  <div className="hr-field">
+                    <label className="hr-check">
+                      <input {...field("charter")} type="checkbox" checked={values.charter} onChange={(e) => set("charter", e.target.checked)} />I agree to the house rules
+                    </label>
+                    {errorFor("charter")}
+                  </div>
+                </>
+              )}
+            </fieldset>
+
+            {state.status === "error" && state.message && (
+              <p role="alert" className="hr-server-error">
+                {state.message}
+              </p>
+            )}
+
+            <div className="hr-ra-actions">
+              {step > 0 ? (
+                <button type="button" onClick={() => setStep((s) => s - 1)} className="hr-back">
+                  Back
+                </button>
+              ) : (
+                <span />
+              )}
+              <button type="submit" disabled={pending} aria-disabled={pending} className="hr-btn hr-btn-primary">
+                {pending ? "Sending…" : step < STEPS.length - 1 ? "Next" : "Request access"}
+              </button>
+            </div>
+          </form>
         )}
-        <button type="submit" disabled={pending} aria-disabled={pending} className={buttonClass("primary", "lg")}>
-          {pending ? "Sending…" : step < STEPS.length - 1 ? "Next" : "Request access"}
-          {!pending && <span aria-hidden="true">→</span>}
-        </button>
       </div>
-    </form>
+    </div>
   );
 }

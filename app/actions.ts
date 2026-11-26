@@ -6,6 +6,7 @@ import { serviceClient } from "@/lib/supabase/server";
 import { rateLimit } from "@/lib/rate-limit";
 import { CONTACT, SITE } from "@/content/site";
 import { sendConfirmation } from "@/lib/mail";
+import { appendRow, nowIST } from "@/lib/sheets";
 
 const MIN_FILL_MS = 2500; // humans take longer than this to fill a form
 
@@ -34,8 +35,21 @@ export async function submitInquiry(_prev: FormState, fd: FormData): Promise<For
   const rl = await rateLimit(await clientKey("inquiry"));
   if (!rl.ok) return { status: "error", message: "Too many submissions from this connection. Try again in a few minutes." };
 
+  const sheetOk = await appendRow("Inquiries", {
+    "Submitted at": nowIST(),
+    Type: v.type,
+    Name: v.name,
+    Email: v.email,
+    Phone: v.phone ?? "",
+    City: v.city ?? "",
+    Organisation: v.organisation ?? "",
+    Message: v.message,
+    Page: v.sourcePath ?? "",
+  });
+  const thanks: FormState = { status: "ok", message: `Thanks, ${v.name.split(" ")[0]}. ${CONTACT.responseTime}` };
+
   const db = serviceClient();
-  if (!db) return unavailable;
+  if (!db) return sheetOk ? thanks : unavailable;
 
   const { error } = await db.from("inquiries").insert({
     type: v.type,
@@ -49,9 +63,10 @@ export async function submitInquiry(_prev: FormState, fd: FormData): Promise<For
   });
   if (error) {
     console.error("inquiry insert failed", error.code);
+    if (sheetOk) return thanks;
     return { status: "error", message: `Something went wrong on our side. Please email ${CONTACT.email}.` };
   }
-  return { status: "ok", message: `Thanks, ${v.name.split(" ")[0]}. ${CONTACT.responseTime}` };
+  return thanks;
 }
 
 /**
@@ -70,8 +85,13 @@ export async function subscribe(_prev: FormState, fd: FormData): Promise<FormSta
   const rl = await rateLimit(await clientKey("subscribe"));
   if (!rl.ok) return { status: "error", message: "Too many attempts from this connection. Try again in a few minutes." };
 
+  const sheetOk = await appendRow("Subscribers", { "Subscribed at": nowIST(), Email: v.email, City: v.city ?? "", Source: v.source });
+
   const db = serviceClient();
-  if (!db) return rsvpUrl ? { status: "ok", message: "Continue to Luma to RSVP.", redirect: rsvpUrl } : unavailable;
+  if (!db) {
+    if (rsvpUrl) return { status: "ok", message: "Continue to Luma to RSVP.", redirect: rsvpUrl };
+    return sheetOk ? { status: "ok", message: "You're on the list. We'll write when your city has a date." } : unavailable;
+  }
 
   const { data, error } = await db
     .from("subscribers")
@@ -107,8 +127,25 @@ export async function requestAccess(_prev: FormState, fd: FormData): Promise<For
   const rl = await rateLimit(await clientKey("access"));
   if (!rl.ok) return { status: "error", message: "Too many submissions from this connection. Try again in a few minutes." };
 
+  const sheetOk = await appendRow("Access Requests", {
+    "Submitted at": nowIST(),
+    Name: v.name,
+    Email: v.email,
+    Phone: v.phone ?? "",
+    City: v.city,
+    Role: v.role,
+    Company: v.company ?? "",
+    Industry: v.industry ?? "",
+    LinkedIn: v.linkedin ?? "",
+    "What they're building": v.building,
+    "Looking for": v.lookingFor.join(", "),
+    "Heard from": v.heardFrom ?? "",
+    "Agreed to house rules": "Yes",
+    Status: "New",
+  });
+
   const db = serviceClient();
-  if (!db) return unavailable;
+  if (!db) return sheetOk ? ok : unavailable;
 
   const { error } = await db.from("access_requests").insert({
     name: v.name,
@@ -126,7 +163,9 @@ export async function requestAccess(_prev: FormState, fd: FormData): Promise<For
     source_path: v.sourcePath ?? null,
   });
   if (error) {
+    // The sheet is the team's working copy; if it got the row, the request isn't lost.
     console.error("access request insert failed", error.code);
+    if (sheetOk) return ok;
     return { status: "error", message: `Something went wrong on our side. Please email ${CONTACT.email}.` };
   }
   return ok;

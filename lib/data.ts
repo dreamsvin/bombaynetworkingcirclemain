@@ -117,7 +117,18 @@ export async function getTeam() {
 }
 
 export async function getFeaturedMembers() {
-  return (await allMembers()).filter((m) => m.is_featured);
+  return (await allMembers()).filter((m) => m.is_featured && !m.team_role);
+}
+
+/** The member directory: consented, published members who are not team. Contact details are never selected for display. */
+export async function getMembers(opts: { city?: string } = {}) {
+  return (await allMembers())
+    .filter((m) => !m.team_role && (!opts.city || m.city === opts.city))
+    .sort((a, b) => Number(b.is_featured) - Number(a.is_featured) || a.name.localeCompare(b.name));
+}
+
+export async function getMember(id: string) {
+  return (await allMembers()).find((m) => m.id === id) ?? null;
 }
 
 export const getTestimonials = cached("testimonials", async (): Promise<Testimonial[]> => {

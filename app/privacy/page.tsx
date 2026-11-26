@@ -16,7 +16,7 @@ export default function PrivacyPage() {
       title="Privacy policy"
       path="/privacy"
       updated="20 November 2026"
-      intro={`${SITE.name} ("BNC", "we") runs a free community and events for founders and builders in India. This policy explains what personal data we collect, why, who we share it with, how long we keep it, and the rights you have. We process personal data in line with India's Digital Personal Data Protection Act, 2023 (DPDP Act) and the rules made under it.`}
+      intro={`${SITE.name} ("BNC", "we") is a community for founders and builders in India that is free to join and runs small, paid rooms (events). This policy explains what personal data we collect, why, who we share it with, how long we keep it, and the rights you have. We process personal data in line with India's Digital Personal Data Protection Act, 2023 (DPDP Act) and the rules made under it.`}
     >
       <h2>1. Who is responsible</h2>
       <p>
@@ -28,6 +28,11 @@ export default function PrivacyPage() {
       <h2>2. What we collect</h2>
       <h3>Information you give us</h3>
       <ul>
+        <li>
+          <strong>Request access:</strong> name, email, city, role and what you&apos;re building, and optionally phone number, company, industry,
+          LinkedIn link, what you&apos;re looking for and how you heard about BNC, plus the time you agreed to the BNC Charter. We use it only to match
+          you to a room; it is never shown publicly.
+        </li>
         <li>
           <strong>Forms</strong> (contact, sponsorship, partnership, start-a-chapter): name, email, and optionally phone number, city, organisation and your
           message.
@@ -53,7 +58,7 @@ export default function PrivacyPage() {
       </ul>
       <h3>Information collected automatically</h3>
       <p>
-        We use Vercel Web Analytics to count page views and a few named actions (for example, clicking &ldquo;Find your circle&rdquo; or an RSVP link).
+        We use Vercel Web Analytics to count page views and a few named actions (for example, clicking &ldquo;Request access&rdquo; or an RSVP link).
         It does not use cookies and does not build a profile of you across sites. Our hosting provider keeps short-lived server logs (including IP
         address) for security and to stop abuse such as form spam.
       </p>

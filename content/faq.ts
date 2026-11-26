@@ -7,47 +7,52 @@ export type Faq = { q: string; a: string; group: "joining" | "events" | "chapter
 export const FAQ: Faq[] = [
   {
     group: "joining",
-    q: "What is Bombay Networking Circle?",
-    a: "A free, in-person community for founders, operators, freelancers and creators. It runs hosted events in eight Indian cities and a WhatsApp community that connects members between events.",
+    q: "Is it free?",
+    a: "Joining BNC is free. Rooms are paid: each room page shows its price before you commit, and the invite email repeats it. The price covers the venue, the host and keeping the room small.",
   },
   {
     group: "joining",
-    q: "Does it cost anything?",
-    a: "No. Joining the community is free. Most events are free; if a specific event has a ticket price — for example to cover a venue — the event page and the Luma RSVP will say so before you register.",
+    q: "Who can join?",
+    a: "Founders, operators, creators, freelancers and investors who are building something and willing to give as much as they take. The standard is how you take part — the BNC Charter — not your title or funding.",
   },
   {
     group: "joining",
-    q: "Do I need a startup to join?",
-    a: "No. There are rooms for established founders and rooms like Founders in Making 101 for students and people who haven't started yet, plus operators and freelancers. Rooms are grouped by stage so the conversation stays useful.",
+    q: "What happens after I request access?",
+    a: "A person on the BNC team reads your request, then matches you to a room in your city whose theme and people fit what you told us. Your invite arrives by email. After your first room you join the member community.",
   },
   {
     group: "joining",
-    q: "How do I join?",
-    a: "Find your city, RSVP to the next event there, and come. After you RSVP you'll be invited into the WhatsApp community, where events are announced first. Joining the WhatsApp group without coming to an event is allowed, but the room is where it works.",
+    q: "Do I need a startup?",
+    a: "No. Rooms are grouped by stage, from people who haven't started yet to established founders, and operators and freelancers are part of every city. Tell us where you are in the request and we'll match accordingly.",
   },
   {
     group: "events",
-    q: "What happens at an event?",
-    a: "You're placed with people at a similar stage, everyone gives a one-line introduction and one specific ask, there's a hosted conversation or pitch, and the evening ends with hosts making introductions based on those asks.",
+    q: "How are rooms curated?",
+    a: "Every room has one theme and about 30 seats. We choose who is in it from what people told us in their requests — what they're building and what they're looking for — so the people in the room have a reason to meet.",
+  },
+  {
+    group: "joining",
+    q: "Is there a WhatsApp group?",
+    a: "Yes. The member community runs on WhatsApp, and the link is shared after you request access. It's where new rooms are announced first. The rooms are still where the introductions happen.",
   },
   {
     group: "events",
-    q: "How do I RSVP?",
-    a: "Every event has an RSVP button that opens BNC's Luma calendar. Luma handles registration, reminders and check-in.",
+    q: "What happens in a room?",
+    a: "You're placed with people chosen for you, hosts make one-on-one introductions around a specific ask, there's a focused conversation on the room's theme, and the evening ends with an open floor. Hosts follow up within 48 hours.",
   },
   {
     group: "events",
-    q: "Can I pitch my services at an event?",
-    a: "Not to the room. Say what you do in your introduction and let people come to you. Repeated selling is a code of conduct issue.",
+    q: "Can I pitch my services in a room?",
+    a: "Not to the room. Say what you do in your introduction and let people come to you. Respecting the room is part of the Charter.",
   },
   {
     group: "chapters",
     q: "There's no chapter in my city. What now?",
-    a: "Two options: come to the nearest chapter's events, or apply to start one. BNC gives new city leads the format, the playbook and promotion to the existing community.",
+    a: "Request access anyway and tell us your city — demand decides where the next chapter opens. You can also apply to start one; BNC gives new city leads the format, the playbook and promotion to the existing network.",
   },
   {
     group: "partners",
     q: "How do sponsorships and partnerships work?",
-    a: "Brands can sponsor a single event, a city series or the national calendar, and ecosystem partners can offer tools or perks to members. Use the sponsor or partner forms and we'll send details.",
+    a: "Brands can sponsor a single room, a city series or the national calendar, and ecosystem partners can offer tools or perks to members. Use the sponsor or partner forms and we'll send details.",
   },
 ];

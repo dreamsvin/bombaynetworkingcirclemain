@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const chapters = await getChapters();
   return pageMeta({
     title: `BNC chapters — founder networking in ${chapters.length} Indian cities`,
-    ogTitle: "Find your circle",
+    ogTitle: "Eight cities. One circle.",
     description: `Bombay Networking Circle chapters in ${chapters.map((c) => c.city).join(", ")}. Each city has its own events, lead and community. Find yours.`,
     path: "/chapters",
   });
@@ -36,8 +36,8 @@ export default async function ChaptersPage() {
       <PageHeader
         breadcrumbs={<Breadcrumbs items={[{ label: "Chapters", href: "/chapters" }]} />}
         eyebrow="Chapters"
-        title="Find your circle."
-        lede={`${chapters.length} cities, one community. Pick your city to see its next event, its lead and what happens there.`}
+        title={`${chapters.length} cities. One circle.`}
+        lede="Pick your city to see its next room, its lead and who's there."
       />
 
       <Section labelledBy="directory-title">
@@ -58,7 +58,7 @@ export default async function ChaptersPage() {
         </Container>
       </Section>
 
-      <Section tone="raised" labelledBy="soon-title">
+      <Section tone="sand" labelledBy="soon-title">
         <Container>
           <div className="grid gap-8 md:grid-cols-12 md:items-center">
             <SectionHeader
@@ -69,11 +69,11 @@ export default async function ChaptersPage() {
               lede="New chapters start with one person who knows the local founders. If that's you, we'll give you the format, the playbook and the community's attention."
             />
             <div className="flex flex-wrap gap-4 md:col-span-5 md:justify-end">
-              <ButtonLink href="/chapters/start" variant="secondary" size="lg">
+              <ButtonLink href="/start-a-chapter" variant="secondary" size="lg">
                 Start a chapter
               </ButtonLink>
-              <Link href="/events" className="inline-flex min-h-11 items-center text-body-sm font-semibold text-fg underline underline-offset-4">
-                Or visit a nearby city&apos;s event
+              <Link href="/rooms" className="inline-flex min-h-11 items-center text-body-sm font-semibold text-fg underline underline-offset-4">
+                Or see rooms in nearby cities
               </Link>
             </div>
           </div>

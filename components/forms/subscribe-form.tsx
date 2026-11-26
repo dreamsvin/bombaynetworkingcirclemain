@@ -73,7 +73,7 @@ export function SubscribeForm({
   return (
     <form onSubmit={onSubmit} noValidate className={className}>
       <input type="hidden" name="source" value={source} />
-            {city && <input type="hidden" name="city" value={city} />}
+      {city && <input type="hidden" name="city" value={city} />}
       {rsvpUrl && <input type="hidden" name="rsvpUrl" value={rsvpUrl} />}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label htmlFor={`${id}-website`}>Website</label>
@@ -93,7 +93,7 @@ export function SubscribeForm({
           placeholder="you@company.com"
           aria-invalid={err ? true : undefined}
           aria-describedby={err ? `${inputId}-error` : undefined}
-          className="block min-h-11 w-full min-w-0 flex-1 rounded-full border border-line-control bg-bg-card px-4 text-body text-fg placeholder:text-fg-subtle"
+          className="block min-h-11 w-full min-w-0 flex-1 border-2 border-line-control bg-bg-card px-4 text-body text-fg placeholder:text-fg-subtle"
         />
         <button type="submit" disabled={pending} className={buttonClass(variant === "newsletter" ? "secondary" : "primary")}>
           {pending ? "Saving…" : (submitLabel ?? (variant === "rsvp" ? "RSVP on Luma" : variant === "city" ? "Notify me" : "Subscribe"))}

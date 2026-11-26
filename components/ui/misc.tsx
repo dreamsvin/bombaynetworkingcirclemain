@@ -58,7 +58,7 @@ export function EmptyState({
   headingAs?: "h2" | "h3";
 }) {
   return (
-    <div className={cn("rounded-lg border border-dashed border-line-strong bg-bg-card p-6 sm:p-8", className)}>
+    <div className={cn("border-2 border-dashed border-line-strong bg-bg-card p-6 sm:p-8", className)}>
       <H className="text-heading-sm text-fg">{title}</H>
       <div className="mt-2 max-w-measure text-body text-fg-muted">{body}</div>
       {children && <div className="mt-5 flex flex-wrap items-center gap-4">{children}</div>}
@@ -68,13 +68,13 @@ export function EmptyState({
 
 /* ───────── Tag ───────── */
 export function Tag({ children, className }: { children: ReactNode; className?: string }) {
-  return <span className={cn("inline-flex items-center rounded-full bg-support-tint px-3 py-1 text-caption font-medium text-fg", className)}>{children}</span>;
+  return <span className={cn("inline-flex items-center bg-support-tint px-2.5 py-1 font-mono text-label uppercase text-on-support-tint", className)}>{children}</span>;
 }
 
 /* ───────── Accordion: native <details>, keyboard and screen-reader accessible with zero JS ───────── */
 export function Accordion({ items, className }: { items: { q: string; a: ReactNode }[]; className?: string }) {
   return (
-    <div className={cn("divide-y divide-line border-y border-line", className)}>
+    <div className={cn("divide-y-2 divide-line-strong border-y-2 border-line-strong", className)}>
       {items.map((it) => (
         <details key={it.q} className="group">
           <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-6 py-5 text-heading-sm text-fg [&::-webkit-details-marker]:hidden">

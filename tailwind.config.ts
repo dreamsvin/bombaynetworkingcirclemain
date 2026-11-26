@@ -53,6 +53,7 @@ const config: Config = {
       1: "4px",
       1.5: "6px",
       2: "8px",
+      2.5: "10px",
       3: "12px",
       4: "16px",
       5: "20px",
@@ -74,12 +75,15 @@ const config: Config = {
     },
     // Modernist structure: square corners everywhere. Only `full` (the round logo seal, avatars) is curved.
     borderRadius: { none: "0", sm: "0", md: "0", lg: "0", xl: "0", full: "9999px" },
-    borderWidth: { DEFAULT: "1px", 0: "0", 2: "2px", 3: "3px" },
-    fontFamily: { display: v("font-display"), sans: v("font-sans"), mono: v("font-mono") },
+    // Editorial hairlines: `border-2` renders 1px (class name kept so every rule on the site changes in one place).
+    borderWidth: { DEFAULT: "1px", 0: "0", 2: "1px", 3: "2px" },
+    fontFamily: { display: v("font-display"), serif: v("font-display"), sans: v("font-sans"), mono: v("font-mono") },
     fontSize: {
-      "display-xl": [v("text-display-xl"), { lineHeight: "1.04", letterSpacing: "-0.02em", fontWeight: "800" }],
-      "display-lg": [v("text-display-lg"), { lineHeight: "1.08", letterSpacing: "-0.018em", fontWeight: "800" }],
-      "display-md": [v("text-display-md"), { lineHeight: "1.12", letterSpacing: "-0.015em", fontWeight: "800" }],
+      // Display sizes are set in the editorial serif (regular weight only).
+      "display-2xl": [v("text-display-2xl"), { lineHeight: "0.92", letterSpacing: "-0.025em", fontWeight: "400" }],
+      "display-xl": [v("text-display-xl"), { lineHeight: "0.98", letterSpacing: "-0.02em", fontWeight: "400" }],
+      "display-lg": [v("text-display-lg"), { lineHeight: "1.02", letterSpacing: "-0.015em", fontWeight: "400" }],
+      "display-md": [v("text-display-md"), { lineHeight: "1.06", letterSpacing: "-0.01em", fontWeight: "400" }],
       "heading-lg": [v("text-heading-lg"), { lineHeight: "1.18", letterSpacing: "-0.01em", fontWeight: "800" }],
       "heading-md": [v("text-heading-md"), { lineHeight: "1.2", fontWeight: "700" }],
       "heading-sm": [v("text-heading-sm"), { lineHeight: "1.25", fontWeight: "700" }],
@@ -91,6 +95,7 @@ const config: Config = {
     },
     fontWeight: { regular: "400", medium: "500", semibold: "600", bold: "700", extrabold: "800" },
     maxWidth: {
+      wide: "1440px",
       container: "1200px",
       prose: "680px",
       measure: "60ch",
@@ -103,7 +108,7 @@ const config: Config = {
     transitionTimingFunction: { out: v("ease-out"), "in-out": v("ease-in-out") },
     extend: {
       gridTemplateColumns: { 12: "repeat(12, minmax(0, 1fr))" },
-      aspectRatio: { photo: "3 / 2", portrait: "4 / 5", wide: "16 / 9" },
+      aspectRatio: { photo: "3 / 2", portrait: "4 / 5", wide: "16 / 9", tall: "3 / 4" },
     },
   },
 };

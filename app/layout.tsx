@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import "./house.css";
+import "./network.css";
 import { SITE } from "@/content/site";
 import { Header } from "@/components/site/header";
 import { Footer } from "@/components/site/footer";

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FOOTER, LINKS, SITE, TAGLINE } from "@/content/site";
+import { BRAND_LINE, FOOTER, LINKS, SITE } from "@/content/site";
 import { Seal } from "./logo";
 import { SubscribeForm } from "@/components/forms/subscribe-form";
 import { TrackedLink } from "./tracked-link";
@@ -16,10 +16,10 @@ export function Footer() {
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <Seal className="h-28 w-28 text-brand-text" />
-            <p className="mt-6 font-display text-heading-lg font-regular italic text-fg">{TAGLINE}</p>
+            <p className="mt-6 font-display text-heading-lg font-regular italic text-fg">{BRAND_LINE}</p>
             <SubscribeForm className="mt-8 max-w-md" id="footer-subscribe" label="Get the next room in your city by email" source="footer" />
           </div>
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-4 lg:col-span-7">
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-7">
             {FOOTER.map((col) => (
               <div key={col.title}>
                 <h2 className="text-label uppercase text-fg-subtle">{col.title}</h2>
@@ -53,7 +53,7 @@ export function Footer() {
               </li>
             ))}
           </ul>
-          <p className="text-caption text-fg-subtle">© {new Date().getFullYear()} {SITE.name}</p>
+          <p className="text-caption text-fg-subtle">© {new Date().getFullYear()} {SITE.name} · <Link href="/request-access" className="underline underline-offset-4">Request Access</Link></p>
         </div>
       </div>
     </footer>

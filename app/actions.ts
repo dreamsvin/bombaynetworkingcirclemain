@@ -112,17 +112,16 @@ export async function subscribe(_prev: FormState, fd: FormData): Promise<FormSta
 }
 
 /**
- * Request access. Stored in the private access_requests table (no public policies; service role only).
- * Returns the first name so the success screen can address the person.
+ * Request access. Written to the Google Sheet (the team's working copy) and, when configured, the private
+ * access_requests table (service role only). Returns the first name for the confirmation screen.
  */
 export async function requestAccess(_prev: FormState, fd: FormData): Promise<FormState> {
-  const raw = { ...fields(fd), lookingFor: fd.getAll("lookingFor").filter((v) => typeof v === "string") };
-  const parsed = accessRequestSchema.safeParse(raw);
+  const parsed = accessRequestSchema.safeParse(fields(fd));
   if (!parsed.success) return { status: "error", message: "Check the highlighted fields.", errors: flatten(parsed.error) };
   const v = parsed.data;
   const ok: FormState = { status: "ok", message: v.name.split(" ")[0] };
 
-  if (v.website || Date.now() - v.startedAt < MIN_FILL_MS) return ok;
+  if (v.hp || Date.now() - v.startedAt < MIN_FILL_MS) return ok;
 
   const rl = await rateLimit(await clientKey("access"));
   if (!rl.ok) return { status: "error", message: "Too many submissions from this connection. Try again in a few minutes." };
@@ -131,16 +130,14 @@ export async function requestAccess(_prev: FormState, fd: FormData): Promise<For
     "Submitted at": nowIST(),
     Name: v.name,
     Email: v.email,
-    Phone: v.phone ?? "",
+    LinkedIn: v.linkedin,
     City: v.city,
-    Role: v.role,
-    Company: v.company ?? "",
-    Industry: v.industry ?? "",
-    LinkedIn: v.linkedin ?? "",
+    "Company / profession": v.company,
     "What they're building": v.building,
-    "Looking for": v.lookingFor.join(", "),
+    "Hoping to explore": v.explore,
+    Industry: v.industry ?? "",
+    Website: v.website ?? "",
     "Heard from": v.heardFrom ?? "",
-    "Agreed to house rules": "Yes",
     Status: "New",
   });
 
@@ -150,15 +147,16 @@ export async function requestAccess(_prev: FormState, fd: FormData): Promise<For
   const { error } = await db.from("access_requests").insert({
     name: v.name,
     email: v.email,
-    phone: v.phone ?? null,
+    phone: null,
     city: v.city,
-    role: v.role,
-    company: v.company ?? null,
+    role: v.company,
+    company: v.company,
     industry: v.industry ?? null,
-    linkedin: v.linkedin ?? null,
-    building: v.building,
-    looking_for: v.lookingFor,
+    linkedin: v.linkedin,
+    building: `${v.building}\n\nHoping to explore: ${v.explore}${v.website ? `\nWebsite: ${v.website}` : ""}`,
+    looking_for: [],
     heard_from: v.heardFrom ?? null,
+    // The form states that requesting access means agreeing to the house rules.
     charter_agreed_at: new Date().toISOString(),
     source_path: v.sourcePath ?? null,
   });

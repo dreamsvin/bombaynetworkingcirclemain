@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import "./house.css";
+import "./network.css";
 import { SITE } from "@/content/site";
 import { Header } from "@/components/site/header";
 import { Footer } from "@/components/site/footer";
@@ -35,7 +36,7 @@ const archivo = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "Bombay Networking Circle — a network of builders in 8 Indian cities",
+    default: "Bombay Networking Circle | The Right Rooms, The Right People",
     template: "%s · Bombay Networking Circle",
   },
   description: SITE.description,
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
     siteName: SITE.name,
     locale: SITE.locale,
     title: "The right rooms change everything. The right people make it happen.",
-    description: "A network of founders, operators and creators across 8 Indian cities. 1,000+ members (Nov 2026). Free to join — request access.",
+    description: "Discover Bombay Networking Circle, a growing network connecting people across cities, industries and experiences.",
   },
   twitter: { card: "summary_large_image" },
   alternates: { canonical: "/" },

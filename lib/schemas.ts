@@ -48,28 +48,38 @@ export const inquirySchema = z
 
 export const LOOKING_FOR_VALUES = ["co-founder", "clients", "hires", "investors", "partners", "peers", "learning"] as const;
 
-/** Request access — the profile intake that lets BNC match people to rooms. Mirrored client-side in components/request-access. */
-export const accessRequestSchema = z.object({
-  name,
-  email,
-  phone,
-  city: z.string().trim().min(2, "Which city are you in?").max(80),
-  role: z.string().trim().min(2, "Pick the role closest to yours.").max(60),
-  company: optionalText(120),
-  industry: optionalText(60),
-  linkedin: z
+/**
+ * Request access: deliberately short, the beginning of a relationship rather than an application.
+ * Mirrored client-side in components/request-access.
+ */
+const url = (msg: string) =>
+  z
     .string()
     .trim()
     .max(200)
     .optional()
-    .transform((v) => (v ? v : undefined))
-    .refine((v) => !v || /^https:\/\/(www\.|[a-z]{2}\.)?linkedin\.com\//.test(v), "Paste the full LinkedIn URL, starting with https://"),
-  building: z.string().trim().min(10, "A sentence about what you're building — 10 characters minimum.").max(600, "600 characters max."),
-  lookingFor: z.array(z.enum(LOOKING_FOR_VALUES)).min(1, "Pick at least one.").max(7),
+    .transform((v) => (v ? (/^https?:\/\//i.test(v) ? v : `https://${v}`) : undefined))
+    .refine((v) => !v || /^https?:\/\/[^\s.]+\.[^\s]+$/i.test(v), msg);
+
+export const accessRequestSchema = z.object({
+  name,
+  email,
+  linkedin: z
+    .string()
+    .trim()
+    .max(200)
+    .transform((v) => (/^https?:\/\//i.test(v) ? v : `https://${v}`))
+    .refine((v) => /^https:\/\/([a-z]{2,3}\.)?linkedin\.com\/.+/i.test(v), "Paste your LinkedIn profile link, e.g. linkedin.com/in/yourname"),
+  city: z.string().trim().min(2, "Which city are you in?").max(80),
+  company: z.string().trim().min(2, "Where do you work, or what do you do?").max(120),
+  building: z.string().trim().min(10, "A sentence about what you're working on — 10 characters minimum.").max(600, "600 characters max."),
+  explore: z.string().trim().min(5, "A few words on what you'd like to explore.").max(600, "600 characters max."),
+  industry: optionalText(60),
+  website: url("That website address doesn't look complete."),
   heardFrom: optionalText(60),
-  charter: z.literal("true", { errorMap: () => ({ message: "Agree to the house rules to send your request." }) }),
   sourcePath: optionalText(200),
-  ...antiSpam,
+  hp: z.string().max(0).optional(), // honeypot ("website" is a real field here)
+  startedAt: z.coerce.number().int().positive(),
 });
 export type AccessRequestInput = z.input<typeof accessRequestSchema>;
 

@@ -15,9 +15,11 @@ export const SITE = {
 } as const;
 
 /** The single primary CTA (navy). Same words everywhere. Every page ends with a path to it. */
-export const PRIMARY_CTA = { label: "Request access", href: "/request-access" } as const;
+export const PRIMARY_CTA = { label: "Request Access", href: "/request-access" } as const;
 /** The only secondary CTA (outline). */
 export const SECONDARY_CTA = { label: "Explore BNC", href: "/inside" } as const;
+/** Request access → "Find your place in the circle." CTAs. */
+export const EXPERIENCES_CTA = { label: "Explore upcoming experiences", href: "/rooms" } as const;
 
 /** Said out loud everywhere the access model matters, so no visitor has to guess it. */
 export const ACCESS_LINE = "Free to join. We read every request to match you to the right room.";
@@ -46,6 +48,8 @@ export const MISSION = {
 export const HERO = {
   title: "The right rooms change everything. The right people make it happen.",
   lede: "Bombay Networking Circle is a growing network of people who believe meaningful relationships can change what you build next.",
+  /** Home first fold. "Community" is BNC's own word for itself. */
+  sub: "A growing community of people, conversations and opportunities across cities, industries and experiences.",
 } as const;
 
 /** Home §2 — readable in ten seconds. */
@@ -209,52 +213,51 @@ export const ROOM_STEPS = [
   { title: "Open floor", body: "Hosts make direct introductions based on the asks you heard earlier. This is where collaborations start." },
 ] as const;
 
-/** Header: flat, five links + the CTA. */
+/** Header: five links + the CTA. Each one explains a part of BNC; no About/Mission/Gallery clutter. */
 export const NAV = [
-  { label: "Inside BNC", href: "/inside" },
-  { label: "Members", href: "/members" },
+  { label: "The Network", href: "/inside" },
+  { label: "Curated Rooms", href: "/#curated-rooms" },
+  { label: "People", href: "/members" },
   { label: "Chapters", href: "/chapters" },
-  { label: "Rooms", href: "/rooms" },
-  { label: "Stories", href: "/stories" },
+  { label: "Experiences", href: "/rooms" },
 ] as const;
 
 export const TAGLINE = "Less networking. More net-worthing." as const;
 
-/** Footer groups, from the approved wireframe. */
+/** Footer groups: reinforce the network, not a generic corporate footer. */
 export const FOOTER = [
   {
-    title: "About",
+    title: "Bombay Networking Circle",
     links: [
-      { label: "About BNC", href: "/about" },
-      { label: "The Charter", href: "/about#charter" },
-      { label: "Our story", href: "/about/story" },
-      { label: "Team", href: "/about/team" },
+      { label: "The Network", href: "/inside" },
+      { label: "Curated Rooms", href: "/#curated-rooms" },
+      { label: "People", href: "/members" },
+      { label: "Chapters", href: "/chapters" },
+      { label: "Experiences", href: "/rooms" },
+      { label: "Request Access", href: "/request-access" },
     ],
   },
   {
-    title: "Work with us",
+    title: "Get in touch",
     links: [
-      { label: "Sponsor", href: "/sponsor" },
-      { label: "Partners", href: "/partners" },
-      { label: "Start a chapter", href: "/start-a-chapter" },
-    ],
-  },
-  {
-    title: "Help",
-    links: [
-      { label: "FAQ", href: "/faq" },
       { label: "Contact", href: "/contact" },
-      { label: "Code of conduct", href: "/code-of-conduct" },
+      { label: "Sponsor a room", href: "/sponsor" },
+      { label: "Start a chapter", href: "/start-a-chapter" },
+      { label: "FAQ", href: "/faq" },
     ],
   },
   {
     title: "Legal",
     links: [
-      { label: "Privacy", href: "/privacy" },
-      { label: "Terms", href: "/terms" },
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Terms & Conditions", href: "/terms" },
+      { label: "Code of conduct", href: "/code-of-conduct" },
     ],
   },
 ] as const;
+
+/** The brand line under the logo in the footer. */
+export const BRAND_LINE = "The right rooms change everything. The right people make it happen." as const;
 
 export const LEGAL = [
   { label: "Privacy", href: "/privacy" },

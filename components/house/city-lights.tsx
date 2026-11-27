@@ -17,7 +17,7 @@ export function CityLights({ cities }: { cities: CityPin[] }) {
     <>
       <div className="hr-cities-list">
         <h2 id="cities-title" className="hr-d2">
-          {cities.length === 8 ? "Eight cities." : `${cities.length} cities.`} One circle.
+          The circle moves across cities.
         </h2>
         {cities.map((c) => (
           <Link
@@ -36,8 +36,8 @@ export function CityLights({ cities }: { cities: CityPin[] }) {
       </div>
       <InView className="hr-cities-map" ariaHidden>
         <svg viewBox="0 0 440 440">
-          <circle className="hr-map-ring" cx="220" cy="220" r="210" />
-          <circle cx="220" cy="220" r="150" fill="none" stroke="var(--hr-rule)" strokeDasharray="2 6" />
+          <rect className="hr-map-ring" x="10" y="10" width="420" height="420" rx="6" />
+          <path d="M10 220H430M220 10V430" stroke="var(--hr-rule)" strokeDasharray="2 6" />
           {pinned.map((c, i) => {
             const { x, y } = project(c.lat!, c.lng!);
             // Labels go left for the west-coast cluster so they don't collide.

@@ -1,354 +1,506 @@
-import { Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { CHARTER, CURATION, HERO, INDUSTRIES, MISSION, PILLARS, SECONDARY_CTA, SITE, STATS, TAGLINE } from "@/content/site";
+import { CURATION, EXPERIENCES_CTA, HERO, ROOM_STEPS, SECONDARY_CTA, SITE, STATS } from "@/content/site";
 import { ALL_EVENT_PHOTOS, PHOTOS } from "@/content/photos";
-import { FAQ } from "@/content/faq";
-import { getChapters, getSponsors, getStories, getUpcomingEvents, isPlaceholder } from "@/lib/data";
+import { getChapters, getFeaturedMembers, getPastEvents, getStories, getUpcomingEvents, isPlaceholder } from "@/lib/data";
 import { fmtTime } from "@/lib/format";
 import { pageMeta, orgJsonLd } from "@/lib/seo";
 import { PrimaryCta } from "@/components/site/primary-cta";
 import { JsonLd } from "@/components/site/json-ld";
-import { Seal } from "@/components/site/logo";
 import { SubscribeForm } from "@/components/forms/subscribe-form";
-import { Seats } from "@/components/house/seats";
-import { InView } from "@/components/house/in-view";
-import { SeatingPlan } from "@/components/house/seating-plan";
 import { CityLights, type CityPin } from "@/components/house/city-lights";
 
 export const revalidate = 600; // ISR; must be a literal (matches REVALIDATE in lib/data.ts)
 
 export const metadata: Metadata = {
   ...pageMeta({
-    title: "The right rooms change everything",
+    title: "Bombay Networking Circle | The Right Rooms, The Right People",
     ogTitle: "The right rooms change everything. The right people make it happen.",
-    description: `${HERO.lede} ${STATS.items[0].value} members across ${STATS.items[1].value} cities as of ${STATS.asOf}. Free to join; rooms are paid.`,
+    description: "Discover Bombay Networking Circle, a growing network connecting people across cities, industries and experiences.",
     path: "/",
   }),
-  title: { absolute: "Bombay Networking Circle — the right rooms change everything" },
+  title: { absolute: "Bombay Networking Circle | The Right Rooms, The Right People" },
 };
 
-const HOME_FAQ = ["Is it free?", "Who can join?", "What happens after I request access?", "Do I need a startup?", "How are rooms curated?", "Is there a WhatsApp group?"];
-
-/** The kinds of people at a BNC table. Archetypes, not individual members. */
-const PLACE_CARDS = [
-  { title: "The D2C founder", meta: "Building a consumer brand", want: "retail and distribution partners" },
-  { title: "The RevOps lead", meta: "Scaling sales at a B2B startup", want: "peers who've done it before" },
-  { title: "The brand designer", meta: "Runs an independent studio", want: "early-stage clients" },
-  { title: "The angel", meta: "Writes first cheques", want: "founders before the round" },
+/** §4 — who BNC is for. Aspirational, not exclusive for its own sake. */
+const AUDIENCES = [
+  { title: "Founders & business owners", body: "Expand your network, discover perspectives and build meaningful business relationships." },
+  { title: "Creators & experts", body: "Meet people who value your expertise and understand the work you're building." },
+  { title: "Operators & professionals", body: "Build relationships beyond your immediate workplace or industry." },
+  { title: "Investors & ecosystem builders", body: "Explore new ideas, people and opportunities across the ecosystem." },
 ];
 
-const ROMAN = ["i.", "ii.", "iii.", "iv."];
+/** §5 — the ecosystem. Introductions are listed because hosts already make them after each room (see CURATION). */
+const ECOSYSTEM = [
+  { title: "Curated Rooms", body: "Purposeful gatherings built around people, ideas and conversations." },
+  { title: "Introductions", body: "Connecting people who may have a reason to know each other." },
+  { title: "Collaborations", body: "Creating space for partnerships, shared projects and new possibilities." },
+  { title: "City Chapters", body: "A network that connects people across cities and local ecosystems." },
+  { title: "Experiences & IPs", body: "Distinct BNC experiences built around specific interests, industries and themes." },
+];
+
+/** §6 fallback until members consent to be featured: the kinds of people in the circle, not individuals. */
+const ARCHETYPES = [
+  { initials: "DF", title: "The D2C founder", meta: "Consumer brand · Mumbai", tag: "Retail & distribution" },
+  { initials: "RO", title: "The RevOps lead", meta: "B2B SaaS · Bangalore", tag: "Scaling sales" },
+  { initials: "BD", title: "The brand designer", meta: "Independent studio · Pune", tag: "Brand & identity" },
+  { initials: "AN", title: "The angel investor", meta: "Early-stage · Delhi NCR", tag: "First cheques" },
+];
+
+/** §7 fallback: the three kinds of story BNC is collecting, shown as the format, never as invented outcomes. */
+const STORY_FORMATS = [
+  {
+    kind: "A business collaboration",
+    people: "Two members from different businesses or industries.",
+    connection: "Seated together because one had a need the other had already solved.",
+    next: "A project, partnership or client relationship that started at the table.",
+  },
+  {
+    kind: "A professional introduction",
+    people: "A member with a specific ask, and someone a host knew could help.",
+    connection: "A direct introduction made by the host after hearing the ask in the room.",
+    next: "A hire, an adviser or a first customer, followed up within a week.",
+  },
+  {
+    kind: "A relationship beyond the room",
+    people: "Members who met at one experience and kept showing up.",
+    connection: "Shared rooms across months, and a reason to keep talking.",
+    next: "An ongoing working relationship that neither would have found alone.",
+  },
+];
+
+/** §12 — the doubts visitors have but rarely ask. Answers state the real access model, no promised timelines. */
+const FAQS = [
+  {
+    q: "What is Bombay Networking Circle?",
+    a: "A growing community of founders, operators, creators and professionals across Indian cities. BNC brings people together through curated rooms: small, hosted experiences built around a theme and the people who should be in the room.",
+  },
+  {
+    q: "Who can be part of BNC?",
+    a: "People who are building something and want meaningful relationships: founders and business owners, creators and experts, operators and professionals, and investors and ecosystem builders. What matters is what you bring and how you take part.",
+  },
+  {
+    q: "What does curated mean at BNC?",
+    a: "Every room starts with an intention: a theme, a conversation, a group of people with different perspectives on it. We decide who should be in the room using what people tell us when they request access, and a host runs the conversation so people connect beyond introductions.",
+  },
+  {
+    q: "Is BNC only for founders?",
+    a: "No. Founders are a big part of the circle, but rooms bring together people across industries and professional backgrounds, because the useful introductions are often across them.",
+  },
+  {
+    q: "Do I need to attend an experience to be part of BNC?",
+    a: "Requesting access is free. Once we've read your request, we'll share the next step, usually an invitation to a room that fits you. After your first room you join the member community and hear about new experiences first.",
+  },
+  {
+    q: "Are BNC experiences paid?",
+    a: "Joining is free. Experiences are paid, and pricing depends on the experience. Every experience shows its price before you commit.",
+  },
+  {
+    q: "How do I request access?",
+    a: "Fill in the short Request Access form: who you are, what you're working on and what you'd like to explore through BNC. It takes a few minutes.",
+  },
+  {
+    q: "What happens after I request access?",
+    a: "A person on the BNC team reads every request. We'll review your details and share the next step by email, including experiences that may be relevant to you.",
+  },
+];
+
 const day = (iso: string) => new Intl.DateTimeFormat("en-IN", { timeZone: "Asia/Kolkata", weekday: "short", day: "numeric", month: "short" }).format(new Date(iso));
+const initials = (name: string) =>
+  name
+    .split(/\s+/)
+    .map((w) => w[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
 
 export default async function HomePage() {
-  const [chapters, rooms, stories, sponsors] = await Promise.all([getChapters(), getUpcomingEvents({ limit: 3 }), getStories(), getSponsors()]);
-  const faq = HOME_FAQ.flatMap((q) => FAQ.filter((f) => f.q === q));
-  const story = stories.find((s) => s.is_published && !isPlaceholder(s));
-  const logos = sponsors.filter((s) => s.is_published && s.logo && !isPlaceholder(s));
+  const [chapters, upcoming, past, members, stories] = await Promise.all([
+    getChapters(),
+    getUpcomingEvents({ limit: 3 }),
+    getPastEvents({ limit: 1 }),
+    getFeaturedMembers(),
+    getStories(),
+  ]);
+  const featured = members.filter((m) => m.is_published && !isPlaceholder(m)).slice(0, 12);
+  const realStories = stories.filter((s) => s.is_published && !isPlaceholder(s)).slice(0, 3);
+  const room = past.find((e) => e.is_published && !isPlaceholder(e));
   const pins: CityPin[] = chapters.map((c) => ({
     slug: c.slug,
     city: c.city,
-    tag: c.is_flagship ? "Flagship · where it started" : "Chapter",
+    tag: c.is_flagship ? "Flagship · where it started" : c.lead_name ? `Led by ${c.lead_name}` : "City chapter",
     lat: c.latitude,
     lng: c.longitude,
     flagship: c.is_flagship,
   }));
-  const [members, cities] = STATS.items;
+  const [membersStat, citiesStat, eventsStat] = STATS.items;
 
   return (
     <>
       <JsonLd data={orgJsonLd()} />
 
-      {/* ───── 1. Hero: the table ───── */}
-      <section className="hr-hero" aria-labelledby="hero-title">
-        <div className="hr-wrap hr-hero-grid">
-          <div className="hr-hero-copy">
-            <p className="hr-hero-meta">
-              Est. {SITE.founded}, Mumbai. Now {cities.value} cities and {members.value} members.
-            </p>
-            <h1 id="hero-title" className="hr-d1">
+      {/* ───── 1. Hero ───── */}
+      <section className="hr-hero2" aria-labelledby="hero-title">
+        <div className="hr-wrap hr-hero2-grid">
+          <div className="hr-hero2-copy">
+            <p className="hr-name">Bombay Networking Circle</p>
+            <h1 id="hero-title">
               The right rooms change everything.<span className="hr-second">The right people make it happen.</span>
             </h1>
-            <p className="hr-lede">{HERO.lede} We seat you at a small, hosted table with people worth meeting, then make sure the conversation keeps going after you leave.</p>
+            <p className="hr-lede">{HERO.sub}</p>
             <div className="hr-ctas">
               <PrimaryCta size="lg" placement="home-hero" className="hr-btn hr-btn-primary" />
               <Link href={SECONDARY_CTA.href} className="hr-btn hr-btn-quiet">
                 {SECONDARY_CTA.label}
               </Link>
             </div>
-            <p className="hr-hero-fine">
-              <strong>Free to join.</strong> Rooms are paid, and the price is on the menu before you sit down.
+            <div className="hr-stats">
+              {[membersStat, citiesStat, eventsStat].map((s) => (
+                <div key={s.label}>
+                  <b>{s.value}</b>
+                  <span>{s.label === "events held" ? "experiences hosted" : s.label}</span>
+                </div>
+              ))}
+              <small>As of {STATS.asOf}. Joining is free; experiences are paid.</small>
+            </div>
+          </div>
+          <div className="hr-hero2-visual">
+            <div className="hr-photo hr-hp-main">
+              <Image src={PHOTOS.hero.src} alt={PHOTOS.hero.alt} fill priority sizes="(max-width: 900px) 90vw, 46vw" />
+            </div>
+            <div className="hr-photo hr-hp-side">
+              <Image src={PHOTOS.gardenTable.src} alt={PHOTOS.gardenTable.alt} fill sizes="(max-width: 900px) 40vw, 20vw" />
+            </div>
+            <p className="hr-hp-note">
+              <b>Inside a BNC room</b>
+              One theme. The right people. A conversation that keeps going after.
             </p>
           </div>
-          <figure className="hr-table-wrap">
-            <svg className="hr-steam" viewBox="0 0 60 50" aria-hidden="true">
-              <path d="M15 48c-6-10 6-14 0-24s6-14 0-22" />
-              <path d="M30 48c-6-10 6-14 0-24s6-14 0-22" />
-              <path d="M45 48c-6-10 6-14 0-24s6-14 0-22" />
-            </svg>
-            <div className="hr-table" aria-hidden="true">
-              <div className="hr-table-top hr-photo">
-                <Image src={PHOTOS.roomG.src} alt="" fill priority sizes="(max-width: 900px) 80vw, 420px" />
-              </div>
-              <Seats count={30} radius={46.5} matches={[4, 11, 19]} />
-            </div>
-            <figcaption className="hr-table-caption">
-              <b>Table for 30.</b> Every seat chosen for a reason.
-            </figcaption>
-          </figure>
         </div>
       </section>
 
-      {/* ───── 2. What is BNC: the bill ───── */}
-      <section className="hr-bill-section" aria-labelledby="bill-title">
-        <div className="hr-wrap hr-bill-grid">
-          <div className="hr-bill-intro">
-            <h2 id="bill-title" className="hr-d2">
-              Here&rsquo;s the whole deal, on one bill.
-            </h2>
-            <p className="hr-lede">No membership fee. No pitch decks at the door. You pay for the room you sit in, and nothing else.</p>
+      {/* ───── 2. What is BNC? ───── */}
+      <section className="hr-section-tight" aria-labelledby="what-title">
+        <div className="hr-wrap hr-what-grid">
+          <h2 id="what-title" className="hr-d2">
+            More than being in the room.
+          </h2>
+          <div className="hr-what-body">
+            <p>{HERO.lede.replace("meaningful relationships", "the right relationships")}</p>
+            <p>Across cities, industries and experiences, BNC brings people together through curated rooms, meaningful conversations and opportunities to connect beyond the obvious.</p>
+            <p className="hr-pull">
+              Your network should not be limited to who you already know. It should introduce you to perspectives, people and possibilities you haven&rsquo;t encountered yet.
+            </p>
           </div>
-          <article className="hr-bill" aria-label="What BNC is, as a bill">
-            <header>
-              <Seal />
-              <p>{SITE.name} · Table 1</p>
-            </header>
-            <dl>
-              <div className="hr-bill-line" data-wide="">
-                <dt>Who</dt>
-                <dd>Founders, operators and creators building something.</dd>
-              </div>
-              <div className="hr-bill-line" data-wide="">
-                <dt>How</dt>
-                <dd>Small, hosted rooms in your city. One theme, about 30 seats.</dd>
-              </div>
-              <div className="hr-bill-line" data-wide="">
-                <dt>You get</dt>
-                <dd>Introductions that continue after the room.</dd>
-              </div>
-              <div className="hr-bill-line">
-                <dt>Joining</dt>
-                <span className="hr-dots" />
-                <dd>₹0</dd>
-              </div>
-              <div className="hr-bill-line">
-                <dt>A room</dt>
-                <span className="hr-dots" />
-                <dd>priced up front</dd>
-              </div>
-              <div className="hr-bill-line">
-                <dt>Follow-ups</dt>
-                <span className="hr-dots" />
-                <dd>on the house</dd>
-              </div>
-            </dl>
-            <div className="hr-bill-total">
-              <span>To join today</span>
-              <span>
-                ₹0<small>Rooms are paid separately.</small>
-              </span>
+        </div>
+      </section>
+
+      {/* ───── 3. What are curated rooms? ───── */}
+      <section id="curated-rooms" className="hr-section hr-curated" aria-labelledby="curated-title">
+        <div className="hr-wrap">
+          <div className="hr-curated-head">
+            <h2 id="curated-title" className="hr-d2">
+              Not every room is the right room.
+            </h2>
+            <div>
+              <p className="hr-lede">Every BNC room begins with an intention. A theme. A conversation. A group of people who can bring different perspectives to the same table.</p>
+              <p>
+                We think about who should be in the room, what the room should explore, and how people can connect beyond introductions. The result is an experience designed around meaningful interaction, not simply attendance.
+              </p>
             </div>
-            <p className="hr-bill-thanks">Thank you. Visit again.</p>
+          </div>
+          <ol className="hr-steps">
+            {CURATION.map((c, i) => (
+              <li key={c.title}>
+                <span className="hr-num" aria-hidden="true">
+                  {i + 1}
+                </span>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </li>
+            ))}
+          </ol>
+          <article className="hr-case" aria-labelledby="case-title">
+            <div className="hr-case-photos">
+              <div className="hr-photo">
+                <Image src={PHOTOS.roomD.src} alt={PHOTOS.roomD.alt} fill sizes="(max-width: 900px) 60vw, 30vw" />
+              </div>
+              <div className="hr-photo">
+                <Image src={PHOTOS.conversation.src} alt={PHOTOS.conversation.alt} fill sizes="(max-width: 900px) 40vw, 18vw" />
+              </div>
+            </div>
+            <div className="hr-case-info">
+              <span className="hr-plate">{room ? `A real BNC room · ${room.chapter.city}` : "Anatomy of a BNC room"}</span>
+              <h3 id="case-title" className="hr-d3">
+                {room ? room.title : "How a room comes together"}
+              </h3>
+              <dl>
+                <div>
+                  <dt>The theme</dt>
+                  <dd>{room ? (room.theme ?? room.title) : "One theme per room, set before anyone is invited, so everyone arrives for the same conversation."}</dd>
+                </div>
+                <div>
+                  <dt>Who was in the room</dt>
+                  <dd>{room?.who_attends ?? "People whose work overlaps with the theme: someone who needs what you know, and someone who knows what you need."}</dd>
+                </div>
+                <div>
+                  <dt>Why these people</dt>
+                  <dd>{room?.summary ?? CURATION[1].detail}</dd>
+                </div>
+                <div>
+                  <dt>How it was structured</dt>
+                  <dd>{ROOM_STEPS.map((s) => s.title).join(" → ")}.</dd>
+                </div>
+                <div>
+                  <dt>What happened after</dt>
+                  <dd>{CURATION[3].detail}</dd>
+                </div>
+              </dl>
+            </div>
           </article>
         </div>
       </section>
 
-      {/* ───── 3. Inside BNC ───── */}
-      <section className="hr-inside" aria-labelledby="inside-title">
-        <div className="hr-wrap hr-inside-grid">
-          <div className="hr-photo">
-            <Image src={PHOTOS.hero.src} alt={PHOTOS.hero.alt} fill sizes="(max-width: 900px) 100vw, 66vw" />
-          </div>
-          <div className="hr-inside-card">
-            <h2 id="inside-title" className="hr-d3">
-              A network you experience. Not just a community you join.
+      {/* ───── 4. Who is BNC for? ───── */}
+      <section className="hr-section hr-for hr-dark" aria-labelledby="for-title">
+        <div className="hr-wrap hr-for-grid">
+          <div className="hr-for-head">
+            <h2 id="for-title" className="hr-d2">
+              For people building what&rsquo;s next.
             </h2>
-            <ol className="hr-pillars">
-              {PILLARS.map((p, i) => (
-                <li key={p.title}>
-                  <span>{ROMAN[i]}</span>
-                  <div>
-                    <h3>{p.title.charAt(0) + p.title.slice(1).toLowerCase()}</h3>
-                    <p>{p.body}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-            <Link href="/inside" className="hr-link hr-inside-link">
-              What happens in a room
-            </Link>
+            <p className="hr-lede" style={{ color: "inherit" }}>
+              You&rsquo;re welcome here because you have something meaningful to contribute, and you&rsquo;re interested in building relationships that last.
+            </p>
           </div>
-        </div>
-      </section>
-
-      {/* ───── 4. How a room is curated: the seating plan ───── */}
-      <section className="hr-plan" aria-labelledby="plan-title">
-        <div className="hr-wrap hr-plan-grid">
-          <div className="hr-plan-head">
-            <h2 id="plan-title" className="hr-d2">
-              Nobody gets a random seat.
-            </h2>
-            <p className="hr-lede">Every room is planned like a dinner table. Four decisions, made before you walk in.</p>
-          </div>
-          <SeatingPlan steps={CURATION} />
-        </div>
-      </section>
-
-      {/* ───── 5. Who's in the circle ───── */}
-      <section className="hr-circle" aria-labelledby="members-title">
-        <div className="hr-wrap">
-          <div className="hr-head-row">
-            <h2 id="members-title" className="hr-d2">
-              Who&rsquo;s at the table.
-            </h2>
-            <Link href="/members" className="hr-link">
-              Browse members
-            </Link>
-          </div>
-          <p className="hr-industries">
-            {INDUSTRIES.filter((i) => i !== "Other").map((i, n) => (
-              <Fragment key={i}>
-                {n > 0 && <span aria-hidden="true">/</span>}
-                {i}
-              </Fragment>
-            ))}
-          </p>
-          <ul className="hr-place-cards">
-            {PLACE_CARDS.map((c) => (
-              <li key={c.title} className="hr-place">
-                <div className="hr-fold" />
-                <div className="hr-place-body">
-                  <h3 className="hr-d4">{c.title}</h3>
-                  <p className="hr-place-meta">{c.meta}</p>
-                  <p className="hr-place-want">
-                    <b>Looking for</b> {c.want}
-                  </p>
-                </div>
+          <ul className="hr-for-list">
+            {AUDIENCES.map((a) => (
+              <li key={a.title}>
+                <h3>{a.title}</h3>
+                <p>{a.body}</p>
               </li>
             ))}
           </ul>
-          <p className="hr-caption" style={{ marginTop: 48 }}>
-            The kinds of people you&rsquo;ll sit with. Member profiles appear only with each member&rsquo;s consent.
-          </p>
         </div>
       </section>
 
-      {/* ───── 6. The Circle in Motion ───── */}
-      <section className="hr-story" aria-labelledby="story-title">
-        <div className="hr-wrap hr-story-grid">
-          <div className="hr-story-head">
-            <h2 id="story-title" className="hr-d2">
-              The Circle in Motion.
+      {/* ───── 5. The BNC ecosystem ───── */}
+      <section className="hr-section" aria-labelledby="eco-title">
+        <div className="hr-wrap hr-eco-grid">
+          <div className="hr-eco-head">
+            <span className="hr-plate">The BNC ecosystem</span>
+            <h2 id="eco-title" className="hr-d2">
+              One network. Many ways to experience it.
             </h2>
-            <p className="hr-lede">{story ? story.headline : "What one good introduction looks like."}</p>
           </div>
-          <InView className="hr-story-diagram">
-            <svg className="hr-intro-svg" viewBox="0 0 640 200" aria-hidden="true">
-              <path className="hr-linkline" d="M110 100 C 230 10, 410 10, 530 100" />
-              <circle className="hr-spark" cx="320" cy="34" r="7" />
-              <circle className="hr-person" cx="80" cy="100" r="36" />
-              <text x="80" y="105" textAnchor="middle">
-                A
-              </text>
-              <circle className="hr-person" cx="560" cy="100" r="36" />
-              <text x="560" y="105" textAnchor="middle">
-                B
-              </text>
-              <text className="hr-role" x="44" y="170" textAnchor="start">
-                someone with an ask
-              </text>
-              <text className="hr-role" x="596" y="170" textAnchor="end">
-                someone who can help
-              </text>
-            </svg>
-            <div className="hr-story-cols">
-              {story ? (
-                <>
-                  <div>
-                    <h3 className="hr-d4">The people</h3>
-                    <p>{story.problem}</p>
-                  </div>
-                  <div>
-                    <h3 className="hr-d4">The connection</h3>
-                    <p>{story.connection}</p>
-                  </div>
-                  <div>
-                    <h3 className="hr-d4">What happened next</h3>
-                    <p>{story.outcome}</p>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div>
-                    <h3 className="hr-d4">The ask</h3>
-                    <p>Everyone arrives with one specific ask: a hire, a client, a partner, a piece of advice.</p>
-                  </div>
-                  <div>
-                    <h3 className="hr-d4">The connection</h3>
-                    <p>The host listens, then seats and introduces the two people who should meet.</p>
-                  </div>
-                  <div>
-                    <h3 className="hr-d4">What happens next</h3>
-                    <p>Within a week, someone writes the next message. That&rsquo;s where collaborations start.</p>
-                  </div>
-                </>
-              )}
-            </div>
-            <p className="hr-story-more">
-              <Link href="/stories" className="hr-link">
-                Stories from the circle
-              </Link>
-            </p>
-          </InView>
+          <ol className="hr-eco-list">
+            {ECOSYSTEM.map((e) => (
+              <li key={e.title}>
+                <div>
+                  <h3>{e.title}</h3>
+                  <p>{e.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
-      {/* ───── 7. The Charter: house rules ───── */}
-      <section className="hr-rules hr-dark" aria-labelledby="rules-title">
+      {/* ───── 6. Meet the people ───── */}
+      <section className="hr-section hr-people" aria-labelledby="people-title">
         <div className="hr-wrap">
-          <div className="hr-board">
-            <header>
-              <span className="hr-plate">House rules · {SITE.name}</span>
-              <h2 id="rules-title" className="hr-d2">
-                How we show up.
-              </h2>
-            </header>
-            <ol>
-              {CHARTER.map((c) => (
-                <li key={c.title}>
-                  <div>
-                    <h3>{c.title}</h3>
-                    <p>{c.body}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-            <footer>
-              <span>By order, the hosts.</span>
-              <span>Everyone who requests access agrees to these.</span>
-            </footer>
+          <div className="hr-head-row">
+            <h2 id="people-title" className="hr-d2">
+              Meet the people who make the circle.
+            </h2>
+            <Link href="/members" className="hr-link">
+              See all people
+            </Link>
           </div>
+          <ul className="hr-people-grid">
+            {featured.length
+              ? featured.map((m) => (
+                  <li key={m.id} className="hr-person-card">
+                    {m.photo ? (
+                      <div className="hr-photo">
+                        <Image src={m.photo} alt={m.name} fill sizes="(max-width: 520px) 100vw, (max-width: 1020px) 50vw, 25vw" />
+                      </div>
+                    ) : (
+                      <div className="hr-initials" aria-hidden="true">
+                        {initials(m.name)}
+                      </div>
+                    )}
+                    <div className="hr-person-body">
+                      <h3>{m.name}</h3>
+                      <p className="hr-meta">{[m.role, m.company].filter(Boolean).join(", ")}</p>
+                      <p className="hr-meta">{[m.industry, m.city].filter(Boolean).join(" · ")}</p>
+                      {m.building && <span className="hr-tag">{m.building.length > 40 ? `${m.building.slice(0, 40)}…` : m.building}</span>}
+                      {m.linkedin && (
+                        <a href={m.linkedin} target="_blank" rel="noopener noreferrer" className="hr-link">
+                          LinkedIn<span className="sr-only"> profile of {m.name} (opens in a new tab)</span>
+                        </a>
+                      )}
+                    </div>
+                  </li>
+                ))
+              : ARCHETYPES.map((a) => (
+                  <li key={a.title} className="hr-person-card">
+                    <div className="hr-initials" aria-hidden="true">
+                      {a.initials}
+                    </div>
+                    <div className="hr-person-body">
+                      <h3>{a.title}</h3>
+                      <p className="hr-meta">{a.meta}</p>
+                      <span className="hr-tag">{a.tag}</span>
+                    </div>
+                  </li>
+                ))}
+          </ul>
+          <div className="hr-people-note">
+            <p className="hr-caption">
+              {featured.length
+                ? "Members featured here have agreed to be shown."
+                : "The kinds of people in the circle. Member profiles appear here as members agree to be featured."}
+            </p>
+            <Link href="/members" className="hr-link">
+              Browse the People page
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ───── 7. What happens when people connect? ───── */}
+      <section className="hr-section" aria-labelledby="stories-title">
+        <div className="hr-wrap">
+          <div className="hr-head-row">
+            <h2 id="stories-title" className="hr-d2" style={{ maxWidth: "18ch" }}>
+              The value of a connection is what happens next.
+            </h2>
+            <Link href="/stories" className="hr-link">
+              All stories
+            </Link>
+          </div>
+          <div className="hr-stories">
+            {realStories.length
+              ? realStories.map((s) => (
+                  <article key={s.id} className="hr-story-card">
+                    <span className="hr-plate">Member story</span>
+                    <h3 className="hr-d4">
+                      <Link href={`/stories/${s.slug}`}>{s.headline}</Link>
+                    </h3>
+                    <dl>
+                      <div>
+                        <dt>The people</dt>
+                        <dd>{s.problem}</dd>
+                      </div>
+                      <div>
+                        <dt>The connection</dt>
+                        <dd>{s.connection}</dd>
+                      </div>
+                      <div>
+                        <dt>What happened next</dt>
+                        <dd>{s.outcome}</dd>
+                      </div>
+                    </dl>
+                  </article>
+                ))
+              : STORY_FORMATS.map((s) => (
+                  <article key={s.kind} className="hr-story-card">
+                    <span className="hr-plate">Story format</span>
+                    <h3 className="hr-d4">{s.kind}</h3>
+                    <dl>
+                      <div>
+                        <dt>The people</dt>
+                        <dd>{s.people}</dd>
+                      </div>
+                      <div>
+                        <dt>The connection</dt>
+                        <dd>{s.connection}</dd>
+                      </div>
+                      <div>
+                        <dt>What happens next</dt>
+                        <dd>{s.next}</dd>
+                      </div>
+                    </dl>
+                  </article>
+                ))}
+          </div>
+          {!realStories.length && (
+            <p className="hr-caption" style={{ marginTop: 32 }}>
+              We&rsquo;re collecting verified member stories in these three shapes. Have one? <Link href="/contact" className="hr-link">Tell us</Link>.
+            </p>
+          )}
         </div>
       </section>
 
       {/* ───── 8. Chapters ───── */}
-      <section className="hr-cities" aria-labelledby="cities-title">
+      <section className="hr-cities" aria-labelledby="cities-title" style={{ paddingTop: 0 }}>
         <div className="hr-wrap hr-cities-grid">
           <CityLights cities={pins} />
         </div>
       </section>
 
-      {/* ───── From the rooms: every photo ───── */}
-      <section className="hr-wall" aria-labelledby="wall-title">
+      {/* ───── 9. Experiences ───── */}
+      <section className="hr-section hr-people" aria-labelledby="xp-title">
         <div className="hr-wrap">
           <div className="hr-head-row">
-            <h2 id="wall-title" className="hr-d3">
-              From the rooms.
+            <h2 id="xp-title" className="hr-d2">
+              Find your next BNC experience.
             </h2>
+            <Link href="/rooms" className="hr-link">
+              All experiences
+            </Link>
+          </div>
+          <div className="hr-xp-grid">
+            {upcoming.length ? (
+              upcoming.map((r) => (
+                <Link key={r.id} href={`/rooms/${r.slug}`} className="hr-xp">
+                  <div className="hr-xp-top">
+                    <span className="hr-xp-theme">{r.theme ?? r.chapter.city}</span>
+                    <h3>{r.title}</h3>
+                  </div>
+                  <dl>
+                    <div>
+                      <dt>City</dt>
+                      <dd>{r.chapter.city}</dd>
+                    </div>
+                    {r.who_attends && (
+                      <div>
+                        <dt>Designed for</dt>
+                        <dd>{r.who_attends}</dd>
+                      </div>
+                    )}
+                    {r.summary && (
+                      <div>
+                        <dt>Expect</dt>
+                        <dd>{r.summary}</dd>
+                      </div>
+                    )}
+                    <div>
+                      <dt>When</dt>
+                      <dd>
+                        {day(r.starts_at)}, {fmtTime(r.starts_at)}
+                        {r.venue ? ` · ${r.venue}` : ""}
+                      </dd>
+                    </div>
+                  </dl>
+                  <div className="hr-xp-foot">
+                    <span className="hr-caption">{r.capacity ? `${r.capacity} seats` : "Limited seats"}</span>
+                    <b>{r.price_inr != null ? `₹${r.price_inr.toLocaleString("en-IN")}` : "Price on invite"}</b>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <div className="hr-xp-empty">
+                <b>The next experiences are being planned.</b>
+                <p className="hr-caption">New experiences go to members first. Request access, or leave your email below, and you&rsquo;ll hear when your city has one.</p>
+              </div>
+            )}
+          </div>
+          <div className="hr-head-row" style={{ marginTop: 96, marginBottom: 32 }}>
+            <h3 className="hr-d3">From past rooms.</h3>
             <p className="hr-caption">
-              {STATS.items[2].value} {STATS.items[2].label} as of {STATS.asOf}.
+              {eventsStat.value} experiences hosted as of {STATS.asOf}.
             </p>
           </div>
           <div className="hr-wall-grid">
@@ -361,106 +513,68 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ───── 9. Upcoming rooms: the menu board ───── */}
-      <section className="hr-menu-sec" aria-labelledby="menu-title">
-        <div className="hr-wrap">
-          <div className="hr-menu hr-dark">
-            <header>
-              <div>
-                <span className="hr-plate">On the menu</span>
-                <h2 id="menu-title" className="hr-d2">
-                  Upcoming rooms.
-                </h2>
-              </div>
-              <p>Small, hosted, one theme each. Members hear first; prices are always shown.</p>
-            </header>
-            {rooms.length ? (
-              rooms.map((r) => (
-                <Link key={r.id} href={`/rooms/${r.slug}`} className="hr-room-row">
-                  <span className="hr-room-when">
-                    <b>{day(r.starts_at)}</b>
-                    {r.chapter.city} · {fmtTime(r.starts_at)}
-                  </span>
-                  <span className="hr-room-what">
-                    <span className="hr-room-title">{r.title}</span>
-                    <span className="hr-leader" />
-                    <span className="hr-room-sub">{[r.who_attends, r.capacity ? `${r.capacity} seats` : null].filter(Boolean).join(" · ")}</span>
-                  </span>
-                  <span className="hr-room-price">
-                    {r.price_inr != null ? `₹${r.price_inr.toLocaleString("en-IN")}` : "₹—"}
-                    <small>{r.price_inr != null ? "per seat" : "price on invite"}</small>
-                  </span>
-                </Link>
-              ))
-            ) : (
-              <div className="hr-menu-empty">
-                <b>The next menu is being written.</b>
-                New rooms go to members first. Request access, or leave your email below, and you&rsquo;ll hear when your city has a date.
-              </div>
-            )}
-            <footer>
-              <span>Every room page shows the price before you commit.</span>
-              <Link href="/rooms" className="hr-link">
-                All rooms
+      {/* ───── 10. How to become part of BNC ───── */}
+      <section className="hr-section hr-join hr-dark" data-tone="ink" aria-labelledby="join-title">
+        <div className="hr-wrap hr-join-grid">
+          <div className="hr-join-copy">
+            <h2 id="join-title" className="hr-d2">
+              Find your place in the circle.
+            </h2>
+            <p>BNC is built around the people who make the network meaningful.</p>
+            <p>Tell us a little about yourself, what you&rsquo;re building, and what you&rsquo;re looking to explore through BNC. We&rsquo;ll help you understand the experiences and opportunities that may be relevant to you.</p>
+            <div className="hr-ctas">
+              <PrimaryCta size="lg" placement="home-join" className="hr-btn hr-btn-primary" />
+              <Link href={EXPERIENCES_CTA.href} className="hr-btn hr-btn-quiet">
+                {EXPERIENCES_CTA.label}
               </Link>
-            </footer>
+            </div>
+          </div>
+          <ol className="hr-join-steps">
+            <li>
+              <div>
+                <b>Tell us about yourself</b>
+                <p>A short form: who you are, what you&rsquo;re working on, what you&rsquo;d like to explore. Free, and a few minutes.</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <b>A person reads it</b>
+                <p>Someone on the BNC team reviews every request. No automated filters.</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <b>We share the next step</b>
+                <p>Usually an invitation to an experience that fits you, with the price shown up front.</p>
+              </div>
+            </li>
+          </ol>
+          <div className="hr-join-stay">
+            <SubscribeForm variant="city" source="home" id="home-stay" label="Not ready yet? Stay connected: get new experiences in your city by email." />
           </div>
         </div>
       </section>
 
-      {/* ───── 10. Founder ───── */}
-      <section className="hr-founder" aria-labelledby="founder-title">
+      {/* ───── 11. Why BNC exists ───── */}
+      <section className="hr-founder" aria-labelledby="why-title">
         <div className="hr-wrap hr-founder-grid">
           <div className="hr-photo">
             <Image src={PHOTOS.founder.src} alt={PHOTOS.founder.alt} fill sizes="(max-width: 900px) 70vw, 30vw" />
           </div>
           <div className="hr-founder-text">
-            <h2 id="founder-title" className="sr-only">
-              The mission
+            <h2 id="why-title" className="hr-d2">
+              Because growth doesn&rsquo;t happen in isolation.
             </h2>
-            <p className="hr-founder-q">
-              <span className="hr-mark">“</span>
-              {MISSION.line}
-              <span className="hr-mark">”</span>
-            </p>
-            <p className="hr-founder-body">
-              {SITE.name} started in Mumbai in {SITE.founded} with one idea: smaller rooms, one theme, a host who makes the introductions, and everyone saying out loud what they need.
-            </p>
+            <div className="hr-why-body">
+              <p>We started BNC with a simple belief. The people you meet can influence the things you build, the opportunities you discover and the way you see the world.</p>
+              <p>But meaningful relationships don&rsquo;t happen by accident. They happen when the right people come together with the right intention.</p>
+              <p>BNC exists to create more of those moments, across cities, industries and experiences.</p>
+            </div>
             <p className="hr-founder-cite">
               <b>Isha Vijay Ostwal</b>
-              <span>Founder · National Convenor, JIIF (JITO Apex) · Global Shaper, World Economic Forum</span>
-            </p>
-            <p style={{ marginTop: 24 }}>
-              <Link href="/about/story" className="hr-link">
-                Read our story
-              </Link>
+              <span>Founder, {SITE.name} · National Convenor, JIIF (JITO Apex) · Global Shaper, World Economic Forum</span>
             </p>
           </div>
-        </div>
-      </section>
-
-      {/* ───── 11. Partners ───── */}
-      <section className="hr-partners" aria-labelledby="partners-title">
-        <div className="hr-wrap">
-          <div className="hr-partners-row">
-            <h2 id="partners-title" className="sr-only">
-              Partners
-            </h2>
-            <p>
-              Want your brand at the table? <em>Rooms are open to sponsors who add something to them.</em>
-            </p>
-            <Link href="/sponsor" className="hr-btn hr-btn-quiet">
-              Sponsor a room
-            </Link>
-          </div>
-          {logos.length > 0 && (
-            <div className="hr-logos">
-              {logos.map((s) => (
-                // eslint-disable-next-line @next/next/no-img-element -- partner logos vary in size; plain img keeps them crisp
-                <img key={s.id} src={s.logo!} alt={s.name} loading="lazy" />
-              ))}
-            </div>
-          )}
         </div>
       </section>
 
@@ -469,7 +583,7 @@ export default async function HomePage() {
         <div className="hr-wrap hr-faq-grid">
           <div>
             <h2 id="faq-title" className="hr-d2">
-              Fair questions.
+              Questions people ask.
             </h2>
             <p style={{ marginTop: 24 }}>
               <Link href="/faq" className="hr-link">
@@ -478,7 +592,7 @@ export default async function HomePage() {
             </p>
           </div>
           <div className="hr-faq-list">
-            {faq.map((f) => (
+            {FAQS.map((f) => (
               <details key={f.q}>
                 <summary>{f.q}</summary>
                 <p>{f.a}</p>
@@ -491,28 +605,20 @@ export default async function HomePage() {
         data={{
           "@context": "https://schema.org",
           "@type": "FAQPage",
-          mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+          mainEntity: FAQS.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
         }}
       />
 
-      {/* ───── 13. Close: the empty seat ───── */}
-      <section className="hr-close" aria-labelledby="close-title">
+      {/* ───── 13. Final CTA ───── */}
+      <section className="hr-final" aria-labelledby="final-title">
         <div className="hr-wrap">
-          <div className="hr-mini-table" aria-hidden="true">
-            <div className="hr-table-top" />
-            <Seats count={10} radius={44} you={7} />
-          </div>
-          <h2 id="close-title" className="hr-d1">
-            Pull up a chair.
+          <h2 id="final-title" className="hr-d1">
+            A network worth being part of.
           </h2>
-          <p className="hr-lede">There&rsquo;s a seat at the next table with your name on it. Tell us who you are and we&rsquo;ll find it.</p>
-          <PrimaryCta size="lg" placement="home-closing" className="hr-btn hr-btn-primary" />
-          <div className="hr-signup">
-            <SubscribeForm variant="city" source="home" id="home-next-room" label="Not ready? Get the next room in your city by email." />
+          <p className="hr-lede">The right rooms change everything. The right people make it happen.</p>
+          <div className="hr-ctas">
+            <PrimaryCta size="lg" placement="home-closing" className="hr-btn hr-btn-primary" />
           </div>
-          <p className="hr-caption" style={{ marginTop: 48 }}>
-            {TAGLINE}
-          </p>
         </div>
       </section>
     </>

@@ -1,7 +1,8 @@
 /* Bombay Networking Circle — globals.css
    Values mirror tokens/build_tokens.py (run it to re-check contrast). Components use semantic names only.
    "House Rules" direction: the Irani café table. Cream wall, Fraunces display over Instrument Sans, warm monochrome
-   photography. Brown #835A33 = brand. Navy #1B3A5C = the one CTA colour. Home-page components live in house.css. */
+   photography. Palette (finalised 27 Nov 2026): Primary brown #7A2E22 = brand, leads. Navy #1B3A5C = the one CTA
+   colour. Sky #CDE4F5 = accent. Sand #EDE3D6 = soft base. White = base. Home-page components live in house.css. */
 
 @import "tailwindcss";
 @config "../tailwind.config.ts";
@@ -11,12 +12,13 @@
   --c-ink: #1f1f1f;
   --c-ink-2: #2a2a2a;
   --c-white: #ffffff;
-  --c-paper: #f5efe6;
-  --c-marble: #fbf8f3;
+  --c-paper: #ffffff;
+  --c-marble: #ffffff;
   --c-sand: #ede3d6;
   --c-sky: #cde4f5;
-  --c-brown: #835a33;
-  --c-brown-dark: #6b4828;
+  --c-brown: #7a2e22;
+  --c-brown-dark: #5c2118;
+  --c-brown-deeper: #45180f;
   --c-navy: #1b3a5c;
   --c-navy-hover: #132b45;
   --c-ink-muted: #4a4540;
@@ -85,17 +87,18 @@
   color: var(--fg);
 }
 
-/* Ink tone: footer. */
+/* Ink tone: footer and the join band. With the finalised palette it is a deep shade of the Primary brown, not
+   near-black, so it still separates from the brown bands that sit above the footer. */
 [data-tone="ink"] {
-  --bg: var(--c-ink);
-  --bg-raised: var(--c-ink-2);
-  --bg-card: var(--c-ink-2);
+  --bg: var(--c-brown-dark);
+  --bg-raised: var(--c-brown-deeper);
+  --bg-card: var(--c-brown-deeper);
   --fg: var(--c-white);
-  --fg-muted: var(--c-on-dark-muted);
-  --fg-subtle: var(--c-on-dark-subtle);
+  --fg-muted: var(--c-on-brown-muted);
+  --fg-subtle: var(--c-sand);
   --accent-text: var(--c-white);
   --brand-text: var(--c-sand);
-  --line: #444444;
+  --line: rgb(255 255 255 / 0.3);
   --line-strong: var(--c-white);
   --line-control: var(--c-on-dark-subtle);
   --focus: var(--c-white);

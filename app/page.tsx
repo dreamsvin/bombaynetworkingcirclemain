@@ -224,10 +224,10 @@ export default async function HomePage() {
           <article className="hr-case" aria-labelledby="case-title">
             <div className="hr-case-photos">
               <div className="hr-photo">
-                <Image src={PHOTOS.roomD.src} alt={PHOTOS.roomD.alt} fill sizes="(max-width: 900px) 60vw, 30vw" />
+                <Image src={PHOTOS.gardenTalk.src} alt={PHOTOS.gardenTalk.alt} fill sizes="(max-width: 900px) 60vw, 30vw" />
               </div>
               <div className="hr-photo">
-                <Image src={PHOTOS.conversation.src} alt={PHOTOS.conversation.alt} fill sizes="(max-width: 900px) 40vw, 18vw" />
+                <Image src={PHOTOS.roomE.src} alt={PHOTOS.roomE.alt} fill sizes="(max-width: 900px) 40vw, 18vw" />
               </div>
             </div>
             <div className="hr-case-info">
@@ -559,7 +559,7 @@ export default async function HomePage() {
       <section className="hr-founder" aria-labelledby="why-title">
         <div className="hr-wrap hr-founder-grid">
           <div className="hr-photo">
-            <Image src={PHOTOS.founder.src} alt={PHOTOS.founder.alt} fill sizes="(max-width: 900px) 70vw, 30vw" />
+            <Image src={PHOTOS.roomG.src} alt={PHOTOS.roomG.alt} fill sizes="(max-width: 900px) 70vw, 30vw" />
           </div>
           <div className="hr-founder-text">
             <h2 id="why-title" className="hr-d2">

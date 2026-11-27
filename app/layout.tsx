@@ -55,7 +55,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   // eslint-disable-next-line no-restricted-syntax -- browser chrome colour must be a literal; mirrors --c-paper
-  themeColor: "#F5EFE6",
+  themeColor: "#FFFFFF",
   width: "device-width",
   initialScale: 1,
 };

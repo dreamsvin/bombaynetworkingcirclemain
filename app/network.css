@@ -1,13 +1,13 @@
 /* ═════════════════════════════ v2: the network homepage ═════════════════════════════
    Flow: hero → what is BNC → curated rooms → who it's for → ecosystem → people → stories → chapters →
-   experiences → how to join → why BNC exists → FAQ → final CTA. Green (--hr-green) is the third colour:
-   growth, the people BNC is for, and the chapters. Brown stays the brand; navy stays the one CTA. */
+   experiences → how to join → why BNC exists → FAQ → final CTA. --hr-green is the support colour slot
+   (growth, the people BNC is for, the chapters). With the finalised palette it is navy on sky, not green. */
 :root {
-  /* Third brand colour: banyan green, for growth, the people BNC is for, and the chapters.
-     White on it 7.4:1; ink on the tint 13:1. */
-  --c-green: #3d5a45;
-  --c-green-deep: #2f4836;
-  --c-green-tint: #dfe7dc;
+  /* Support colour from the finalised palette (27 Nov 2026): navy #1B3A5C with sky #CDE4F5 as its tint.
+     White on navy 11.9:1; sky on navy 9.1:1; navy on sky 9.1:1. Variable names kept so the CSS below is unchanged. */
+  --c-green: #1b3a5c;
+  --c-green-deep: #132b45;
+  --c-green-tint: #cde4f5;
   --hr-green: var(--c-green);
   --hr-green-deep: var(--c-green-deep);
   --hr-green-tint: var(--c-green-tint);
@@ -174,7 +174,7 @@
 @media (max-width: 640px) { .hr-xp-grid { grid-template-columns: 1fr; } }
 
 /* 10. Find your place */
-.hr-join { background: var(--hr-ink); color: var(--hr-cream); }
+.hr-join { background: var(--hr-chai); color: var(--hr-cream); }
 .hr-join-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--hr-s6); }
 .hr-join-copy { grid-column: 1 / span 6; }
 .hr-join-copy p { color: var(--hr-muted-dark); margin-top: var(--hr-s4); max-width: 34rem; }

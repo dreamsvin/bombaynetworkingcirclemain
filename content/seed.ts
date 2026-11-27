@@ -207,7 +207,7 @@ export const EVENTS: Event[] = [
       venue: `Venue ${PLACEHOLDER}`,
       venue_address: "Mumbai, Maharashtra",
       format: "pitch_session",
-      cover_image: "/photos/tile-talk-garden.webp",
+      cover_image: "/photos/event-garden-talk.webp",
     },
     4,
   ),

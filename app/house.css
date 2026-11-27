@@ -381,7 +381,7 @@ body {
 .hr-mini-table .hr-table-top { inset: 18%; background: var(--hr-marble); border: 1px solid var(--hr-rule); box-shadow: none; }
 .hr-mini-table .hr-seat { width: 9%; margin: -4.5%; }
 .hr-mini-table .hr-seat[data-you] { animation: hr-beckon 2.4s var(--hr-pour) infinite; }
-@keyframes hr-beckon { 50% { box-shadow: 0 0 0 8px #835a3333; } }
+@keyframes hr-beckon { 50% { box-shadow: 0 0 0 8px #7a2e2233; } }
 .hr-close h2 { margin: 0 auto var(--hr-s5); }
 .hr-close .hr-lede { margin: 0 auto var(--hr-s6); }
 .hr-signup { margin: var(--hr-s8) auto 0; max-width: 34rem; text-align: left; padding-top: var(--hr-s6); border-top: 1px solid var(--hr-rule); }

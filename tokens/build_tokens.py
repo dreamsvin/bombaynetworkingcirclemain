@@ -7,8 +7,9 @@ text pair the site uses drops below WCAG AA (4.5:1 body text, 3:1 large text / U
 Change a value here, re-run, then mirror it in app/globals.css (the only other place hex values live).
 Components never use hex — only the semantic Tailwind names wired in tailwind.config.ts.
 
-Palette (approved wireframes, 26 Nov 2026): logo brown #835A33 is the brand colour (bands, kickers, numerals);
-navy #1B3A5C is the one CTA colour ("Request access"). Sand #EDE3D6 and sky #CDE4F5 are surfaces and chips.
+Palette (finalised 27 Nov 2026): Primary #7A2E22 (warm brown) is the brand colour and leads (logo, bands, kickers,
+numerals); Action navy #1B3A5C is the one CTA colour ("Request access"); Accent sky #CDE4F5 for chips, tints and the
+closing band; Soft base sand #EDE3D6; Base white #FFFFFF is the page. Brown leads, navy and sky support.
 Modernist structure: square corners, 2px ink rules.
 """
 import json
@@ -23,16 +24,17 @@ PRIMITIVES = {
     "white": "#FFFFFF",
     "sand": "#EDE3D6",
     "sky": "#CDE4F5",
-    "brown": "#835A33",
-    "brown-dark": "#6B4828",
+    "brown": "#7A2E22",
+    "brown-dark": "#5C2118",
+    "brown-deeper": "#45180F",
     "navy": "#1B3A5C",
     "navy-hover": "#132B45",
-    "oxblood": "#7A2E22",
     "ink-muted": "#444444",
     "ink-subtle": "#595959",
     "on-brown-muted": "#F3EDE6",
     "on-dark-muted": "#D6D6D6",
     "on-dark-subtle": "#B3B3B3",
+    "muted-dark": "#CFC6BA",
     "line": "#D8D4CF",
     "danger": "#B3261E",
     "danger-light": "#F2A196",
@@ -52,20 +54,27 @@ PAIRS = [
     ("navy", "white", 4.5, "link / outline button"),
     ("navy", "sand", 4.5, "link on sand"),
     ("navy", "sky", 4.5, "chip text on sky"),
+    ("sky", "navy", 4.5, "sky text on navy band"),
+    ("white", "navy", 4.5, "text on navy band"),
+    ("white", "brown-dark", 4.5, "text on deep brown"),
     ("white", "brown", 4.5, "text on brown band"),
     ("on-brown-muted", "brown", 4.5, "muted text on brown"),
     ("sand", "brown", 4.5, "kicker on brown"),
     ("brown", "white", 4.5, "kicker / numerals on white"),
     ("brown", "sand", 4.5, "kicker on sand"),
-    ("white", "ink", 4.5, "footer text"),
-    ("on-dark-muted", "ink", 4.5, "footer muted"),
-    ("on-dark-subtle", "ink", 4.5, "footer subtle"),
+    ("on-dark-subtle", "brown", 3.0, "control border in join band"),
+    ("on-dark-subtle", "brown-dark", 3.0, "control border in footer"),
+    ("on-brown-muted", "brown-dark", 4.5, "footer muted text"),
+    ("sand", "brown-dark", 4.5, "footer subtle text"),
+    ("white", "brown-deeper", 4.5, "footer input text"),
+    ("danger-light", "brown-dark", 4.5, "error in footer"),
+    ("muted-dark", "brown", 4.5, "join band body text"),
     ("ink", "white", 3.0, "2px rules / control borders"),
     ("navy", "white", 3.0, "focus ring"),
     ("white", "brown", 3.0, "focus ring on brown"),
     ("danger", "white", 4.5, "error text"),
     ("danger", "sand", 4.5, "error text on sand"),
-    ("danger-light", "ink", 4.5, "error on ink"),
+    ("danger-light", "brown", 4.5, "error in footer / join band"),
     ("success", "white", 4.5, "success text"),
 ]
 

@@ -35,3 +35,6 @@ public/partners/
 /coverage
 /build
 .pnp.*
+
+# Python bytecode from tokens/build_tokens.py
+__pycache__/

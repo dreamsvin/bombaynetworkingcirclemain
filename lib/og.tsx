@@ -12,14 +12,14 @@ export async function ogImage({ eyebrow, title, footer }: { eyebrow: string; tit
   const [regular, heavy] = await Promise.all([font(400), font(800)]);
   return new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", background: "#FFFFFF", padding: 72, fontFamily: "Archivo", borderBottom: "24px solid #835A33" }}>
+      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", background: "#FFFFFF", padding: 72, fontFamily: "Archivo", borderBottom: "24px solid #7A2E22" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
           <svg width="120" height="118" viewBox={BNC_LOGO.viewBox}>
-            <path d={BNC_LOGO.d} fill="#835A33" fillRule="evenodd" />
+            <path d={BNC_LOGO.d} fill="#7A2E22" fillRule="evenodd" />
           </svg>
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <span style={{ fontSize: 24, color: "#835A33", letterSpacing: 3, textTransform: "uppercase" }}>{eyebrow}</span>
+          <span style={{ fontSize: 24, color: "#7A2E22", letterSpacing: 3, textTransform: "uppercase" }}>{eyebrow}</span>
           <span style={{ fontSize: 72, lineHeight: 1.05, color: "#1F1F1F", fontWeight: 800, marginTop: 16, maxWidth: 1050, letterSpacing: -1 }}>{title}</span>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "2px solid #1F1F1F", paddingTop: 24 }}>

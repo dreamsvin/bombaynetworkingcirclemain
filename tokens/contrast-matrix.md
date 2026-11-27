@@ -15,18 +15,25 @@ Every text/background pair the site uses, checked against WCAG 2.1 AA.
 | navy `#1B3A5C` | white `#FFFFFF` | 11.63:1 | 4.5:1 | PASS | link / outline button |
 | navy `#1B3A5C` | sand `#EDE3D6` | 9.17:1 | 4.5:1 | PASS | link on sand |
 | navy `#1B3A5C` | sky `#CDE4F5` | 8.86:1 | 4.5:1 | PASS | chip text on sky |
-| white `#FFFFFF` | brown `#835A33` | 6.04:1 | 4.5:1 | PASS | text on brown band |
-| on-brown-muted `#F3EDE6` | brown `#835A33` | 5.20:1 | 4.5:1 | PASS | muted text on brown |
-| sand `#EDE3D6` | brown `#835A33` | 4.76:1 | 4.5:1 | PASS | kicker on brown |
-| brown `#835A33` | white `#FFFFFF` | 6.04:1 | 4.5:1 | PASS | kicker / numerals on white |
-| brown `#835A33` | sand `#EDE3D6` | 4.76:1 | 4.5:1 | PASS | kicker on sand |
-| white `#FFFFFF` | ink `#1F1F1F` | 16.48:1 | 4.5:1 | PASS | footer text |
-| on-dark-muted `#D6D6D6` | ink `#1F1F1F` | 11.34:1 | 4.5:1 | PASS | footer muted |
-| on-dark-subtle `#B3B3B3` | ink `#1F1F1F` | 7.86:1 | 4.5:1 | PASS | footer subtle |
+| sky `#CDE4F5` | navy `#1B3A5C` | 8.86:1 | 4.5:1 | PASS | sky text on navy band |
+| white `#FFFFFF` | navy `#1B3A5C` | 11.63:1 | 4.5:1 | PASS | text on navy band |
+| white `#FFFFFF` | brown-dark `#5C2118` | 12.46:1 | 4.5:1 | PASS | text on deep brown |
+| white `#FFFFFF` | brown `#7A2E22` | 9.37:1 | 4.5:1 | PASS | text on brown band |
+| on-brown-muted `#F3EDE6` | brown `#7A2E22` | 8.06:1 | 4.5:1 | PASS | muted text on brown |
+| sand `#EDE3D6` | brown `#7A2E22` | 7.39:1 | 4.5:1 | PASS | kicker on brown |
+| brown `#7A2E22` | white `#FFFFFF` | 9.37:1 | 4.5:1 | PASS | kicker / numerals on white |
+| brown `#7A2E22` | sand `#EDE3D6` | 7.39:1 | 4.5:1 | PASS | kicker on sand |
+| on-dark-subtle `#B3B3B3` | brown `#7A2E22` | 4.47:1 | 3.0:1 | PASS | control border in join band |
+| on-dark-subtle `#B3B3B3` | brown-dark `#5C2118` | 5.94:1 | 3.0:1 | PASS | control border in footer |
+| on-brown-muted `#F3EDE6` | brown-dark `#5C2118` | 10.72:1 | 4.5:1 | PASS | footer muted text |
+| sand `#EDE3D6` | brown-dark `#5C2118` | 9.82:1 | 4.5:1 | PASS | footer subtle text |
+| white `#FFFFFF` | brown-deeper `#45180F` | 15.10:1 | 4.5:1 | PASS | footer input text |
+| danger-light `#F2A196` | brown-dark `#5C2118` | 6.12:1 | 4.5:1 | PASS | error in footer |
+| muted-dark `#CFC6BA` | brown `#7A2E22` | 5.55:1 | 4.5:1 | PASS | join band body text |
 | ink `#1F1F1F` | white `#FFFFFF` | 16.48:1 | 3.0:1 | PASS | 2px rules / control borders |
 | navy `#1B3A5C` | white `#FFFFFF` | 11.63:1 | 3.0:1 | PASS | focus ring |
-| white `#FFFFFF` | brown `#835A33` | 6.04:1 | 3.0:1 | PASS | focus ring on brown |
+| white `#FFFFFF` | brown `#7A2E22` | 9.37:1 | 3.0:1 | PASS | focus ring on brown |
 | danger `#B3261E` | white `#FFFFFF` | 6.54:1 | 4.5:1 | PASS | error text |
 | danger `#B3261E` | sand `#EDE3D6` | 5.15:1 | 4.5:1 | PASS | error text on sand |
-| danger-light `#F2A196` | ink `#1F1F1F` | 8.10:1 | 4.5:1 | PASS | error on ink |
+| danger-light `#F2A196` | brown `#7A2E22` | 4.60:1 | 4.5:1 | PASS | error in footer / join band |
 | success `#2F6B45` | white `#FFFFFF` | 6.34:1 | 4.5:1 | PASS | success text |

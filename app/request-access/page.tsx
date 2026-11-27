@@ -5,7 +5,7 @@ import { pageMeta } from "@/lib/seo";
 import { RequestAccessForm } from "@/components/request-access/request-access-form";
 
 export const metadata: Metadata = pageMeta({
-  title: "Request access",
+  title: "Request Access",
   description: `Free to join. Tell us who you are and what you're building, and we'll match you to a room in your city. ${STATS.items[0].value} members across ${STATS.items[1].value} cities.`,
   path: "/request-access",
 });

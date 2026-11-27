@@ -48,8 +48,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  // eslint-disable-next-line no-restricted-syntax -- browser chrome colour must be a literal; mirrors --c-paper
-  themeColor: "#FAF7F2",
+  // eslint-disable-next-line no-restricted-syntax -- browser chrome colour must be a literal; mirrors --c-white
+  themeColor: "#FFFFFF",
   width: "device-width",
   initialScale: 1,
 };

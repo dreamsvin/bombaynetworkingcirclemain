@@ -80,7 +80,7 @@ export default async function HomePage() {
         </Container>
         <div className="mx-auto mt-10 max-w-[1440px] sm:px-gutter">
           <figure>
-            <Photo photo={PHOTOS.hero} priority quality={60} sizes="(min-width: 1440px) 1360px, 100vw" ratio="wide" className="sm:rounded-lg" />
+            <Photo photo={PHOTOS.hero} priority sizes="(min-width: 1440px) 1360px, 100vw" ratio="wide" className="sm:rounded-lg" />
             <figcaption className="px-gutter pt-3 text-caption text-fg-subtle sm:px-0">A BNC evening in Mumbai. Real members, real room.</figcaption>
           </figure>
         </div>
@@ -141,7 +141,7 @@ export default async function HomePage() {
                 title="Hosted, small, and built around one specific ask."
                 lede="Strangers don't RSVP to the unknown. Here is how an evening runs."
               />
-              <Photo photo={PHOTOS.talkGarden} sizes="(min-width: 1024px) 400px, 90vw" ratio="portrait" className="mt-10 hidden rounded-lg lg:block" />
+              <Photo photo={PHOTOS.gardenTalk} sizes="(min-width: 1024px) 400px, 90vw" ratio="portrait" className="mt-10 hidden rounded-lg lg:block" />
             </div>
             <ol className="lg:col-span-7" data-reveal>
               {ROOM_STEPS.map((s, i) => (
@@ -252,7 +252,7 @@ export default async function HomePage() {
       <Section labelledBy="founder-title">
         <Container>
           <div className="grid gap-10 md:grid-cols-12 md:items-center">
-            <Photo photo={PHOTOS.founder} sizes="(min-width: 768px) 360px, 80vw" ratio="portrait" className="max-w-sm rounded-lg md:col-span-4" />
+            <Photo photo={PHOTOS.gardenTable} sizes="(min-width: 768px) 360px, 80vw" ratio="portrait" className="max-w-sm rounded-lg md:col-span-4" />
             <div className="md:col-span-7 md:col-start-6">
               <Eyebrow>A note from the founder</Eyebrow>
               <h2 id="founder-title" className="mt-3 font-display text-display-md text-fg">

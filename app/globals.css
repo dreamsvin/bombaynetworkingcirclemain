@@ -1,6 +1,7 @@
 /* Bombay Networking Circle — globals.css
    Values mirror tokens/build_tokens.py (run it to re-check contrast). Components use semantic names only.
-   Accent #815936 is the brown of the BNC coffee-cup logo; it is reserved for the primary CTA. */
+   Palette: Primary #7A2E22 (warm brown) leads, Action #1B3A5C (navy) is the CTA, Accent #CDE4F5 (sky),
+   Soft base #EDE3D6, Base #FFFFFF. data-tone="ink" sections are the Primary brown. */
 
 @import "tailwindcss";
 @config "../tailwind.config.ts";
@@ -8,53 +9,52 @@
 /* ───────── 1. Primitives ───────── */
 :root {
   --c-ink: #1c1915;
-  --c-ink-2: #26221d;
-  --c-ink-3: #312c26;
-  --c-paper: #faf7f2;
-  --c-paper-2: #f3ede4;
-  --c-paper-3: #e9e1d5;
-  --c-white: #ffffff;
   --c-ink-muted: #4f473f;
-  --c-ink-subtle: #665d53;
-  --c-paper-muted: #dcd3c7;
-  --c-paper-subtle: #b3a898;
-  --c-brown: #815936;
-  --c-brown-hover: #6c4a2c;
-  --c-brown-press: #5a3d24;
-  --c-caramel: #d9a877;
-  --c-caramel-hover: #e6bd93;
-  --c-clay: #b9a48c;
-  --c-clay-tint: #efe6da;
-  --c-line: #e3dacd;
-  --c-line-strong: #cfc3b3;
+  --c-ink-subtle: #62594f;
+  --c-white: #ffffff;
+  --c-soft: #ede3d6;
+  --c-soft-2: #e3d6c5;
+  --c-primary: #7a2e22;
+  --c-primary-2: #6a271d;
+  --c-primary-3: #5c2118;
+  --c-on-primary-muted: #ede3d6;
+  --c-on-primary-subtle: #e5cbc2;
+  --c-navy: #1b3a5c;
+  --c-navy-hover: #15304d;
+  --c-navy-press: #10253c;
+  --c-sky: #cde4f5;
+  --c-sky-hover: #e2eff9;
+  --c-sky-deep: #6f9fc8;
+  --c-line: #e3d6c5;
+  --c-line-strong: #cdbda8;
   --c-line-control: #857a6d;
-  --c-line-dark: #3a342d;
-  --c-line-dark-strong: #4d463e;
-  --c-line-dark-control: #8f8577;
+  --c-line-dark: #8f4235;
+  --c-line-dark-strong: #a0564a;
+  --c-line-dark-control: #d49e93;
   --c-danger: #a3362a;
   --c-success: #2f6b45;
-  --c-danger-light: #f2a196;
-  --c-success-light: #9cc8a8;
+  --c-danger-light: #ffd3cc;
+  --c-success-light: #cdefd8;
 
-  /* ───────── 2. Semantic — paper tone (default) ───────── */
-  --bg: var(--c-paper);
-  --bg-raised: var(--c-paper-2);
+  /* ───────── 2. Semantic — base tone (default) ───────── */
+  --bg: var(--c-white);
+  --bg-raised: var(--c-soft);
   --bg-card: var(--c-white);
-  --bg-overlay: var(--c-paper-3);
+  --bg-overlay: var(--c-soft-2);
   --fg: var(--c-ink);
   --fg-muted: var(--c-ink-muted);
   --fg-subtle: var(--c-ink-subtle);
-  --accent: var(--c-brown);
-  --accent-hover: var(--c-brown-hover);
-  --accent-press: var(--c-brown-press);
+  --accent: var(--c-navy);
+  --accent-hover: var(--c-navy-hover);
+  --accent-press: var(--c-navy-press);
   --on-accent: var(--c-white);
-  --accent-text: var(--c-brown);
-  --support: var(--c-clay);
-  --support-tint: var(--c-clay-tint);
+  --accent-text: var(--c-primary);
+  --support: var(--c-sky-deep);
+  --support-tint: var(--c-sky);
   --line: var(--c-line);
   --line-strong: var(--c-line-strong);
   --line-control: var(--c-line-control);
-  --focus: var(--c-ink);
+  --focus: var(--c-navy);
   --danger: var(--c-danger);
   --success: var(--c-success);
   --scrim: rgb(28 25 21 / 0.62);
@@ -94,23 +94,24 @@
 
 /* Semantic — ink tone. <Section tone="ink">. */
 [data-tone="ink"] {
-  --bg: var(--c-ink);
-  --bg-raised: var(--c-ink-2);
-  --bg-card: var(--c-ink-2);
-  --bg-overlay: var(--c-ink-3);
-  --fg: var(--c-paper);
-  --fg-muted: var(--c-paper-muted);
-  --fg-subtle: var(--c-paper-subtle);
-  --accent: var(--c-caramel);
-  --accent-hover: var(--c-caramel-hover);
-  --accent-press: var(--c-caramel);
-  --on-accent: var(--c-ink);
-  --accent-text: var(--c-caramel);
-  --support-tint: var(--c-ink-3);
+  --bg: var(--c-primary);
+  --bg-raised: var(--c-primary-2);
+  --bg-card: var(--c-primary-2);
+  --bg-overlay: var(--c-primary-3);
+  --fg: var(--c-white);
+  --fg-muted: var(--c-on-primary-muted);
+  --fg-subtle: var(--c-on-primary-subtle);
+  --accent: var(--c-sky);
+  --accent-hover: var(--c-sky-hover);
+  --accent-press: var(--c-sky);
+  --on-accent: var(--c-navy);
+  --accent-text: var(--c-sky);
+  --support: var(--c-sky);
+  --support-tint: var(--c-primary-3);
   --line: var(--c-line-dark);
   --line-strong: var(--c-line-dark-strong);
   --line-control: var(--c-line-dark-control);
-  --focus: var(--c-caramel);
+  --focus: var(--c-sky);
   --danger: var(--c-danger-light);
   --success: var(--c-success-light);
   --shadow-e1: inset 0 1px 0 0 rgb(255 255 255 / 0.04);
@@ -146,7 +147,7 @@
     text-wrap: pretty;
   }
   ::selection {
-    background: var(--c-clay-tint);
+    background: var(--c-sky);
     color: var(--c-ink);
   }
   /* Visible focus everywhere. 2px ring, offset, high contrast against both tones. */
@@ -156,8 +157,8 @@
     border-radius: 2px;
   }
   [data-tone="ink"] ::selection {
-    background: var(--c-caramel);
-    color: var(--c-ink);
+    background: var(--c-sky);
+    color: var(--c-navy);
   }
 }
 

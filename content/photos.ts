@@ -16,14 +16,6 @@ export const PHOTOS = {
   ),
   founder: p("founder-isha-ostwal.webp", 720, 900, "Isha Ostwal, founder of Bombay Networking Circle, at the World Economic Forum offices."),
   founderSpeaking: p("founder-isha-keynote.webp", 720, 900, "Isha Ostwal speaking into a microphone at a conference."),
-  conversation: p("tile-conversation.webp", 312, 441, "Members in conversation around café tables at a BNC evening."),
-  talkGarden: p("tile-talk-garden.webp", 352, 442, "The host presenting to a seated room in a garden café."),
-  roomFull: p("tile-room-full.webp", 352, 405, "A full room of BNC members standing together after an event."),
-  groupWide: p("tile-group-wide.webp", 352, 395, "A group of members photographed together at the end of a meetup."),
-  groupCafe: p("tile-group-cafe.webp", 352, 406, "Founders and operators standing together in a café venue."),
-  hosts: p("tile-hosts.webp", 302, 395, "Two hosts smiling at a BNC event venue."),
-  groupMono: p("tile-group-mono.webp", 340, 400, "Black-and-white photo of six members at a BNC event."),
-  groupMono2: p("tile-group-mono-2.webp", 314, 442, "Black-and-white photo of four members at a BNC event."),
   // From the previous site (assets/). It labelled the room-* photos by city; those labels are unconfirmed
   // (two show the same venues as the Mumbai collage), so they are used as general BNC photos. See CONTENT-TODO.
   panel: p("event-panel.webp", 1024, 768, "A three-person panel on stage with speaker slides behind them."),
@@ -44,26 +36,26 @@ export const PHOTOS = {
   roomH: p("room-h.webp", 1024, 768, "An outdoor group photo of members, some seated in front."),
 } as const;
 
-/** Home page grid: eight frames, faces visible, a mix of talks and full rooms. */
+/** Home page grid: eight frames, faces visible, a mix of talks and full rooms. All full-size photos (no collage tiles). */
 export const HOME_GRID: Photo[] = [
   PHOTOS.panel,
   PHOTOS.roomC,
-  PHOTOS.conversation,
+  PHOTOS.roomE,
   PHOTOS.officeAudience,
-  PHOTOS.gardenTable,
+  PHOTOS.roomH,
   PHOTOS.roomG,
-  PHOTOS.bougainvillea,
+  PHOTOS.screenGroup,
   PHOTOS.roomA,
 ];
 
-/** The gallery used on the home page and the Mumbai chapter (the collage these come from is Mumbai — confirm in CONTENT-TODO). */
+/** Chapter-page gallery: full-size group photos. */
 export const GALLERY: Photo[] = [
-  PHOTOS.conversation,
-  PHOTOS.talkGarden,
-  PHOTOS.roomFull,
-  PHOTOS.groupWide,
-  PHOTOS.groupCafe,
-  PHOTOS.hosts,
-  PHOTOS.groupMono,
-  PHOTOS.groupMono2,
+  PHOTOS.officeGroup,
+  PHOTOS.roomB,
+  PHOTOS.roomH,
+  PHOTOS.stageNight,
+  PHOTOS.roomC,
+  PHOTOS.bougainvillea,
+  PHOTOS.roomG,
+  PHOTOS.panel,
 ];

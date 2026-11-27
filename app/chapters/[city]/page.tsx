@@ -167,7 +167,7 @@ export default async function ChapterPage({ params }: PageProps<"/chapters/[city
             <ul className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-4">
               {GALLERY.map((p) => (
                 <li key={p.src}>
-                  <Photo photo={p} sizes="(min-width: 768px) 25vw, 50vw" ratio="portrait" className="rounded-md" />
+                  <Photo photo={p} sizes="(min-width: 768px) 25vw, 50vw" ratio="square" className="rounded-md" />
                 </li>
               ))}
             </ul>

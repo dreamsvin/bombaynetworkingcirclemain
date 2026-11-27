@@ -61,7 +61,7 @@ export default async function CommunityPage() {
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-5">
               <SectionHeader id="for-title" eyebrow="Who it's for" title="Builders, and the people who help them build." />
-              <Photo photo={PHOTOS.conversation} sizes="(min-width: 1024px) 380px, 90vw" ratio="portrait" className="mt-10 max-w-sm rounded-lg" />
+              <Photo photo={PHOTOS.stageNight} sizes="(min-width: 1024px) 380px, 90vw" ratio="portrait" className="mt-10 max-w-sm rounded-lg" />
             </div>
             <ul className="divide-y divide-line border-y border-line lg:col-span-7">
               {AUDIENCE.map((a) => (

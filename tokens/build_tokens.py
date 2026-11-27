@@ -7,8 +7,8 @@ text pair the site uses drops below WCAG AA (4.5:1 body text, 3:1 large text / U
 Change a value here, re-run, then mirror it in app/globals.css (the only other place hex values live).
 Components never use hex — only the semantic Tailwind names wired in tailwind.config.ts.
 
-Accent: #815936 is sampled from the official BNC coffee-cup logo (20 Nov 2026). It is the CTA colour
-and nothing else.
+Palette (finalised 27 Nov 2026): Primary #7A2E22 warm brown leads; Action #1B3A5C navy is the CTA colour;
+Accent #CDE4F5 sky; Soft base #EDE3D6; Base #FFFFFF.
 """
 import json
 import os
@@ -17,81 +17,80 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 PRIMITIVES = {
-    # Foundation — warm near-black ink
+    # Text — warm near-black ink (body copy on light surfaces)
     "ink": "#1C1915",
-    "ink-2": "#26221D",
-    "ink-3": "#312C26",
-    # Surfaces — warm off-white paper
-    "paper": "#FAF7F2",
-    "paper-2": "#F3EDE4",
-    "paper-3": "#E9E1D5",
-    "white": "#FFFFFF",
-    # Text steps on paper
     "ink-muted": "#4F473F",
-    "ink-subtle": "#665D53",
-    # Text steps on ink
-    "paper-muted": "#DCD3C7",
-    "paper-subtle": "#B3A898",
-    # Accent — BNC logo brown. CTAs only.
-    "brown": "#815936",
-    "brown-hover": "#6C4A2C",
-    "brown-press": "#5A3D24",
-    # Accent on dark — caramel, so the CTA stays findable on ink
-    "caramel": "#D9A877",
-    "caramel-hover": "#E6BD93",
-    # Muted support tone — clay, for rules, dots and quiet tags (never text on paper)
-    "clay": "#B9A48C",
-    "clay-tint": "#EFE6DA",
+    "ink-subtle": "#62594F",
+    # Surfaces — Base white, Soft base beige
+    "white": "#FFFFFF",
+    "soft": "#EDE3D6",
+    "soft-2": "#E3D6C5",
+    # Primary — warm brown. Leads: headings accents, text links, the dark-tone sections and footer.
+    "primary": "#7A2E22",
+    "primary-2": "#6A271D",
+    "primary-3": "#5C2118",
+    # Text steps on primary
+    "on-primary-muted": "#EDE3D6",
+    "on-primary-subtle": "#E5CBC2",
+    # Action — navy. Buttons and calls to action.
+    "navy": "#1B3A5C",
+    "navy-hover": "#15304D",
+    "navy-press": "#10253C",
+    # Accent — sky. Tags, badges, and the CTA on primary sections (with navy label).
+    "sky": "#CDE4F5",
+    "sky-hover": "#E2EFF9",
+    "sky-deep": "#6F9FC8",
     # Lines
-    "line": "#E3DACD",
-    "line-strong": "#CFC3B3",
+    "line": "#E3D6C5",
+    "line-strong": "#CDBDA8",
     "line-control": "#857A6D",
-    "line-dark": "#3A342D",
-    "line-dark-strong": "#4D463E",
-    "line-dark-control": "#8F8577",
+    "line-dark": "#8F4235",
+    "line-dark-strong": "#A0564A",
+    "line-dark-control": "#D49E93",
     # Status
     "danger": "#A3362A",
     "success": "#2F6B45",
-    "danger-light": "#F2A196",
-    "success-light": "#9CC8A8",
+    "danger-light": "#FFD3CC",
+    "success-light": "#CDEFD8",
 }
 
 # (foreground, background, minimum ratio, what it is)
 PAIRS = [
-    ("ink", "paper", 4.5, "body text on paper"),
-    ("ink", "paper-2", 4.5, "body text on raised paper"),
-    ("ink", "white", 4.5, "body text on cards"),
-    ("ink-muted", "paper", 4.5, "muted text on paper"),
-    ("ink-muted", "paper-2", 4.5, "muted text on raised"),
-    ("ink-muted", "paper-3", 4.5, "muted text on overlay"),
-    ("ink-subtle", "paper", 4.5, "subtle text on paper (captions)"),
-    ("ink-subtle", "paper-2", 4.5, "subtle text on raised"),
-    ("ink-subtle", "white", 4.5, "subtle text on cards"),
-    ("white", "brown", 4.5, "primary button label"),
-    ("white", "brown-hover", 4.5, "primary button hover"),
-    ("brown", "paper", 4.5, "accent text link on paper"),
-    ("brown", "white", 4.5, "accent text link on card"),
-    ("brown", "paper-2", 4.5, "accent text on raised"),
-    ("ink", "clay-tint", 4.5, "tag text on clay tint"),
-    ("paper", "ink", 4.5, "text on ink"),
-    ("paper-muted", "ink", 4.5, "muted text on ink"),
-    ("paper-subtle", "ink", 4.5, "subtle text on ink"),
-    ("paper-subtle", "ink-2", 4.5, "subtle text on raised ink"),
-    ("ink", "caramel", 4.5, "primary button label on dark"),
-    ("ink", "caramel-hover", 4.5, "primary button hover on dark"),
-    ("caramel", "ink", 4.5, "accent text on ink"),
-    ("line-control", "paper", 3.0, "form control border on paper"),
-    ("line-control", "white", 3.0, "form control border on card"),
-    ("line-dark-control", "ink", 3.0, "form control border on ink"),
-    ("brown", "paper", 3.0, "primary button boundary vs page"),
-    ("caramel", "ink", 3.0, "primary button boundary vs dark page"),
-    ("danger", "paper", 4.5, "error text"),
-    ("danger", "white", 4.5, "error text on card"),
-    ("success", "paper", 4.5, "success text"),
-    ("danger-light", "ink", 4.5, "error text on ink"),
-    ("success-light", "ink", 4.5, "success text on ink"),
-    ("ink", "paper", 3.0, "focus ring on paper"),
-    ("caramel", "ink", 3.0, "focus ring on ink"),
+    ("ink", "white", 4.5, "body text on base"),
+    ("ink", "soft", 4.5, "body text on soft base (raised sections)"),
+    ("ink", "soft-2", 4.5, "body text on overlay"),
+    ("ink-muted", "white", 4.5, "muted text on base"),
+    ("ink-muted", "soft", 4.5, "muted text on soft base"),
+    ("ink-muted", "soft-2", 4.5, "muted text on overlay"),
+    ("ink-subtle", "white", 4.5, "subtle text on base (captions)"),
+    ("ink-subtle", "soft", 4.5, "subtle text on soft base"),
+    ("white", "navy", 4.5, "primary button label"),
+    ("white", "navy-hover", 4.5, "primary button hover"),
+    ("primary", "white", 4.5, "accent text / link on base"),
+    ("primary", "soft", 4.5, "accent text on soft base"),
+    ("ink", "sky", 4.5, "tag text on sky"),
+    ("navy", "sky", 4.5, "badge text on sky"),
+    ("white", "primary", 4.5, "text on primary sections"),
+    ("on-primary-muted", "primary", 4.5, "muted text on primary"),
+    ("on-primary-subtle", "primary", 4.5, "subtle text on primary"),
+    ("on-primary-subtle", "primary-2", 4.5, "subtle text on raised primary"),
+    ("white", "primary-3", 4.5, "tag text on primary tint"),
+    ("navy", "sky", 4.5, "primary button label on primary sections"),
+    ("navy", "sky-hover", 4.5, "primary button hover on primary sections"),
+    ("sky", "primary", 4.5, "accent text on primary"),
+    ("line-control", "white", 3.0, "form control border on base"),
+    ("line-control", "soft", 3.0, "form control border on soft base"),
+    ("line-dark-control", "primary", 3.0, "form control border on primary"),
+    ("navy", "white", 3.0, "primary button boundary vs page"),
+    ("navy", "soft", 3.0, "primary button boundary vs soft base"),
+    ("sky", "primary", 3.0, "primary button boundary vs primary section"),
+    ("danger", "white", 4.5, "error text"),
+    ("danger", "soft", 4.5, "error text on soft base"),
+    ("success", "white", 4.5, "success text"),
+    ("danger-light", "primary", 4.5, "error text on primary"),
+    ("success-light", "primary", 4.5, "success text on primary"),
+    ("navy", "white", 3.0, "focus ring on base"),
+    ("sky", "primary", 3.0, "focus ring on primary"),
 ]
 
 

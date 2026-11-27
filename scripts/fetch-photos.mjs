@@ -28,21 +28,14 @@ const force = process.argv.includes("--force");
 const grade = (img) => img.modulate({ saturation: 0.84, brightness: 1.02 }).linear(0.96, 6).sharpen({ sigma: 0.6 });
 
 /**
- * bnc.jpeg is a 1080×1350 collage: a 3×3 grid of event photos around the logo tile.
- * Crops are inset to avoid the round ornaments that sit on the tile corners.
+ * The 3×3 BNC collage (bnc.jpeg) used to be cut into ~300px tiles. At that size every tile looked blurred once the
+ * page showed it at 300–400 CSS px on a 2× screen, so the tiles are no longer produced; the gallery uses the full-size
+ * event photos below instead.
  */
 const JOBS = [
-  { out: "meetup-garden-room.webp", src: "commuintymeetup.jpeg", crop: { left: 0, top: 100, width: 1600, height: 1067 }, width: 1600, quality: 64 },
+  { out: "meetup-garden-room.webp", src: "commuintymeetup.jpeg", crop: { left: 0, top: 100, width: 1600, height: 1067 }, width: 1600, quality: 82 },
   { out: "founder-isha-ostwal.webp", src: "isha.jpeg", crop: { left: 0, top: 380, width: 900, height: 1125 }, width: 720 },
   { out: "founder-isha-keynote.webp", src: "keynote.jpeg", crop: { left: 0, top: 260, width: 816, height: 1020 }, width: 720 },
-  { out: "tile-group-mono.webp", src: "bnc.jpeg", crop: { left: 0, top: 0, width: 340, height: 400 } },
-  { out: "tile-hosts.webp", src: "bnc.jpeg", crop: { left: 370, top: 0, width: 302, height: 395 } },
-  { out: "tile-conversation.webp", src: "bnc.jpeg", crop: { left: 768, top: 0, width: 312, height: 441 } },
-  { out: "tile-group-cafe.webp", src: "bnc.jpeg", crop: { left: 0, top: 490, width: 352, height: 406 } },
-  { out: "tile-group-wide.webp", src: "bnc.jpeg", crop: { left: 728, top: 453, width: 352, height: 395 } },
-  { out: "tile-talk-garden.webp", src: "bnc.jpeg", crop: { left: 0, top: 908, width: 352, height: 442 } },
-  { out: "tile-room-full.webp", src: "bnc.jpeg", crop: { left: 364, top: 945, width: 352, height: 405 } },
-  { out: "tile-group-mono-2.webp", src: "bnc.jpeg", crop: { left: 766, top: 908, width: 314, height: 442 } },
 ];
 
 const LEGACY = [
@@ -62,7 +55,7 @@ const LEGACY = [
   ["room-f.webp", "ahmedabad.jpg", 1200, "A group outdoors beside bougainvillea and café tables."],
   ["room-g.webp", "nashik.jpg", 1200, "A full café room of members standing behind round tables."],
   ["room-h.webp", "surat.jpg", 1200, "An outdoor group photo of members, some seated in front."],
-].map(([out, file, width]) => ({ out, src: `local:${file}`, crop: null, width, quality: 74 }));
+].map(([out, file, width]) => ({ out, src: `local:${file}`, crop: null, width, quality: 84 }));
 
 const BRANDS = ["brand1.jpg", "brand2.png", "brand3.png", "brand4.png", "brand5.png", "brand6.jpg", "brand7.png", "brand8.jpg", "brand9.jpg", "brand10.jpg"];
 

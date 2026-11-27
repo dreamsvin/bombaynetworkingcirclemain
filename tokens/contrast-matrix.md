@@ -4,37 +4,38 @@ Every text/background pair the site uses, checked against WCAG 2.1 AA.
 
 | Foreground | Background | Ratio | Needs | Result | Used for |
 |---|---|---|---|---|---|
-| ink `#1C1915` | paper `#FAF7F2` | 16.39:1 | 4.5:1 | PASS | body text on paper |
-| ink `#1C1915` | paper-2 `#F3EDE4` | 15.05:1 | 4.5:1 | PASS | body text on raised paper |
-| ink `#1C1915` | white `#FFFFFF` | 17.51:1 | 4.5:1 | PASS | body text on cards |
-| ink-muted `#4F473F` | paper `#FAF7F2` | 8.52:1 | 4.5:1 | PASS | muted text on paper |
-| ink-muted `#4F473F` | paper-2 `#F3EDE4` | 7.83:1 | 4.5:1 | PASS | muted text on raised |
-| ink-muted `#4F473F` | paper-3 `#E9E1D5` | 7.02:1 | 4.5:1 | PASS | muted text on overlay |
-| ink-subtle `#665D53` | paper `#FAF7F2` | 6.04:1 | 4.5:1 | PASS | subtle text on paper (captions) |
-| ink-subtle `#665D53` | paper-2 `#F3EDE4` | 5.54:1 | 4.5:1 | PASS | subtle text on raised |
-| ink-subtle `#665D53` | white `#FFFFFF` | 6.45:1 | 4.5:1 | PASS | subtle text on cards |
-| white `#FFFFFF` | brown `#815936` | 6.15:1 | 4.5:1 | PASS | primary button label |
-| white `#FFFFFF` | brown-hover `#6C4A2C` | 7.91:1 | 4.5:1 | PASS | primary button hover |
-| brown `#815936` | paper `#FAF7F2` | 5.75:1 | 4.5:1 | PASS | accent text link on paper |
-| brown `#815936` | white `#FFFFFF` | 6.15:1 | 4.5:1 | PASS | accent text link on card |
-| brown `#815936` | paper-2 `#F3EDE4` | 5.28:1 | 4.5:1 | PASS | accent text on raised |
-| ink `#1C1915` | clay-tint `#EFE6DA` | 14.18:1 | 4.5:1 | PASS | tag text on clay tint |
-| paper `#FAF7F2` | ink `#1C1915` | 16.39:1 | 4.5:1 | PASS | text on ink |
-| paper-muted `#DCD3C7` | ink `#1C1915` | 11.83:1 | 4.5:1 | PASS | muted text on ink |
-| paper-subtle `#B3A898` | ink `#1C1915` | 7.48:1 | 4.5:1 | PASS | subtle text on ink |
-| paper-subtle `#B3A898` | ink-2 `#26221D` | 6.75:1 | 4.5:1 | PASS | subtle text on raised ink |
-| ink `#1C1915` | caramel `#D9A877` | 8.19:1 | 4.5:1 | PASS | primary button label on dark |
-| ink `#1C1915` | caramel-hover `#E6BD93` | 10.06:1 | 4.5:1 | PASS | primary button hover on dark |
-| caramel `#D9A877` | ink `#1C1915` | 8.19:1 | 4.5:1 | PASS | accent text on ink |
-| line-control `#857A6D` | paper `#FAF7F2` | 3.93:1 | 3.0:1 | PASS | form control border on paper |
-| line-control `#857A6D` | white `#FFFFFF` | 4.20:1 | 3.0:1 | PASS | form control border on card |
-| line-dark-control `#8F8577` | ink `#1C1915` | 4.83:1 | 3.0:1 | PASS | form control border on ink |
-| brown `#815936` | paper `#FAF7F2` | 5.75:1 | 3.0:1 | PASS | primary button boundary vs page |
-| caramel `#D9A877` | ink `#1C1915` | 8.19:1 | 3.0:1 | PASS | primary button boundary vs dark page |
-| danger `#A3362A` | paper `#FAF7F2` | 6.30:1 | 4.5:1 | PASS | error text |
-| danger `#A3362A` | white `#FFFFFF` | 6.73:1 | 4.5:1 | PASS | error text on card |
-| success `#2F6B45` | paper `#FAF7F2` | 5.94:1 | 4.5:1 | PASS | success text |
-| danger-light `#F2A196` | ink `#1C1915` | 8.60:1 | 4.5:1 | PASS | error text on ink |
-| success-light `#9CC8A8` | ink `#1C1915` | 9.37:1 | 4.5:1 | PASS | success text on ink |
-| ink `#1C1915` | paper `#FAF7F2` | 16.39:1 | 3.0:1 | PASS | focus ring on paper |
-| caramel `#D9A877` | ink `#1C1915` | 8.19:1 | 3.0:1 | PASS | focus ring on ink |
+| ink `#1C1915` | white `#FFFFFF` | 17.51:1 | 4.5:1 | PASS | body text on base |
+| ink `#1C1915` | soft `#EDE3D6` | 13.81:1 | 4.5:1 | PASS | body text on soft base (raised sections) |
+| ink `#1C1915` | soft-2 `#E3D6C5` | 12.25:1 | 4.5:1 | PASS | body text on overlay |
+| ink-muted `#4F473F` | white `#FFFFFF` | 9.11:1 | 4.5:1 | PASS | muted text on base |
+| ink-muted `#4F473F` | soft `#EDE3D6` | 7.18:1 | 4.5:1 | PASS | muted text on soft base |
+| ink-muted `#4F473F` | soft-2 `#E3D6C5` | 6.37:1 | 4.5:1 | PASS | muted text on overlay |
+| ink-subtle `#62594F` | white `#FFFFFF` | 6.86:1 | 4.5:1 | PASS | subtle text on base (captions) |
+| ink-subtle `#62594F` | soft `#EDE3D6` | 5.41:1 | 4.5:1 | PASS | subtle text on soft base |
+| white `#FFFFFF` | navy `#1B3A5C` | 11.63:1 | 4.5:1 | PASS | primary button label |
+| white `#FFFFFF` | navy-hover `#15304D` | 13.45:1 | 4.5:1 | PASS | primary button hover |
+| primary `#7A2E22` | white `#FFFFFF` | 9.37:1 | 4.5:1 | PASS | accent text / link on base |
+| primary `#7A2E22` | soft `#EDE3D6` | 7.39:1 | 4.5:1 | PASS | accent text on soft base |
+| ink `#1C1915` | sky `#CDE4F5` | 13.35:1 | 4.5:1 | PASS | tag text on sky |
+| navy `#1B3A5C` | sky `#CDE4F5` | 8.86:1 | 4.5:1 | PASS | badge text on sky |
+| white `#FFFFFF` | primary `#7A2E22` | 9.37:1 | 4.5:1 | PASS | text on primary sections |
+| on-primary-muted `#EDE3D6` | primary `#7A2E22` | 7.39:1 | 4.5:1 | PASS | muted text on primary |
+| on-primary-subtle `#E5CBC2` | primary `#7A2E22` | 6.09:1 | 4.5:1 | PASS | subtle text on primary |
+| on-primary-subtle `#E5CBC2` | primary-2 `#6A271D` | 7.11:1 | 4.5:1 | PASS | subtle text on raised primary |
+| white `#FFFFFF` | primary-3 `#5C2118` | 12.46:1 | 4.5:1 | PASS | tag text on primary tint |
+| navy `#1B3A5C` | sky `#CDE4F5` | 8.86:1 | 4.5:1 | PASS | primary button label on primary sections |
+| navy `#1B3A5C` | sky-hover `#E2EFF9` | 9.94:1 | 4.5:1 | PASS | primary button hover on primary sections |
+| sky `#CDE4F5` | primary `#7A2E22` | 7.14:1 | 4.5:1 | PASS | accent text on primary |
+| line-control `#857A6D` | white `#FFFFFF` | 4.20:1 | 3.0:1 | PASS | form control border on base |
+| line-control `#857A6D` | soft `#EDE3D6` | 3.31:1 | 3.0:1 | PASS | form control border on soft base |
+| line-dark-control `#D49E93` | primary `#7A2E22` | 4.07:1 | 3.0:1 | PASS | form control border on primary |
+| navy `#1B3A5C` | white `#FFFFFF` | 11.63:1 | 3.0:1 | PASS | primary button boundary vs page |
+| navy `#1B3A5C` | soft `#EDE3D6` | 9.17:1 | 3.0:1 | PASS | primary button boundary vs soft base |
+| sky `#CDE4F5` | primary `#7A2E22` | 7.14:1 | 3.0:1 | PASS | primary button boundary vs primary section |
+| danger `#A3362A` | white `#FFFFFF` | 6.73:1 | 4.5:1 | PASS | error text |
+| danger `#A3362A` | soft `#EDE3D6` | 5.31:1 | 4.5:1 | PASS | error text on soft base |
+| success `#2F6B45` | white `#FFFFFF` | 6.34:1 | 4.5:1 | PASS | success text |
+| danger-light `#FFD3CC` | primary `#7A2E22` | 6.89:1 | 4.5:1 | PASS | error text on primary |
+| success-light `#CDEFD8` | primary `#7A2E22` | 7.56:1 | 4.5:1 | PASS | success text on primary |
+| navy `#1B3A5C` | white `#FFFFFF` | 11.63:1 | 3.0:1 | PASS | focus ring on base |
+| sky `#CDE4F5` | primary `#7A2E22` | 7.14:1 | 3.0:1 | PASS | focus ring on primary |
